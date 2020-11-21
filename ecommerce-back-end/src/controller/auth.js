@@ -1,0 +1,75 @@
+const User = require('../models/user')
+const jwt = require('jsonwebtoken')
+
+
+exports.signup = (req, res) => {
+
+    // Check if user's mail exists in database.
+    User.findOne({ email: req.body.email }).exec((error, user) => {
+
+        if (error || user) {    // User exists, already registered
+            console.log('error >>> ', error)
+            console.log('user >>> ', user)
+            return res.status(400).json({
+                message: 'User already registered'
+            })
+        }
+       
+        const {
+            firstName,
+            lastName,
+            email,
+            password
+        } = req.body
+
+        // console.log('body >>> ', req.body)
+        // console.log(firstName, lastName, email, password)
+
+        // User does not exist, save User to database
+        const _user = new User({ firstName, lastName, email, password, userName: Math.random().toString() })    // Save to db
+        
+        _user.save((error, data) => {
+            console.log("error >>> ", error)
+            if (error) {
+                console.log('sth went wrong')
+                return res.status(400).json({
+                    message: 'Something went wrong'
+                })
+            }
+            if (data) { // If data saved to MongoDB, return the object for view in Postman
+                return res.status(201).json({
+                    //user : data
+                    message : 'User created successfully!'
+                })
+            }
+        })
+    })
+
+}
+
+exports.signin = (req, res) => {
+    User.findOne({ email: req.body.email }).exec((error, user) => { // Does email exist?
+        if (error) return res.status(400).json({ error })
+        
+        if (user) {
+            // authenticate() method is from the model
+            if (user.authenticate(req.body.password)) { // Does password exist?
+                const token = jwt.sign({ _id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' })
+                const { firstName, lastName, email, role, fullName } = user
+                
+                res.status(200).json({
+                    token, 
+                    user: {
+                        firstName, lastName, email, role, fullName
+                    }
+                }) 
+            } else {
+                return res.status(400).json({
+                    message : 'Invalid password'
+                })
+            }
+        } else {
+            return res.status(400).json({message : 'Something went wrong'})
+        }
+    })
+} 
