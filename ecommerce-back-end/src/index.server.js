@@ -4,6 +4,7 @@ const env = require('dotenv')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
+
 // routes
 const authRoutes = require('./routes/auth')
 const adminRoutes = require('./routes/admin/auth')
@@ -19,7 +20,7 @@ mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING, { useNewUrlParser: true
 app.use(bodyParser.urlencoded({extended:false}))
 
 app.use('/api', authRoutes) // 'api' must be in the URL to access it
-app.use('/api', adminRoutes)
+app.use('/api/', adminRoutes)
 
 const PORT = process.env.PORT || 2000;
 
