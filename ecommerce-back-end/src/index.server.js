@@ -8,6 +8,7 @@ const mongoose = require('mongoose')
 // routes
 const authRoutes = require('./routes/auth')
 const adminRoutes = require('./routes/admin/auth')
+const categoryRoutes = require('./routes/category')
 
 // environment variables / constants
 env.config()
@@ -22,6 +23,7 @@ app.use(express.json())
 
 app.use('/api', authRoutes) // 'api' must be in the URL to access it
 app.use('/api/', adminRoutes)
+app.use('/api/', categoryRoutes)
 
 const PORT = process.env.PORT || 2000;
 
