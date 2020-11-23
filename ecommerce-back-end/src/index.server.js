@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const env = require('dotenv')
-const bodyParser = require('body-parser')
+// const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
 
@@ -17,7 +17,8 @@ mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING, { useNewUrlParser: true
     console.log('Database Connected')
 })
 
-app.use(bodyParser.urlencoded({extended:false}))
+// app.use(bodyParser.urlencoded({extended:false}))
+app.use(express.json())
 
 app.use('/api', authRoutes) // 'api' must be in the URL to access it
 app.use('/api/', adminRoutes)
