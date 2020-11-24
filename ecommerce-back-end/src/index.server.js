@@ -9,6 +9,7 @@ const mongoose = require('mongoose')
 const authRoutes = require('./routes/auth')
 const adminRoutes = require('./routes/admin/auth')
 const categoryRoutes = require('./routes/category')
+const productRoutes = require('./routes/product')
 
 // environment variables / constants
 env.config()
