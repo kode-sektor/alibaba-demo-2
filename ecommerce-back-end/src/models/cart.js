@@ -1,11 +1,15 @@
-const express = require('express');
-const { addItemToCart, addToCart, getCartItems } = require('../controller/cart');
-const { requireSignin, userMiddleware } = require('../common-middleware');
-const router = express.Router();
+const mongoose = require('mongoose');
+
+const cartSchema = new mongoose.Schema({
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    cartItems: [
+        {
+            product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+            quantity: { type: Number, default: 1 },
+            //price: { type: Number, required: true }
+        }
+    ]
+}, { timestamps: true });
 
 
-router.post('/user/cart/addtocart', requireSignin, userMiddleware, addItemToCart);
-//router.post('/user/cart/addToCartByLogin', requireSignin, userMiddleware, addToCart);
-router.post('/user/getCartItems', requireSignin, userMiddleware, getCartItems);
-
-module.exports = router;
+module.exports = mongoose.model('Cart', cartSchema);
