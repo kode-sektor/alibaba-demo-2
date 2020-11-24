@@ -3,8 +3,7 @@ const slugify = require('slugify');
 const shortid = require('shortid');
 
 
-
-function createCategories(categories, parentId = null){
+function createCategories(categories, parentId = null) {
 
     const categoryList = [];
     let category;
@@ -58,7 +57,7 @@ exports.getCategories = (req, res) => {
     .exec((error, categories) => {
         if(error) return res.status(400).json({ error });
         if(categories){
-            const categoryList = createCategories(categories);
+            const categoryList = createCategories(categories);  // return an object (list) of categories and passes for filter.
             res.status(200).json({ categoryList });
         }
     });
