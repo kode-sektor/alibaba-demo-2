@@ -5,13 +5,12 @@ const env = require('dotenv')
 const mongoose = require('mongoose')
 const path = require('path')
 
-
 // routes
 const authRoutes = require('./routes/auth')
 const adminRoutes = require('./routes/admin/auth')
 const categoryRoutes = require('./routes/category')
 const productRoutes = require('./routes/product')
-const carttRoutes = require('./routes/cart')
+const cartRoutes = require('./routes/cart')
 
 // environment variables / constants
 env.config()
