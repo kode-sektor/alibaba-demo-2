@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../../components/Layout';
 import { Container, Form, Row, Col, Button } from 'react-bootstrap';
 import Input from '../../components/UI/Input';
-import { login, isUserLoggedIn } from '../../actions';
-import { useDispatch, useSelector } from 'react-redux';
+
+import { login } from '../../actions';
 import { Redirect } from 'react-router-dom';
+
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const Signin = (props) => {
@@ -15,15 +17,8 @@ const Signin = (props) => {
 
     const dispatch = useDispatch();
     const auth = useSelector(state => state.auth);  // returns the initState in reducer
-
-    useEffect(() => {
-        if (!auth.authenticate) {   // still works without this condition
-            dispatch(isUserLoggedIn())  // checks for user fetched from DB saved in LS
-        }
-    }, [])
-
-    // console.log(auth)
     
+    // On submission of form
     const userLogin = (e) => {
 
         e.preventDefault();
@@ -31,8 +26,8 @@ const Signin = (props) => {
             email, password
         }
 
-        // Function name must be the same name as found in the 
-        // ../../actions/index.js file ('login')
+        // Function name must be the same name as found in the ../../actions/index.js file ('login')
+        // Does 2 things: check for existence of user in DB. Saves user data & store in store and LS
         dispatch(login(user));
     }
 

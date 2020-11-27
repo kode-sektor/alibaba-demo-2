@@ -3,7 +3,7 @@ import { api } from '../urlConfig';     // 'http://localhost:2000/api'
 // import store from '../store';
 // import { authConstants } from '../actions/constants';
 
-// const token = window.localStorage.getItem('token');
+const token = window.localStorage.getItem('token');
 
 const axiosInstance = axios.create({
     baseURL: api,

@@ -3,8 +3,19 @@ import { Container, Form, Row, Col, Button } from 'react-bootstrap'
 import Layout from '../../components/Layout/index'
 import Input from '../../components/UI/Input/index'
 
+import {Redirect } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { signup } from '../../actions';
 
-const index = () => {
+
+const Signup = () => {
+
+    const auth = useSelector(state => state.auth);
+
+    if (auth.authenticate) {
+        return <Redirect to={`/`} />
+    }
+
     return (
         <Layout>
             <Container>
@@ -56,4 +67,4 @@ const index = () => {
     )
 }
 
-export default index
+export default Signup
