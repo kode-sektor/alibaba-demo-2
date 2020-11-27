@@ -3,17 +3,17 @@ const slugify = require('slugify');
 const shortid = require('shortid');
 
 
-function createCategories(categories, parentId = null) {
+function createCategories (categories, parentId = null) {
 
     const categoryList = [];
     let category;
-    if(parentId == null){
+    if (parentId == null) { 
         category = categories.filter(cat => cat.parentId == undefined);
-    }else{
+    } else {
         category = categories.filter(cat => cat.parentId == parentId);
     }
 
-    for(let cate of category){
+    for(let cate of category) {
         categoryList.push({
             _id: cate._id,
             name: cate.name,
@@ -86,7 +86,7 @@ exports.updateCategories = async (req, res) => {
             name,
             type
         };
-        if(parentId !== ""){
+        if(parentId !== "") {
             category.parentId = parentId;
         }
         const updatedCategory =  await Category.findOneAndUpdate({_id}, category, {new: true});

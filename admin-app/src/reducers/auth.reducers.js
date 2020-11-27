@@ -22,32 +22,23 @@ export default (state = initState, action) => {
                             //     password: "123456"
                             //     type: "LOGIN_REQUEST"
                             // }
-                                
 
     switch (action.type) {
-        case authConstants.LOGIN_REQUEST:
+        case authConstants.LOGIN_REQUEST :
             state = {
                 ...state,
-                ...action.payload
+                authenticating: true
             }
             break;
-
-//     switch (action.type) {
-//         case authConstants.LOGIN_REQUEST:
-//             state = {
-//                 ...state,
-//                 authenticating: true
-//             }
-//             break;
-//         case authConstants.LOGIN_SUCCESS:
-//             state = {
-//                 ...state,
-//                 user: action.payload.user,
-//                 token: action.payload.token,
-//                 authenticate: true,
-//                 authenticating: false
-//             }
-//             break;
+        case authConstants.LOGIN_SUCCESS :
+            state = {
+                ...state,
+                user: action.payload.user,  // Save user's details from DB
+                token: action.payload.token,    // Save token
+                authenticate: true,
+                authenticating: false
+            }
+            break;
 //         case authConstants.LOGOUT_REQUEST:
 //             state = {
 //                 ...state,

@@ -4,6 +4,7 @@ const env = require('dotenv')
 // const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const path = require('path')
+const cors = require('cors')
 
 // routes
 const authRoutes = require('./routes/auth')
@@ -20,6 +21,7 @@ mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING, { useNewUrlParser: true
     console.log('Database Connected')
 })
 
+app.use(cors())
 // app.use(bodyParser.urlencoded({extended:false}))
 app.use(express.json())
 app.use('/public', express.static(path.join(__dirname, 'uploads')))

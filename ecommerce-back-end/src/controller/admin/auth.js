@@ -44,18 +44,37 @@ exports.signup = (req, res) => {
             }
         })
     })
-
 }
 
 // Sign in
 exports.signin = (req, res) => {
-    User.findOne({ email: req.body.email }).exec((error, user) => { // Does email exist?
+    // Does email exist in DB?
+    User.findOne({ email: req.body.email }).exec((error, user) => { 
         if (error) return res.status(400).json({ error })
         
+        // console.log("user >>> ", user)
+        // { role: 'admin',
+        //     _id: 5fb88125f588df58cc2c630a,
+        //     firstName: 'Kayode',
+        //     lastName: 'Ibiyemi',
+        //     email: 'kodesektor@gmail.com',
+        //     hash_password:
+        //     '$2b$10$MPGck8yk7Ha.VA3c82cOYuIygy9lMJY/P4umVT1yhh7xSFUXohvue',
+        //     userName: '0.9960356620833897',
+        //     createdAt: 2020-11-21T02:53:25.235Z,
+        //     updatedAt: 2020-11-21T02:53:25.235Z,
+        //     __v: 0 
+        // }
+
         if (user) {
+            console.log("password >>> : ", req.body.password)
             // authenticate() method is from the model
-            if (user.authenticate(req.body.password) && user.role === 'admin') { // Does password exist and is user admin?
-                const token = jwt.sign({ _id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' })
+            // Does password exist and is user admin?
+            if (user.authenticate(req.body.password) && user.role === 'admin') {
+                const token = jwt.sign(
+                    { _id: user.id, role: user.role }, 
+                    process.env.JWT_SECRET, { expiresIn: '1h' }
+                )
                 const { _id, firstName, lastName, email, role, fullName } = user
                 
                 res.status(200).json({
