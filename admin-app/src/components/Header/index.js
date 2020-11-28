@@ -17,7 +17,7 @@ function Header() {
         return (
             <Nav>
                 <li className="nav-item">
-                    <span to="/signin" className="nav-link" onClick={logout}>Sign out</span>
+                    <NavLink to="/signin" className="nav-link" onClick={logout}>Sign out</NavLink>
                 </li>
             </Nav>
         )
@@ -58,6 +58,7 @@ function Header() {
                     </Nav>
 
                     {auth.authenticate ? renderLoggedInLinks() : renderNonLoggedInLinks()}
+                    
                 </Navbar.Collapse>
             </Container>
         </Navbar>

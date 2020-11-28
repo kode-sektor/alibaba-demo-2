@@ -62,7 +62,6 @@ const Signin = (props) => {
                         </Form>
                     </Col>
                 </Row>
-                
             </Container>
         </Layout>
     )

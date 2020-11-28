@@ -57,9 +57,8 @@ export default (state = initState, action) => {
                 loading: false
             }
             break;
-
      }
-
 
      return state;
 }
+

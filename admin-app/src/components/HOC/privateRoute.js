@@ -7,10 +7,10 @@ const PrivateRoute = ({component: Component, ...rest}) => {
         // 'token' is the name of the key saved in localstorage 
         // during jwt signin / signup process
         const token = window.localStorage.getItem('token'); 
-        if(token) {
+        if (token) {
             // If token, render required page as normal+
             return <Component {...props} />
-        }else{
+        } else {
             // Redirect to sign in page if no token
             return <Redirect to={`/signin`} />
         }

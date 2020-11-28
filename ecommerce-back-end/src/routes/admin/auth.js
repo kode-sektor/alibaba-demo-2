@@ -4,7 +4,8 @@ const router = express.Router()
 const User = require('../../models/user')
 const {signup, signin, signout} = require('../../controller/admin/auth')
 
-const {validateSignupRequest, isRequestValidated, validateSigninRequest} = require('../../validators/auth') // Validate
+// Validate
+const {validateSignupRequest, isRequestValidated, validateSigninRequest} = require('../../validators/auth') 
 
 
 router.post('/admin/signup', validateSignupRequest, isRequestValidated, signup) 

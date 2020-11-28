@@ -7,13 +7,13 @@ export const authConstants = {
     LOGOUT_FAILURE: 'LOGOUT_FAILURE'
 }
 
-export const userContants = {
+export const userConstants = {
     USER_REGISTER_REQUEST: 'USER_REGISTER_REQUEST',
     USER_REGISTER_SUCCESS: 'USER_REGISTER_SUCCESS',
     USER_REGISTER_FAILURE: 'USER_REGISTER_FAILURE'
 }
 
-export const categoryConstansts = {
+export const categoryConstanst = {
     GET_ALL_CATEGORIES_REQUEST: 'GET_ALL_CATEGORIES_REQUEST',
     GET_ALL_CATEGORIES_SUCCESS: 'GET_ALL_CATEGORIES_SUCCESS',
     GET_ALL_CATEGORIES_FAILURE: 'GET_ALL_CATEGORIES_FAILURE',

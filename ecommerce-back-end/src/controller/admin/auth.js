@@ -26,7 +26,14 @@ exports.signup = (req, res) => {
         // console.log(firstName, lastName, email, password)
 
         // User does not exist, save User to database
-        const _user = new User({ firstName, lastName, email, password, userName: Math.random().toString(), role : 'admin' })    // Save to db
+        const _user = new User({ 
+                            firstName, 
+                            lastName, 
+                            email, 
+                            password, 
+                            userName: Math.random().toString(), 
+                            role : 'admin' 
+                        })    // Save to db
         
         _user.save((error, data) => {
             console.log("error >>> ", error)
@@ -38,7 +45,7 @@ exports.signup = (req, res) => {
             }
             if (data) { // If data saved to MongoDB, return the object for view in Postman
                 return res.status(201).json({
-                    //user : data
+                    user : data,
                     message : 'Admin created successfully!'
                 })
             }
@@ -76,6 +83,7 @@ exports.signin = (req, res) => {
                     process.env.JWT_SECRET, { expiresIn: '1h' }
                 )
                 const { _id, firstName, lastName, email, role, fullName } = user
+                res.cookie('token', token, {expiresIn : '1h'})
                 
                 res.status(200).json({
                     token, 
@@ -94,9 +102,10 @@ exports.signin = (req, res) => {
     })
 } 
 
+// Sign out
 exports.signout = (req, res) => {
     res.clearCookie("token");
     res.status(200).json({
-      message: "Signout successfully...!",
+      message: "Signedout successfully!...",
     });
 };
