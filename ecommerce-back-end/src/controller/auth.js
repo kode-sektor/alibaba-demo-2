@@ -44,7 +44,6 @@ exports.signup = (req, res) => {
             }
         })
     })
-
 }
 
 // Sign in

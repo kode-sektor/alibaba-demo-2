@@ -2,18 +2,55 @@ const Category = require('../models/category');
 const slugify = require('slugify');
 const shortid = require('shortid');
 
+// Fetch all categories
+exports.getCategories = (req, res) => {
+    
+    Category.find({})
+    .exec((error, categories) => {
+        if (error) {
+            console.log(error)
+            return res.status(400).json({ error })
+        }
+        if (categories) {   
+            console.log ("Categories >>> ", categories)
+
+            // [ { _id: '5fc2f39e7fa915b3e45a9a57',
+            //     name: 'Electronics',
+            //     slug: 'Electronics',
+            //     type: '',
+            //     categoryImage: '',
+            //     parentId: '',
+            //     children: [ '' ] },
+            //   { _id: '5fc2f85f7fa915b3e45a9a58',
+            //     name: 'Sports, Books & More',
+            //     slug: 'Sports-Books-and-More',
+            //     type: '',
+            //     categoryImage: '',
+            //     parentId: '',
+            //     children: [ '' ] } 
+            // ]
+                
+            // return an object (list) of categories and passes for filter
+            const categoryList = createCategories(categories);  
+            console.log("categoryList >>> ", categoryList)
+
+            res.status(200).json({categoryList})
+        }
+    });
+}
 
 function createCategories (categories, parentId = null) {
 
     const categoryList = [];
     let category;
+
     if (parentId == null) { 
         category = categories.filter(cat => cat.parentId == undefined);
     } else {
         category = categories.filter(cat => cat.parentId == parentId);
     }
 
-    for(let cate of category) {
+    for (let cate of category) {
         categoryList.push({
             _id: cate._id,
             name: cate.name,
@@ -23,9 +60,7 @@ function createCategories (categories, parentId = null) {
             children: createCategories(categories, cate._id)
         });
     }
-
     return categoryList;
-
 };
 
 exports.addCategory = (req, res) => {
@@ -35,30 +70,19 @@ exports.addCategory = (req, res) => {
         slug: `${slugify(req.body.name)}-${shortid.generate()}`
     }
 
-    if(req.file){
+    if (req.file) {
         categoryObj.categoryImage = process.env.API + '/public/' + req.file.filename;
     }
 
-    if(req.body.parentId){
+    if (req.body.parentId) {
         categoryObj.parentId = req.body.parentId;
     }
 
     const cat = new Category(categoryObj);
     cat.save((error, category) => {
         if(error) return res.status(400).json({ error });
-        if(category){
+        if (category) {
             return res.status(201).json({ category });
-        }
-    });
-}
-
-exports.getCategories = (req, res) => {
-    Category.find({})
-    .exec((error, categories) => {
-        if(error) return res.status(400).json({ error });
-        if(categories){
-            const categoryList = createCategories(categories);  // return an object (list) of categories and passes for filter.
-            res.status(200).json({ categoryList });
         }
     });
 }

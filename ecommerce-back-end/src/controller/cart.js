@@ -55,7 +55,7 @@ exports.addItemToCart = (req, res) => {
             .then(response => res.status(201).json({ response }))
             .catch(error => res.status(400).json({error}))
         } else {
-            //if cart does not exist then create a new cart
+            //if cart does not exist then create w new cart
             const cart = new Cart({
                 user: req.user._id,
                 cartItems: req.body.cartItems

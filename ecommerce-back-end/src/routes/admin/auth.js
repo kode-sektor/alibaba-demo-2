@@ -7,7 +7,6 @@ const {signup, signin, signout} = require('../../controller/admin/auth')
 // Validate
 const {validateSignupRequest, isRequestValidated, validateSigninRequest} = require('../../validators/auth') 
 
-
 router.post('/admin/signup', validateSignupRequest, isRequestValidated, signup) 
 router.post('/admin/signin', validateSigninRequest, isRequestValidated, signin)
 router.post('/admin/signout', signout)

@@ -5,10 +5,10 @@ import './style.css';
 
 const Home = () => {
     return (
-        <Layout>
-            <Jumbotron className="text-center" style={{margin : '5rem', background : '#fff'}}>
+        <Layout sidebar>
+            {/* <Jumbotron className="text-center" style={{margin : '5rem', background : '#fff'}}>
                 <h1>Welcome to Admin Dashboard  </h1>
-            </Jumbotron>
+            </Jumbotron> */}
         </Layout>
     )
 }

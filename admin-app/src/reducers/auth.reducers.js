@@ -17,7 +17,7 @@ const initState = {
 
 export default (state = initState, action) => {
 
-    console.log(action);    // payload : {
+    // console.log(action);    // payload : {
                             //     email: "kodesektor@gmail.com"
                             //     password: "123456"
                             //     type: "LOGIN_REQUEST"
@@ -29,7 +29,7 @@ export default (state = initState, action) => {
                 ...state,
                 authenticating: true
             }
-            break;
+        break;
         case authConstants.LOGIN_SUCCESS :
             state = {
                 ...state,
@@ -38,27 +38,26 @@ export default (state = initState, action) => {
                 authenticate: true,
                 authenticating: false
             }
-            break;
+        break;
         case authConstants.LOGOUT_REQUEST:
             state = {
                 ...state,
                 loading: true
             }
-            break;
+        break;
         case authConstants.LOGOUT_SUCCESS:
             state = {
                 ...initState
             }
-            break;
+        break;
         case authConstants.LOGOUT_FAILURE:
             state = {
                 ...state,
                 error: action.payload.error,
                 loading: false
             }
-            break;
-     }
-
-     return state;
+        break;
+    }
+    return state;
 }
 

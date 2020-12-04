@@ -13,7 +13,7 @@ export const login = (user) => {
             ...user     // pass in login details to controller (from form)
         });
 
-        if(res.status === 200) {
+        if (res.status === 200) {
             const { token, user } = res.data;   // User details returned from controller
             localStorage.setItem('token', token);
             localStorage.setItem('user', JSON.stringify(user));
@@ -23,7 +23,7 @@ export const login = (user) => {
                     token, user  // login details from UI
                 }
             });
-        }else{
+        } else {
             if(res.status === 400) {
                 dispatch({
                     type: authConstants.LOGIN_FAILURE,
