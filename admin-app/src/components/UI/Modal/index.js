@@ -2,7 +2,7 @@ import React from "react";
 import { Modal, Button } from "react-bootstrap";
 import Input from '../Input'
 
-const NewModall = (props) => {
+const NewModal = (props) => {
 
     return (
         <Modal size={props.size} show={props.show} onHide={props.handleClose}>
@@ -15,7 +15,7 @@ const NewModall = (props) => {
                     placeholder={`Category Name`}
                     onChange={props.setCategoryName}
                 />
-                <select onChange={props.changeParent} className="form-control" value={props.parentCategoryId}>
+                <select name="name" onChange={props.changeParent} className="form-control" value={props.parentCategoryId}>
                     <option>SELECT CATEGORY</option>
                     {
                         props.categoryList.map(option => {
@@ -57,4 +57,4 @@ const NewModall = (props) => {
     );
 };
 
-export default NewModall
+export default NewModal

@@ -12,7 +12,7 @@ exports.getCategories = (req, res) => {
             return res.status(400).json({ error })
         }
         if (categories) {   
-            console.log ("Categories >>> ", categories)
+            // console.log ("Categories >>> ", categories)
 
             // [ { _id: '5fc2f39e7fa915b3e45a9a57',
             //     name: 'Electronics',
@@ -21,18 +21,12 @@ exports.getCategories = (req, res) => {
             //     categoryImage: '',
             //     parentId: '',
             //     children: [ '' ] },
-            //   { _id: '5fc2f85f7fa915b3e45a9a58',
-            //     name: 'Sports, Books & More',
-            //     slug: 'Sports-Books-and-More',
-            //     type: '',
-            //     categoryImage: '',
-            //     parentId: '',
-            //     children: [ '' ] } 
+            //        ...
             // ]
                 
             // return an object (list) of categories and passes for filter
             const categoryList = createCategories(categories);  
-            console.log("categoryList >>> ", categoryList)
+            // console.log("categoryList >>> ", categoryList)
 
             res.status(200).json({categoryList})
         }
@@ -57,13 +51,23 @@ function createCategories (categories, parentId = null) {
             slug: cate.slug,
             parentId: cate.parentId,
             type: cate.type,
-            children: createCategories(categories, cate._id)
+            children: createCategories(categories, cate._id)    // If no parent, the else clause will return nothing, 
+                                                                // thus for loop cannot run on nothing. Hence, category 
+                                                                // will return no filtered array which means this for loop
+                                                                // won't run deeper. So the fear of an infinite loop is 
+                                                                // elimninated
+
+                                                                // So in other words, it runs only 1-nested level max because if you
+                                                                // think about it, in the MongoDB, all records are straight.
         });
     }
     return categoryList;
-};
+}
 
 exports.addCategory = (req, res) => {
+
+    console.log("REQ.BODY >>> ", req.body)
+    console.log("REQ.FILE >>> ", req.file)
 
     const categoryObj = {
         name: req.body.name,
@@ -82,6 +86,7 @@ exports.addCategory = (req, res) => {
     cat.save((error, category) => {
         if(error) return res.status(400).json({ error });
         if (category) {
+            console.log('Category inserted >>> ', category)
             return res.status(201).json({ category });
         }
     });

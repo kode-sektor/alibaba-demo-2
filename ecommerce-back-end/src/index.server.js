@@ -17,7 +17,12 @@ const cartRoutes = require('./routes/cart')
 env.config()
 
 // mongodb connection
-mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex : true }).then(() => {
+mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING, { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true, 
+    useCreateIndex : true, 
+    useFindAndModify: false 
+}).then(() => {
     console.log('Database Connected')
 })
 

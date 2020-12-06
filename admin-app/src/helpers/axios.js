@@ -4,6 +4,7 @@ import store from '../store';
 import { authConstants } from '../actions/constants';
 
 const token = window.localStorage.getItem('token');
+console.log(token)
 
 const axiosInstance = axios.create({
     baseURL: api,
@@ -14,11 +15,13 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use((req) => {
     const { auth } = store.getState();
-    if(auth.token){
+    if (auth.token){
         req.headers.Authorization = `Bearer ${auth.token}`;
     }
     return req;
 })
+
+// Be careful, as this can cause errors when a form is submitted
 
 axiosInstance.interceptors.response.use((res) => {
     return res;

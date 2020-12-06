@@ -30,6 +30,7 @@ exports.requireSignin = (req, res, next) => {
 exports.userMiddleware = (req, res, next) => {
     if(req.user.role !== 'user'){   // req.user value is gotten from line 22, where the user object is saved from jwt authentication
         return res.status(400).json({ message: 'User access denied' })
+        console.log('User granted')
     }
     next();
 }

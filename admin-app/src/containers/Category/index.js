@@ -48,7 +48,7 @@ const Category = (props) => {
 
     useEffect(() => {
         dispatch(getAllCategory())
-    }, [])
+    }, [dispatch])
 
     // useEffect(() => {
 
@@ -97,10 +97,12 @@ const Category = (props) => {
 
         form.append('name', categoryName);
         form.append('parentId', parentCategoryId);
-        form.append('categoryImage', categoryImage);
+        // form.append('categoryImage', categoryImage);
         
-        dispatch(getAllCategory());
+        console.log(Array.from(form))
 
+        dispatch(addCategory(form))
+        
         setShow(false);   
     }
 

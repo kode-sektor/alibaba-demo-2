@@ -28,11 +28,13 @@ export const getAllCategory = () => {
 
 export const addCategory = (form) => {
     return async dispatch => {
-        console.log("FORM >>> ", form)
+        // console.log("FORM >>> ", Array.from(form))
 
         dispatch({ type: categoryConstants.ADD_NEW_CATEGORY_REQUEST });
         try {
             const res = await axios.post(`/category/create`, form);
+            console.log("RES : >>> ", res)
+            
             if (res.status === 201) {
                 dispatch({
                     type: categoryConstants.ADD_NEW_CATEGORY_SUCCESS,
@@ -47,7 +49,6 @@ export const addCategory = (form) => {
         } catch (error) {   
             console.log(error.response);
         }
-
     }
 }
 

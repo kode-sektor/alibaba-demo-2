@@ -17,7 +17,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-router.post('/category/create', requireSignin, adminMiddleware, /*upload.single('categoryImage'),*/ addCategory);
+// Do not forget to make use of upload.single('correct-input-name') otherwise it req.body will break
+
+router.post('/category/create', requireSignin, adminMiddleware, upload.single('categoryImage'), addCategory);
 router.get('/category/getcategory', getCategories);
 router.post('/category/update', /*upload.array('categoryImage'),*/ updateCategories);
 router.post('/category/delete', deleteCategories);
