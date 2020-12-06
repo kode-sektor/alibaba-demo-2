@@ -35,7 +35,7 @@ const buildNewCategories = (parentId, categories, category) => {
 
         // If the recent category id matches parentId, then it's a child of the 
         // parent, thus, should be inserted in the children array of the parent
-        
+
         if (cat._id == parentId) {
             alert("A match : ", cat._id)
             const newCategory = {
@@ -84,7 +84,7 @@ export default (state = initState, action) => {
         case categoryConstants.ADD_NEW_CATEGORY_SUCCESS :
             const category = action.payload.category;
             const updatedCategories = buildNewCategories(category.parentId, state.categories, category);
-            console.log('updated categories', updatedCategories);
+            // console.log('updated categories', updatedCategories);
             
             state = {
                 ...state,

@@ -48,6 +48,10 @@ export const addCategory = (form) => {
             }
         } catch (error) {   
             console.log(error.response);
+            dispatch({
+                type: categoryConstants.ADD_NEW_CATEGORY_FAILURE,
+                payload: { error : error.response }
+            });
         }
     }
 }

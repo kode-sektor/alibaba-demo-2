@@ -10,6 +10,8 @@ import {
 } from '../../actions';
 
 import Modal from '../../components/UI/Modal';
+import Input from "../../components/UI/Input";
+
 // import CheckboxTree from 'react-checkbox-tree';
 import {
     IoIosCheckboxOutline,
@@ -97,9 +99,9 @@ const Category = (props) => {
 
         form.append('name', categoryName);
         form.append('parentId', parentCategoryId);
-        // form.append('categoryImage', categoryImage);
+        form.append('categoryImage', categoryImage);
         
-        console.log(Array.from(form))
+        // console.log(Array.from(form))
 
         dispatch(addCategory(form))
         
@@ -138,7 +140,6 @@ const Category = (props) => {
         }
         return options;
     }
-
 
     // console.log("category : ", category)
     // const categoryList = createCategoryList(category.categories);
@@ -185,12 +186,30 @@ const Category = (props) => {
             <Modal
                 show={show}
                 handleClose={handleClose}
-                setCategoryName={(e) => {setCategoryName(e.target.value)}}
-                categoryList={createCategoryList(category.categories)}
-                parentCategoryId={parentCategoryId}
-                changeParent={(e) => setParentCategoryId(e.target.value)}
-                handleCategoryImage={handleCategoryImage}
-             />
+                // setCategoryName={(e) => {setCategoryName(e.target.value)}}
+                // categoryList={createCategoryList(category.categories)}
+                // parentCategoryId={parentCategoryId}
+                // changeParent={(e) => setParentCategoryId(e.target.value)}
+                // handleCategoryImage={handleCategoryImage}
+            >
+                <Input
+                    value={categoryName}
+                    placeholder={`Category Name`}
+                    onChange={(e) => {setCategoryName(e.target.value)}}
+                />
+                <select name="name" onChange={(e) => setParentCategoryId(e.target.value)} className="form-control" value={parentCategoryId}>
+                    <option>Select Category</option>
+                    {
+                        createCategoryList(category.categories)?.map(option => {
+                            return (
+                                <option key={option.value} value={option.value}>{option.name}</option>
+                            )
+                        })
+                    }
+                </select>
+                <input type="file" name="categoryImage" onChange={handleCategoryImage}/>
+            </Modal>
+
             {/* <AddCategoryModal
                 show={show}
                 handleClose={() => setShow(false)}

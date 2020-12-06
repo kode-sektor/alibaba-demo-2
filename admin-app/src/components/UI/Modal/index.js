@@ -10,22 +10,7 @@ const NewModal = (props) => {
                 <Modal.Title>Add New Category</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Input
-                    value={props.categoryName}
-                    placeholder={`Category Name`}
-                    onChange={props.setCategoryName}
-                />
-                <select name="name" onChange={props.changeParent} className="form-control" value={props.parentCategoryId}>
-                    <option>SELECT CATEGORY</option>
-                    {
-                        props.categoryList.map(option => {
-                            return (
-                                <option key={option.value} value={option.value}>{option.name}</option>
-                            )
-                        })
-                    }
-                </select>
-                <input type="file" name="categoryImage" onChange={props.handleCategoryImage}/>
+                {props.children}
             </Modal.Body>
             <Modal.Footer>
                 <Button onClick={props.handleClose}>
