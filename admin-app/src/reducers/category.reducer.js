@@ -73,7 +73,7 @@ export default (state = initState, action) => {
                 ...state,
                 categories: action.payload.categories
             }
-            console.log(state)
+            // console.log(state)
         break;
         case categoryConstants.ADD_NEW_CATEGORY_REQUEST :
             state = {
