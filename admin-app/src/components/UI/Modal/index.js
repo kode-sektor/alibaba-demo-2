@@ -5,9 +5,9 @@ import Input from '../Input'
 const NewModal = (props) => {
 
     return (
-        <Modal size={props.size} show={props.show} onHide={props.handleClose}>
+        <Modal size={props.size} show={props.show} onHide={props.handleShow}>
             <Modal.Header closeButton>
-                <Modal.Title>Add New Category</Modal.Title>
+                <Modal.Title>props.title</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {props.children}

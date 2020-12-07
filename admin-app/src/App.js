@@ -13,7 +13,7 @@ import Signin from './containers/Signin'
 import Signup from './containers/Signup'
 import PrivateRoute from './components/HOC/privateRoute'
 
-import { isUserLoggedIn, getInitialData } from './actions'
+import { isUserLoggedIn, getAllCategory, getInitialData } from './actions'
 import { useDispatch, useSelector } from 'react-redux'
 
 
@@ -26,6 +26,13 @@ function App() {
         if (!auth.authenticate) {   // still works without this condition
             dispatch(isUserLoggedIn())  // checks for user fetched from DB saved in LS
         }
+        
+        // Fetch all categories to populate the select dropdown
+        dispatch(getAllCategory())
+
+        // Fetch intial data
+        dispatch(getInitialData())
+
     }, [])
 
     // console.log(auth)

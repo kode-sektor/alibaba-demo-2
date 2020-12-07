@@ -5,8 +5,6 @@ const Category = require('../models/category');
 
 exports.createProduct = (req, res) => {
 
-    //res.status(200).json( { file: req.files, body: req.body } );
-
     console.log("REQ.BODY >>> ", req.body)
 
     const {
@@ -32,18 +30,23 @@ exports.createProduct = (req, res) => {
         createdBy: req.user._id // obtained from jwt sign-in (controller/admin/auth.js)
     });
 
-    product.save(((error, product) => {
-        if (error) return res.status(400).json({ error });
-
-        if (product) {
-            res.status(201).json({ product });
-            console.log('worked')
-        }
-    }));
+    // if (name && price ) {
+        product.save(((error, product) => {
+            if (error) return res.status(400).json({ error });
+    
+            if (product) {
+                res.status(201).json({ product });
+                console.log('worked')
+            }
+        }));
+    // } else {
+    //     return res.status(400).json({ error : "Fields are not complete"})
+    // }
 };
 
 exports.getProductsBySlug = (req, res) => {
     const { slug } = req.params;
+
     Category.findOne({ slug: slug })
     .select('_id')
     .exec((error, category) => {
@@ -51,15 +54,15 @@ exports.getProductsBySlug = (req, res) => {
             return res.status(400).json({error});
         }
 
-        if(category){
+        if (category) {
             Product.find({ category: category._id })
             .exec((error, products) => {
 
-                if(error){
+                if (error) {
                     return res.status(400).json({error});
                 }
 
-                if(products.length > 0) {
+                if (products.length > 0) {
                     res.status(200).json({
                         products,
                         productsByPrice: {
@@ -78,15 +81,15 @@ exports.getProductsBySlug = (req, res) => {
 
 exports.getProductDetailsById = (req, res) => {
     const { productId } = req.params;
-    if(productId){
+    if (productId) {
         Product.findOne({ _id: productId })
         .exec((error, product) => {
-            if(error) return res.status(400).json({ error });
-            if(product){
+            if (error) return res.status(400).json({ error });
+            if (product) {
                 res.status(200).json({ product });
             }
         });
-    }else{
+    } else {
         return res.status(400).json({ error: 'Params required' });
     }
 }

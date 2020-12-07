@@ -1,11 +1,13 @@
 const User = require('../../models/user')
 const jwt = require('jsonwebtoken')
 
+const bcrypt = require('bcrypt')
+
 // Signup
 exports.signup = (req, res) => {
 
     // Check if user's mail exists in database.
-    User.findOne({ email: req.body.email }).exec((error, user) => {
+    User.findOne({ email: req.body.email }).exec( async (error, user) => {
 
         if (error || user) {    // User exists, already registered
             console.log('error >>> ', error)
@@ -22,6 +24,8 @@ exports.signup = (req, res) => {
             password
         } = req.body
 
+        const hash_password = await bcrypt.hash(password, 10)
+
         // console.log('body >>> ', req.body)
         // console.log(firstName, lastName, email, password)
 
@@ -30,7 +34,7 @@ exports.signup = (req, res) => {
                             firstName, 
                             lastName, 
                             email, 
-                            password, 
+                            hash_password, 
                             userName: Math.random().toString(), 
                             role : 'admin' 
                         })    // Save to db

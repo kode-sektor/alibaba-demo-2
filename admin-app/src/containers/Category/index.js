@@ -3,7 +3,6 @@ import Layout from '../../components/Layout';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    getAllCategory,
     addCategory,
     updateCategories,
     deleteCategories as deleteCategoriesAction
@@ -48,9 +47,6 @@ const Category = (props) => {
     const [updateCategoryModal, setUpdateCategoryModal] = useState(false);
     const [deleteCategoryModal, setDeleteCategoryModal] = useState(false);
 
-    useEffect(() => {
-        dispatch(getAllCategory())
-    }, [dispatch])
 
     // useEffect(() => {
 
@@ -81,7 +77,7 @@ const Category = (props) => {
     //     setShow(false);
     // }
 
-    const handleShow = () => setShow(true); // For modal
+    const handleShow = () => show ? setShow(false) : setShow(true)  // For modal
 
     const handleCategoryImage = (e) => {
         setCategoryImage(e.target.files[0]);
@@ -186,6 +182,8 @@ const Category = (props) => {
             <Modal
                 show={show}
                 handleClose={handleClose}
+                handleShow={handleShow}
+                title="Add New Category"
                 // setCategoryName={(e) => {setCategoryName(e.target.value)}}
                 // categoryList={createCategoryList(category.categories)}
                 // parentCategoryId={parentCategoryId}

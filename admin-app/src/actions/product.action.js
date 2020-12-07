@@ -1,5 +1,5 @@
 import axios from "../helpers/axios";
-import { categoryConstants } from "./constants";
+import { productConstants } from "./constants";
 
 export const addProduct = form => {
     return async dispatch => {
@@ -9,19 +9,19 @@ export const addProduct = form => {
             
             if (res.status === 201) {
                 dispatch({
-                    type: categoryConstants.ADD_NEW_PRODUCT_SUCCESS,
+                    type: productConstants.ADD_NEW_PRODUCT_SUCCESS,
                     payload: { category: res.data.category }
                 });
             } else {
                 dispatch({
-                    type: categoryConstants.ADD_NEW_PRODUCT_FAILURE,
+                    type: productConstants.ADD_NEW_PRODUCT_FAILURE,
                     payload: res.data.error
                 });
             }
         } catch (error) {   
             console.log(error.response);
             dispatch({
-                type: categoryConstants.ADD_NEW_PRODUCT_FAILURE,
+                type: productConstants.ADD_NEW_PRODUCT_FAILURE,
                 payload: { error : error.response }
             });
         }
