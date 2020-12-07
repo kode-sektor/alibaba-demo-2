@@ -88,7 +88,7 @@ exports.signin = (req, res) => {
                 res.status(200).json({
                     token, 
                     user: {
-                        _id, firstName, lastName, email, role, fullName
+                        _id, firstName, lastName, email, role, fullName : firstName + ' ' + lastName
                     }
                 }) 
             } else {
