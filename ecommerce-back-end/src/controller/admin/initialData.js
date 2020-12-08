@@ -26,11 +26,12 @@ function createCategories(categories, parentId = null) {
 }
 
 exports.initialData = async (req, res) => {
-    console.log("Fetch initial Data")
+    // console.log("Fetch initial Data")
+    
     const categories = await Category.find({}).exec();
     const products = await Product.find({})
         .select("_id name price quantity slug description productPictures category")
-        // .populate({ path: "category", select: "_id name" })
+        .populate({ path: "category", select: "_id name" }) // Fetch foreign-key in category
         .exec();
     // const orders = await Order.find({})
     //     .populate("items.productId", "name")

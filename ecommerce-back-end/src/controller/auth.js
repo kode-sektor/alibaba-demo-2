@@ -2,6 +2,7 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
 const bcrypt = require('bcrypt')
+const shortid = require('shortid')
 
 // Signup
 exports.signup = (req, res) => {
@@ -30,7 +31,15 @@ exports.signup = (req, res) => {
         // console.log(firstName, lastName, email, password)
 
         // User does not exist, save User to database
-        const _user = new User({ firstName, lastName, email, hash_password, userName: Math.random().toString(), role : 'admin' })    // Save to db
+        const _user = new User({ 
+            firstName, 
+            lastName, 
+            email,
+            hash_password, 
+            // userName: Math.random().toString(), 
+            userName: shortid.generate(),
+            role : 'admin' 
+        })    // Save to db
         
         _user.save((error, data) => {
             console.log("error >>> ", error)
