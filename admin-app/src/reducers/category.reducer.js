@@ -37,7 +37,7 @@ const buildNewCategories = (parentId, categories, category) => {
         // parent, thus, should be inserted in the children array of the parent
 
         if (cat._id == parentId) {
-            alert("A match : ", cat._id)
+            // alert("A match : ", cat._id)
             const newCategory = {
                 _id: category._id,
                 name: category.name,

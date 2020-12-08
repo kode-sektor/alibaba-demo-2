@@ -81,6 +81,7 @@ const Products = (props) => {
     };
 
     const handleProductPictures = (e) => {
+        console.log([...productPictures, e.target.files[0]])
         setProductPictures([...productPictures, e.target.files[0]]);
     };
 
@@ -152,7 +153,6 @@ const Products = (props) => {
             </Modal>
         )
     }
-
 
     const renderProductDetailsModal = () => {
         if (!productDetails) {
@@ -232,7 +232,7 @@ const Products = (props) => {
                             <td>{product.name}</td>
                             <td>{product.price}</td>
                             <td>{product.quantity}</td>
-                            <td>{product.category.name}</td>
+                            <td>{product.category?.name}</td>
                         </tr>
                     ))
                     : null}

@@ -5,7 +5,7 @@ const Category = require('../models/category');
 
 exports.createProduct = (req, res) => {
 
-    console.log("REQ.BODY >>> ", req.body)
+    // console.log("REQ.BODY >>> ", req.body)
 
     const {
         name, price, description, category, quantity, createdBy
@@ -36,7 +36,7 @@ exports.createProduct = (req, res) => {
     
             if (product) {
                 res.status(201).json({ product });
-                console.log('worked')
+                // console.log('worked')
             }
         }));
     // } else {

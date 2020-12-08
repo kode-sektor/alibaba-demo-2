@@ -22,13 +22,13 @@ const MenuHeader = (props) => {
             myCategories.push(
                 <li key={category.name}>
                 {
-                    category.parentId ? <a
-                    href={`/${category.slug}?cid=${category._id}&type=${category.type}`}>
-                    {category.name}
-                    </a> :
-                    <span>{category.name}</span>
+                    category.parentId ? // Has a parent? Then its clickable
+                        <a href={`/${category.slug}?cid=${category._id}&type=${category.type}`}>
+                            {category.name} 
+                        </a> :
+                    <span>{category.name}</span>    // No parent? Then its a parent itself - shouldnt be clickable
                 }
-                {category.children.length > 0 ? (<ul>{renderCategories(category.children)}</ul>) : null}
+                    {category.children.length > 0 ? (<ul>{renderCategories(category.children)}</ul>) : null}
                 </li>
             );
         }

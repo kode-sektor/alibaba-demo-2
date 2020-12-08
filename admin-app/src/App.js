@@ -28,7 +28,7 @@ function App() {
         }
         
         // Fetch all categories to populate the select dropdown
-        dispatch(getAllCategory())
+        // dispatch(getAllCategory())
 
         // Fetch intial data
         dispatch(getInitialData())
