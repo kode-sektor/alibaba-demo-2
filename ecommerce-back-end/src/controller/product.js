@@ -47,7 +47,8 @@ exports.createProduct = (req, res) => {
 exports.getProductsBySlug = (req, res) => {
     // This catches when you click a nav menu link
     const { slug } = req.params;    // Fetch the slug from the query string (Mi-xS6R0cMRY)
-
+    console.log(slug)
+    
     Category.findOne({ slug: slug })    // Find category that holds the slug
     .select('_id')  // Fetch its id (5f318e4277ba10307535b6)
     .exec((error, category) => {

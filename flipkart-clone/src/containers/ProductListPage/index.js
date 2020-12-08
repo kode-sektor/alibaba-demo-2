@@ -1,5 +1,8 @@
-import React from "react";
-// import Layout from "../../components/Layout";
+import React, {useEffect} from "react";
+import { useDispatch } from 'react-redux'
+import { getProductsBySlug } from '../../actions/'
+
+import Layout from "../../components/Layout";
 // import getParams from "../../utils/getParams";
 // import ClothingAndAccessories from "./ClothingAndAccessories";
 // import ProductPage from "./ProductPage";
@@ -9,9 +12,16 @@ import "./style.css";
 
 const ProductListPage = (props) => {
 
-    const renderProduct = () => {
+    const dispatch = useDispatch()
+
+    useEffect (() => {
+        const { match } = props 
+        dispatch(getProductsBySlug(match.params.slug))
+    }, [])
+
+    // const renderProduct = () => {
         
-        console.log(props);
+    //     console.log(props);
 
         // const params = getParams(props.location.search);
     //     let content = null;
@@ -29,9 +39,33 @@ const ProductListPage = (props) => {
     //     }
 
     //     return content;
-    };
-    return 'Product List Page'
+    // };
     // return <Layout>{renderProduct()}</Layout>;
+
+    return (
+        <Layout>
+            <div className="card">
+                <div className="cardHeader">
+                    <div>Samsung under 10k</div>
+                    <button>View All</button>
+                </div>
+                <div className="productContainer">
+                    <div className="productImgContainer">
+                        <img src="http://localhost:2000/public/NkLUcHqxY-samsung-galaxy-m30s.jpeg" alt=""/>
+                    </div>
+                    <div>
+                        <div>Samsung 4gb phone</div>
+                        <div>
+                            <span>4.3</span>
+                            <span>3353</span>
+                        </div>
+                        <div>5000</div>
+                    </div>
+                </div>
+            </div>   
+        </Layout>
+    )
+
 };
 
 export default ProductListPage;
