@@ -64,6 +64,7 @@ function createCategories (categories, parentId = null) {
     return categoryList;
 }
 
+// Add category to DB
 exports.addCategory = (req, res) => {
 
     console.log("REQ.BODY >>> ", req.body)
@@ -71,7 +72,7 @@ exports.addCategory = (req, res) => {
 
     const categoryObj = {
         name: req.body.name,
-        slug: `${slugify(req.body.name)}-${shortid.generate()}`
+        slug: `${slugify(req.body.name)}-${shortid.generate()}` // Mi-xS6R0cMRY
     }
 
     if (req.file) {

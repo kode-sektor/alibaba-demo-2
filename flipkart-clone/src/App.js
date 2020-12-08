@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import HomePage from "./containers/HomePage";
-// import ProductListPage from "./containers/ProductListPage";
+import ProductListPage from "./containers/ProductListPage";
 // import { useDispatch, useSelector } from "react-redux";
 // import { isUserLoggedIn, updateCart } from "./actions";
 // import ProductDetailsPage from "./containers/ProductDetailsPage";
@@ -35,8 +35,8 @@ function App() {
                     <Route
                         path="/:productSlug/:productId/p"
                         component={ProductDetailsPage}
-                    />
-                    <Route path="/:slug" component={ProductListPage} /> */}
+                    />*/}
+                    <Route path="/:slug" component={ProductListPage} /> 
                 </Switch>
             </Router>
         </div>
