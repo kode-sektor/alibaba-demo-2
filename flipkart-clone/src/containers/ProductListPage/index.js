@@ -12,6 +12,9 @@ import "./style.css";
 
 const ProductListPage = (props) => {
 
+    // You are not passing props from another component
+    // But you need it anyways just to fetch slug off it
+    console.log(props)
     const dispatch = useDispatch()
 
     useEffect (() => {
