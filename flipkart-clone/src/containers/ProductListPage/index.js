@@ -55,7 +55,8 @@ const ProductListPage = (props) => {
                     return (
                         <div key={index} className="card">
                             <div className="cardHeader">
-                                <div>{product.categoryName} {key.replace('under', 'under ')}</div> {/* under5k => under 5k */}
+                                 {/* under5k => under 5k */}
+                                <div>{product.categoryName} {key.replace('under', 'under ')}</div>
                                 <button>View All</button>
                             </div>
                             <div style={{display: 'flex'}}>

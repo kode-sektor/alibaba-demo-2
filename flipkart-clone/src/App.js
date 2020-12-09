@@ -36,6 +36,8 @@ function App() {
                         path="/:productSlug/:productId/p"
                         component={ProductDetailsPage}
                     />*/}
+
+                    {/* :slug will act as key in search query in ProductListPage component */}
                     <Route path="/:slug" component={ProductListPage} /> 
                 </Switch>
             </Router>

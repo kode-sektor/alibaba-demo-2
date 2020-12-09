@@ -11,7 +11,6 @@ import {
 import Modal from '../../components/UI/Modal';
 import Input from "../../components/UI/Input";
 
-// import CheckboxTree from 'react-checkbox-tree';
 import {
     IoIosCheckboxOutline,
     IoIosCheckbox,
@@ -22,7 +21,8 @@ import {
     IoIosCloudUpload
 } from 'react-icons/io'
 
-// import 'react-checkbox-tree/lib/react-checkbox-tree.css';
+import CheckboxTree from 'react-checkbox-tree';
+import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 // import UpdateCategoriesModal from './components/UpdateCategoriesModal';
 // import AddCategoryModal from './components/AddCategoryModal';
 // import './style.css';
@@ -109,10 +109,15 @@ const Category = (props) => {
         let myCategories = [];
         for (let category of categories) {
             myCategories.push(
-                <li key={category.name}>
-                    {category.name}
-                    {category.children.length > 0 ? (<ul>{renderCategories(category.children)}</ul>) : null}
-                </li>
+                {
+                    label : category.name,
+                    value : category._id,
+                    children : category.children.length > 0 && renderCategories(category.children)
+                }
+                // <li key={category.name}>
+                //     {category.name}
+                //     {category.children.length > 0 ? (<ul>{renderCategories(category.children)}</ul>) : null}
+                // </li>
             )
         }
         return myCategories;
@@ -157,7 +162,7 @@ const Category = (props) => {
                     </Col>
                 </Row>
                 <Row>
-                    {/* <Col md={12}>
+                    <Col md={12}>
                         <CheckboxTree
                             nodes={renderCategories(category.categories)}
                             checked={checked}
@@ -172,10 +177,10 @@ const Category = (props) => {
                                 expandOpen: <IoIosArrowDown />
                             }}
                         />
-                    </Col> */}
-                    <ul>
+                    </Col>
+                    {/* <ul>
                         {renderCategories(category.categories)}
-                    </ul>
+                    </ul> */}
                 </Row>
             </Container>
 
