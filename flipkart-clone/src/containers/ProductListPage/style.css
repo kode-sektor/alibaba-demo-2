@@ -18,7 +18,7 @@
     text-align: center;
     font-size: 12px;
 }
-.productPrice{
+.productPrice {
     font-size: 14px;
     font-weight: bold;
     margin: 5px 0;
@@ -30,4 +30,9 @@
     border: thin solid #cecece;
     box-shadow: 0 0 20px - 2px gray
 }
-
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid #cecece;
+}

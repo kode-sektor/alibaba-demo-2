@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getProductsBySlug } from '../../actions/'
+import { generatePublicUrl } from '../../urlConfig'
 
 import Layout from "../../components/Layout";
 // import getParams from "../../utils/getParams";
@@ -12,10 +13,12 @@ import "./style.css";
 
 const ProductListPage = (props) => {
 
+    const dispatch = useDispatch()
+    const product = useSelector(state => state.product)
+
     // You are not passing props from another component
     // But you need it anyways just to fetch slug off it
-    console.log(props)
-    const dispatch = useDispatch()
+    // console.log(props)
 
     useEffect (() => {
         const { match } = props 
@@ -47,28 +50,50 @@ const ProductListPage = (props) => {
 
     return (
         <Layout>
-            <div className="card">
-                <div className="cardHeader">
-                    <div>Samsung under 10k</div>
-                    <button>View All</button>
-                </div>
-                <div className="productContainer">
-                    <div className="productImgContainer">
-                        <img src="http://localhost:2000/public/NkLUcHqxY-samsung-galaxy-m30s.jpeg" alt=""/>
-                    </div>
-                    <div>
-                        <div>Samsung 4gb phone</div>
-                        <div>
-                            <span>4.3</span>
-                            <span>3353</span>
+            {
+                Object.keys(product.productsByPrice).map((key, index) => {
+                    return (
+                        <div key={index} className="card">
+                            <div className="cardHeader">
+                                <div>{product.categoryName} {key.replace('under', 'under ')}</div> {/* under5k => under 5k */}
+                                <button>View All</button>
+                            </div>
+                            <div style={{display: 'flex'}}>
+
+                                {
+                                    (product.productsByPrice[key].length > 0) ? 
+
+                                        product.productsByPrice[key].map(products => {
+                                            const { _id, name, slug, price, quantity, productPictures, 
+                                                reviews, description, createdAt, updatedAt 
+                                            } = products 
+
+                                            return (
+                                                <div className="productContainer">
+                                                    <div className="productImgContainer">
+                                                        <img src={generatePublicUrl(productPictures[0].img)} alt=""/>
+                                                    </div>
+                                                    <div className="productInfo">
+                                                        <div style={{margin: '5px 0'}}>{name}</div>
+                                                        <div>
+                                                            <span>4.3</span> &nbsp; 
+                                                            (<span>3353</span>)
+                                                        </div>
+                                                        <div className="productPrice">{price}</div>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })
+                                        :
+                                        <div>No Products</div>
+                                }
+                            </div>
                         </div>
-                        <div>5000</div>
-                    </div>
-                </div>
-            </div>   
+                    )
+                })
+            }
         </Layout>
     )
-
-};
+}
 
 export default ProductListPage;
