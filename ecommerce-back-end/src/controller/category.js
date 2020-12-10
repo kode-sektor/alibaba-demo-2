@@ -97,13 +97,16 @@ exports.updateCategories = async (req, res) => {
 
     const {_id, name, parentId, type} = req.body;
     const updatedCategories = [];
-    if(name instanceof Array){
-        for(let i=0; i < name.length; i++){
+    
+    console.log("category.js : REQ >>> ", req.body)
+
+    if (name instanceof Array) {
+        for (let i=0; i < name.length; i++) {
             const category = {
                 name: name[i],
                 type: type[i]
             };
-            if(parentId[i] !== ""){
+            if (parentId[i] !== "") {
                 category.parentId = parentId[i];
             }
 
@@ -111,18 +114,17 @@ exports.updateCategories = async (req, res) => {
             updatedCategories.push(updatedCategory);
         }
         return res.status(201).json({ updateCategories: updatedCategories });
-    }else{
+    } else {
         const category = {
             name,
             type
         };
-        if(parentId !== "") {
+        if (parentId !== "") {
             category.parentId = parentId;
         }
         const updatedCategory =  await Category.findOneAndUpdate({_id}, category, {new: true});
         return res.status(201).json({ updatedCategory });
     }
-
 }
 
 exports.deleteCategories = async (req, res) => {

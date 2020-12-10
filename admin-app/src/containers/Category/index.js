@@ -43,6 +43,7 @@ const Category = (props) => {
     // For react-checkbox-tree
     const [checked, setChecked] = useState([]);
     const [expanded, setExpanded] = useState([]);
+
     const [checkedArray, setCheckedArray] = useState([]);
     const [expandedArray, setExpandedArray] = useState([]);
 
@@ -116,10 +117,6 @@ const Category = (props) => {
                     value : category._id,
                     children : category.children.length > 0 && renderCategories(category.children)
                 }
-                // <li key={category.name}>
-                //     {category.name}
-                //     {category.children.length > 0 ? (<ul>{renderCategories(category.children)}</ul>) : null}
-                // </li>
             )
         }
         return myCategories;
@@ -142,10 +139,6 @@ const Category = (props) => {
             }
         }
         return options;
-    }
-
-    const deleteCategory = () => {
-        
     }
 
     //    const updateCheckedAndExpandedCategories = () => {
@@ -187,12 +180,14 @@ const Category = (props) => {
         setUpdateCategoryModal(true)
     }
 
-    const updateCategoriesForm = () => {}
+    const deleteCategory = () => {}
 
+    // On keyup of field:
     const handleCategoryInput = (key, value, index, type) => {
 
         if (type == "checked") {
             // For checked (i.e. Nested-level category e.g. Samsung)
+            // Add something like 'name : Electronics' to checkedAarray
             const updatedCheckedArray = checkedArray.map((item, _index) => {
                 return index == _index ? { ...item, [key] : value} : item
             })
@@ -201,8 +196,8 @@ const Category = (props) => {
 
         } else if (type == "expanded") {
             // For expanded (i.e. Parent-level category e.g. Electronics) On change of field, 
-            // take value, and append / overwrite 'name = Electronics' in expandedArray
-            // If its the dropdown, overwrite 'parentId: 5fc2f39e7fa915b3e45a9a57'
+            // take value, and append / overwrite 'name : Electronics' in expandedArray
+            // If its the dropdown, overwrite 'parentId : 5fc2f39e7fa915b3e45a9a57'
             const updatedExpandedArray = checkedArray.map((item, _index) => {
                 return index == _index ? { ...item, [key] : value} : item
             })
@@ -210,56 +205,32 @@ const Category = (props) => {
         }
     }
 
-    return (
+    // Update Category Form
+    const updateCategoriesForm = () => {
+        const form = new FormData()
 
-        <Layout sidebar>
-            <Container>
-                <Row>
-                    <Col md={12}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <h3>Category</h3>
-                            <div className="actionBtnContainer">
-                                <span>Actions: </span>
-                                <button onClick={handleShow}><IoIosAdd /> <span>Add</span></button>
-                                {/* <button onClick={deleteCategory}><IoIosTrash /> <span>Delete</span></button>
-                                <button onClick={updateCategory}><IoIosCloudUpload /> <span>Edit</span></button> */}
-                            </div>
-                        </div>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={12}>
-                        <CheckboxTree
-                            nodes={renderCategories(category.categories)}   // Run function to fetch categories from 
-                                                                            // DB inside collection
-                            checked={checked}       // Automatically knows which one is checked and returns 
-                                                    // ["5fcf123600b49073b48420bf", "5fcf12f500b49073b48420c0"]
-                            expanded={expanded}     // ["5fc2f39e7fa915b3e45a9a57", "5fcf0c1600b49073b48420be"]
-                            onCheck={checked => setChecked(checked)}
-                            onExpand={expanded => setExpanded(expanded)}
-                            icons={{
-                                check: <IoIosCheckbox />,
-                                uncheck: <IoIosCheckboxOutline />,
-                                halfCheck: <IoIosCheckboxOutline />,
-                                expandClose: <IoIosArrowForward />,
-                                expandOpen: <IoIosArrowDown />
-                            }}
-                        />
-                    </Col>
-                    {/* <ul>
-                        {renderCategories(category.categories)}
-                    </ul> */}
-                </Row>
-                <Row>
-                    <Col>
-                        <button onClick={deleteCategory}><IoIosTrash /> <span>Delete</span></button>
-                        <button onClick={updateCategory}><IoIosCloudUpload /> <span>Edit</span></button>
-                    </Col>
-                </Row>
+        expandedArray.forEach((item, index) => {
+            form.append('_id', item.value)
+            form.append('name', item.name)
+            form.append('parentId', item.parentId ? item.parentId : "")
+        })
+        
+        checkedArray.forEach((item, index) => {
+            form.append('_id', item.value)
+            form.append('name', item.name)
+            form.append('parentId', item.parentId ? item.parentId : "")
+        })
 
-            </Container>
+        dispatch(updateCategories(form))    // Send form data
 
-            {/* Modal for adding categories */}
+        setUpdateCategoryModal(false)    // Close modal
+    }
+
+    const renderAddCategoryModal = () => {
+        
+        return (
+            
+            // Modal for adding categories
             <Modal
                 show={show}
                 handleClose={handleClose}   // From the save button
@@ -289,13 +260,17 @@ const Category = (props) => {
                 </select>
                 <input type="file" name="categoryImage" onChange={handleCategoryImage}/>
             </Modal>
+        )
+    }
 
-            {/* Modal for editing / updating categories */}
+    const renderUpdateCategoriesModal = () => {
 
-            {/* <UpdateCategoriesModal */}
+        return (
+            
+            // <UpdateCategoriesModal 
             <Modal
                 show={updateCategoryModal}
-                handleClose={() => setUpdateCategoryModal(false)}   // From the save button (in modal)
+                handleClose={updateCategoriesForm}   // From the save button (in modal)
                 handleShow={() => setUpdateCategoryModal(false)}   // From the close button (in modal)
                 onSubmit={updateCategoriesForm}
                 title={'Update Categories'}
@@ -396,6 +371,61 @@ const Category = (props) => {
                     )
                 }
             </Modal>
+        )
+    }
+
+    return (
+
+        <Layout sidebar>
+            <Container>
+                <Row>
+                    <Col md={12}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <h3>Category</h3>
+                            <div className="actionBtnContainer">
+                                <span>Actions: </span>
+                                <button onClick={handleShow}><IoIosAdd /> <span>Add</span></button>
+                                {/* <button onClick={deleteCategory}><IoIosTrash /> <span>Delete</span></button>
+                                <button onClick={updateCategory}><IoIosCloudUpload /> <span>Edit</span></button> */}
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={12}>
+                        <CheckboxTree
+                            nodes={renderCategories(category.categories)}   // Run function to fetch categories from 
+                                                                            // DB inside collection
+                            checked={checked}       // Automatically knows which one is checked and returns 
+                                                    // ["5fcf123600b49073b48420bf", "5fcf12f500b49073b48420c0"]
+                            expanded={expanded}     // ["5fc2f39e7fa915b3e45a9a57", "5fcf0c1600b49073b48420be"]
+                            onCheck={checked => setChecked(checked)}
+                            onExpand={expanded => setExpanded(expanded)}
+                            icons={{
+                                check: <IoIosCheckbox />,
+                                uncheck: <IoIosCheckboxOutline />,
+                                halfCheck: <IoIosCheckboxOutline />,
+                                expandClose: <IoIosArrowForward />,
+                                expandOpen: <IoIosArrowDown />
+                            }}
+                        />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <button onClick={deleteCategory}><IoIosTrash /> <span>Delete</span></button>
+
+                        {/* On Click of 'Edit', lift checked categories and fill them inside form */}
+                        <button onClick={updateCategory}><IoIosCloudUpload /> <span>Edit</span></button>
+                    </Col>
+                </Row>
+
+            </Container>
+
+            {renderAddCategoryModal()}
+            {renderUpdateCategoriesModal()}
+
+            {/* Modal for editing / updating categories */}
 
             {/* <AddCategoryModal
                 show={show}
