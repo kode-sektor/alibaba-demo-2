@@ -153,13 +153,48 @@ const Category = (props) => {
     }
 
     
+    //    const updateCheckedAndExpandedCategories = () => {
+    
     const updateCategory = () => {
-        // updateCheckedAndExpandedCategories();
+
+        // Fetch categories from DB, lining them up this way:
+        // {value: "5fc2f39e7fa915b3e45a9a57", name: "Electronics", parentId: null, type: ""}
+        // {value: "5fcf0c1600b49073b48420be", name: "Mobiles", parentId: "5fc2f39e7fa915b3e45a9a57", type: undefined}
+        const categories = createCategoryList(category.categories); 
+
+        const checkedArray = [];    
+        const expandedArray = [];
+
+        // For checkedArray, loop through checked categories and find match in categories from DB, 
+        // then return full details
+        // {value: "5fc2f39e7fa915b3e45a9a57", name: "Electronics", parentId: null, type: ""}
+        // {value: "5fcf0c1600b49073b48420be", name: "Mobiles", parentId: "5fc2f39e7fa915b3e45a9a57", type: undefined}
+
+        checked.length > 0 && checked.forEach((categoryId, index) => {
+            const category = categories.find((category, _index) => categoryId == category.value);
+            category && checkedArray.push(category);
+        })
+
+        // Do the same for expandedArray
+        expanded.length > 0 && expanded.forEach((categoryId, index) => {
+            const category = categories.find((category, _index) => categoryId == category.value);
+            category && expandedArray.push(category);
+        })
+
+        console.log({checked, expanded, categories, checkedArray, expandedArray})
+
+        setCheckedArray(checkedArray);
+        setExpandedArray(expandedArray);
+
         setUpdateCategoryModal(true)
-        const categories = createCategoryList(category.categories)
+
     }
 
     const updateCategoriesForm = () => {}
+
+    const handleCategoryInput = () => {
+
+    }
 
     return (
         <Layout sidebar>
@@ -180,9 +215,10 @@ const Category = (props) => {
                 <Row>
                     <Col md={12}>
                         <CheckboxTree
-                            nodes={renderCategories(category.categories)}
-                            checked={checked}
-                            expanded={expanded}
+                            nodes={renderCategories(category.categories)}   // Run function to fetch categories from DB inside collection
+                            checked={checked}   // Automatically knows which one is checked and returns 
+                                                // ["5fcf123600b49073b48420bf", "5fcf12f500b49073b48420c0"]
+                            expanded={expanded} // ["5fc2f39e7fa915b3e45a9a57", "5fcf0c1600b49073b48420be"]
                             onCheck={checked => setChecked(checked)}
                             onExpand={expanded => setExpanded(expanded)}
                             icons={{
@@ -207,10 +243,11 @@ const Category = (props) => {
 
             </Container>
 
+            {/* Modal for adding categories */}
             <Modal
                 show={show}
-                handleClose={handleClose}   // For the save button
-                handleShow={handleShow}
+                handleClose={handleClose}   // From the save button
+                handleShow={handleShow}     // From the close button (in modal)
                 title="Add New Category"
                 // setCategoryName={(e) => {setCategoryName(e.target.value)}}
                 // categoryList={createCategoryList(category.categories)}
@@ -236,11 +273,13 @@ const Category = (props) => {
                 <input type="file" name="categoryImage" onChange={handleCategoryImage}/>
             </Modal>
 
+            {/* Modal for editing / updating categories */}
+
             {/* <UpdateCategoriesModal */}
             <Modal
                 show={updateCategoryModal}
                 handleClose={() => setUpdateCategoryModal(false)}   // From the save button (in modal)
-                handleShow={() => setUpdateCategoryModal(false)}   // From the save button (in modal)
+                handleShow={() => setUpdateCategoryModal(false)}   // From the close button (in modal)
                 onSubmit={updateCategoriesForm}
                 title={'Update Categories'}
                 size="lg"
@@ -254,36 +293,41 @@ const Category = (props) => {
                         <h6>Expanded</h6>
                     </Col>
                 </Row>
-                <Row>
-                    <Col>
-                        <Input
-                            value={categoryName}
-                            placeholder={`Category Name`}
-                            onChange={(e) => {setCategoryName(e.target.value)}}
-                        />
-                    </Col>
-                    <Col>
-                        <select name="name" onChange={(e) => setParentCategoryId(e.target.value)} className="form-control" value={parentCategoryId}>
-                            <option>Select Category</option>
-                            {
-                                createCategoryList(category.categories)?.map(option => {
-                                    return (
-                                        <option key={option.value} value={option.value}>{option.name}</option>
-                                    )
-                                })
-                            }
-                        </select>
-                    </Col>
-                    <Col>
-                        <select className="form-control">
-                            <option value="">Select Type</option>
-                            <option value="store">Store</option>
-                            <option value="product">Product</option>
-                            <option value="page">Page</option>
-                        </select>
-                    </Col>
-                </Row>
-                <input type="file" name="categoryImage" onChange={handleCategoryImage}/>
+                {
+                    // Loop through the user expanded selection
+                    expandedArray.length > 0 && 
+                    expandedArray.map((item, index) => 
+                        <Row key={index}>
+                            <Col>
+                                <Input
+                                    value={item.name}
+                                    placeholder={`Category Name`}
+                                    onChange={(e) => handleCategoryInput('name', e.target.value, index, 'checked')}
+                                />
+                            </Col>
+                            <Col>
+                                <select name="name" onChange={(e) => setParentCategoryId(e.target.value)} className="form-control" value={item.parent}>
+                                    <option>Select Category</option>
+                                    {
+                                        createCategoryList(category.categories)?.map(option => {
+                                            return (
+                                                <option key={option.value} value={option.value}>{option.name}</option>
+                                            )
+                                        })
+                                    }
+                                </select>
+                            </Col>
+                            <Col>
+                                <select className="form-control">
+                                    <option value="">Select Type</option>
+                                    <option value="store">Store</option>
+                                    <option value="product">Product</option>
+                                    <option value="page">Page</option>
+                                </select>
+                            </Col>
+                        </Row>
+                    )
+                }
             </Modal>
 
             {/* <AddCategoryModal
@@ -307,22 +351,6 @@ const Category = (props) => {
 }
 
 export default Category
-
-    // const updateCheckedAndExpandedCategories = () => {
-    //     const categories = createCategoryList(category.categories);
-    //     const checkedArray = [];
-    //     const expandedArray = [];
-    //     checked.length > 0 && checked.forEach((categoryId, index) => {
-    //         const category = categories.find((category, _index) => categoryId == category.value);
-    //         category && checkedArray.push(category);
-    //     })
-    //     expanded.length > 0 && expanded.forEach((categoryId, index) => {
-    //         const category = categories.find((category, _index) => categoryId == category.value);
-    //         category && expandedArray.push(category);
-    //     })
-    //     setCheckedArray(checkedArray);
-    //     setExpandedArray(expandedArray);
-    // }
 
     // const handleCategoryInput = (key, value, index, type) => {
     //     console.log(value);
