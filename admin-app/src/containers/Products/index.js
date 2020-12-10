@@ -100,8 +100,8 @@ const Products = (props) => {
         return (
             <Modal
                 show={show}
-                handleClose={handleClose}   // For the save button
-                handleShow={handleShow}     // For toggling form
+                handleClose={handleClose}   // For the save button in modal
+                handleShow={handleShow}     // For toggling form (close button) in modal
                 title={"Add New Product"}
             >
                 <Input

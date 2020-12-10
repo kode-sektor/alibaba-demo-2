@@ -6,7 +6,7 @@ export default function index({
 }) {
 	return (
 		<Form.Group>
-			<Form.Label>{label}</Form.Label>
+			{label && <Form.Label>{label}</Form.Label>}
 			<Form.Control 
 				type={type} 
 				placeholder={placeholder} 
