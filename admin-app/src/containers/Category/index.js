@@ -141,93 +141,9 @@ const Category = (props) => {
         return options;
     }
 
-    //    const updateCheckedAndExpandedCategories = () => {
-    
-    const updateCategory = () => {
-
-        // Fetch categories from DB, lining them up this way:
-        // {value: "5fc2f39e7fa915b3e45a9a57", name: "Electronics", parentId: null, type: ""}
-        // {value: "5fcf0c1600b49073b48420be", name: "Mobiles", parentId: "5fc2f39e7fa915b3e45a9a57", type: undefined}
-        const categories = createCategoryList(category.categories); 
-
-        const checkedArray = [];    
-        const expandedArray = [];
-
-        // For checkedArray, loop through checked categories and find match in categories from DB, 
-        // then return full details:
-        // {value: "5fc2f39e7fa915b3e45a9a57", name: "Electronics", parentId: null, type: ""}
-        // {value: "5fcf0c1600b49073b48420be", name: "Mobiles", parentId: "5fc2f39e7fa915b3e45a9a57", type: undefined}
-
-        // Meanwhile : checkedArray contains a simple array like so: 
-        // ["5fcf12f500b49073b48420c0", "5fcf130200b49073b48420c1"]
-        
-        checked.length > 0 && checked.forEach((categoryId, index) => {
-            const category = categories.find((category, _index) => categoryId == category.value);
-            category && checkedArray.push(category);
-        })
-
-        // Do the same for expandedArray
-        expanded.length > 0 && expanded.forEach((categoryId, index) => {
-            const category = categories.find((category, _index) => categoryId == category.value);
-            category && expandedArray.push(category);
-        })
-
-        console.log({checked, expanded, categories, checkedArray, expandedArray})
-
-        setCheckedArray(checkedArray);
-        setExpandedArray(expandedArray);
-
-        setUpdateCategoryModal(true)
-    }
-
-    const deleteCategory = () => {}
-
-    // On keyup of field:
-    const handleCategoryInput = (key, value, index, type) => {
-
-        if (type == "checked") {
-            // For checked (i.e. Nested-level category e.g. Samsung)
-            // Add something like 'name : Electronics' to checkedAarray
-            const updatedCheckedArray = checkedArray.map((item, _index) => {
-                return index == _index ? { ...item, [key] : value} : item
-            })
-            console.log("updatedCheckedArray >>> ", updatedCheckedArray)
-            setCheckedArray(updatedCheckedArray)
-
-        } else if (type == "expanded") {
-            // For expanded (i.e. Parent-level category e.g. Electronics) On change of field, 
-            // take value, and append / overwrite 'name : Electronics' in expandedArray
-            // If its the dropdown, overwrite 'parentId : 5fc2f39e7fa915b3e45a9a57'
-            const updatedExpandedArray = checkedArray.map((item, _index) => {
-                return index == _index ? { ...item, [key] : value} : item
-            })
-            setExpandedArray(updatedExpandedArray)
-        }
-    }
-
-    // Update Category Form
-    const updateCategoriesForm = () => {
-        const form = new FormData()
-
-        expandedArray.forEach((item, index) => {
-            form.append('_id', item.value)
-            form.append('name', item.name)
-            form.append('parentId', item.parentId ? item.parentId : "")
-        })
-        
-        checkedArray.forEach((item, index) => {
-            form.append('_id', item.value)
-            form.append('name', item.name)
-            form.append('parentId', item.parentId ? item.parentId : "")
-        })
-
-        dispatch(updateCategories(form))    // Send form data
-
-        setUpdateCategoryModal(false)    // Close modal
-    }
-
+    // The Add modal UI
     const renderAddCategoryModal = () => {
-        
+    
         return (
             
             // Modal for adding categories
@@ -263,6 +179,7 @@ const Category = (props) => {
         )
     }
 
+    // The Update modal UI
     const renderUpdateCategoriesModal = () => {
 
         return (
@@ -372,6 +289,109 @@ const Category = (props) => {
                 }
             </Modal>
         )
+    }    
+
+    //    const updateCheckedAndExpandedCategories = () => {
+    
+    const updateCategory = () => {
+
+        // Fetch categories from DB, lining them up this way:
+        // {value: "5fc2f39e7fa915b3e45a9a57", name: "Electronics", parentId: null, type: ""}
+        // {value: "5fcf0c1600b49073b48420be", name: "Mobiles", parentId: "5fc2f39e7fa915b3e45a9a57", type: undefined}
+        const categories = createCategoryList(category.categories); 
+
+        const checkedArray = [];    
+        const expandedArray = [];
+
+        // For checkedArray, loop through checked categories and find match in categories from DB, 
+        // then return full details: (Similar stuff goes for expandedArray too)
+        // [{value: "5fc2f39e7fa915b3e45a9a57", name: "Electronics", parentId: null, type: ""}
+        // {value: "5fcf0c1600b49073b48420be", name: "Mobiles", parentId: "5fc2f39e7fa915b3e45a9a57", type: undefined}]
+
+        // Meanwhile : checked array  contains a simple array like so
+        // automatically included by the checkbox-tree-plugin: 
+        // ["5fcf12f500b49073b48420c0", "5fcf130200b49073b48420c1"]
+        
+        checked.length > 0 && checked.forEach((categoryId, index) => {
+            const category = categories.find((category, _index) => categoryId == category.value);
+            category && checkedArray.push(category);
+        })
+
+        // Do the same for expandedArray
+        expanded.length > 0 && expanded.forEach((categoryId, index) => {
+            const category = categories.find((category, _index) => categoryId == category.value);
+            category && expandedArray.push(category);
+        })
+
+        console.log({checked, expanded, categories, checkedArray, expandedArray})
+
+        setCheckedArray(checkedArray);
+        setExpandedArray(expandedArray);
+
+        setUpdateCategoryModal(true)
+    }
+
+    const deleteCategory = () => {}
+
+    // On keyup of field:
+    const handleCategoryInput = (key, value, index, type) => {
+
+        if (type == "checked") {
+            // For checked (i.e. Nested-level category e.g. Samsung)
+            // Add something like 'name : Electronics' to checkedAarray
+            const updatedCheckedArray = checkedArray.map((item, _index) => {
+                return index == _index ? { ...item, [key] : value} : item
+            })
+            console.log("updatedCheckedArray >>> ", updatedCheckedArray)
+            setCheckedArray(updatedCheckedArray)
+
+        } else if (type == "expanded") {
+            // For expanded (i.e. Parent-level category e.g. Electronics) On change of field, 
+            // take value, and append / overwrite 'name : Electronics' in expandedArray
+            // If its the dropdown, overwrite 'parentId : 5fc2f39e7fa915b3e45a9a57'
+            const updatedExpandedArray = checkedArray.map((item, _index) => {
+                return index == _index ? { ...item, [key] : value} : item
+            })
+            setExpandedArray(updatedExpandedArray)
+        }
+    }
+
+    // Update Category Form
+    const updateCategoriesForm = () => {
+        const form = new FormData()
+
+        // The final data format : 
+
+//     _id: [ '5fc2f39e7fa915b3e45a9a57',
+//         '5fcf0c1600b49073b48420be',
+//         '5fcf130200b49073b48420c1',
+//         '5fcf130d00b49073b48420c2' 
+//         ],
+//    name: [ 'Electronics', 'Mobiles', 'Samsunggg', 'Iphone' ],
+//    parentId: [ '',
+//         '5fc2f39e7fa915b3e45a9a57',
+//         '5fcf0c1600b49073b48420be',
+//         '5fcf0c1600b49073b48420be'
+//         ] 
+//     }
+
+        expandedArray.forEach((item, index) => {
+            form.append('_id', item.value)
+            form.append('name', item.name)
+            form.append('parentId', item.parentId ? item.parentId : "")
+            form.append('type', item.type)
+        })
+        
+        checkedArray.forEach((item, index) => {
+            form.append('_id', item.value)
+            form.append('name', item.name)
+            form.append('parentId', item.parentId ? item.parentId : "")
+            form.append('type', item.type)
+        })
+
+        dispatch(updateCategories(form))    // Send form data
+
+        setUpdateCategoryModal(false)    // Close modal
     }
 
     return (

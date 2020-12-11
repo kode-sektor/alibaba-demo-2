@@ -97,24 +97,45 @@ exports.updateCategories = async (req, res) => {
 
     const {_id, name, parentId, type} = req.body;
     const updatedCategories = [];
-    
+
     console.log("category.js : REQ >>> ", req.body)
 
-    if (name instanceof Array) {
+//     _id: [ 
+//             '5fc2f39e7fa915b3e45a9a57',
+//             '5fcf0c1600b49073b48420be',
+//             '5fcf130200b49073b48420c1',
+//             '5fcf130d00b49073b48420c2' 
+//         ],
+//    name: [ 'Electronics', 'Mobiles', 'Samsunggg', 'Iphone' ],
+//    parentId: [ 
+//             '',
+//             '5fc2f39e7fa915b3e45a9a57',
+//             '5fcf0c1600b49073b48420be',
+//             '5fcf0c1600b49073b48420be'
+//         ] 
+//     }
+
+    if (name instanceof Array) {    // If more than 1 entry from form
+
         for (let i=0; i < name.length; i++) {
+            // 'category' is an object to be passed to the DB. It contains the values
             const category = {
                 name: name[i],
                 type: type[i]
             };
+            // If parentId is not empty, add it to the object
             if (parentId[i] !== "") {
                 category.parentId = parentId[i];
             }
 
+            // Update on every loop
             const updatedCategory =  await Category.findOneAndUpdate({_id: _id[i]}, category, {new: true});
-            updatedCategories.push(updatedCategory);
+            updatedCategories.push(updatedCategory);    // Return updated records
         }
         return res.status(201).json({ updateCategories: updatedCategories });
+
     } else {
+
         const category = {
             name,
             type

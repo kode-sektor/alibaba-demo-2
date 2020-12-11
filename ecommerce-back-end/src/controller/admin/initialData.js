@@ -36,7 +36,7 @@ exports.initialData = async (req, res) => {
     // const orders = await Order.find({})
     //     .populate("items.productId", "name")
     //     .exec();
-    console.log("initialData.js : PRODUCTS >>>",  products)
+    // console.log("initialData.js : PRODUCTS >>>",  products)
     res.status(200).json({
         categories: createCategories(categories),
         products,
