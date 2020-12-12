@@ -1,6 +1,12 @@
 const Category = require('../models/category');
 const slugify = require('slugify');
-const shortid = require('shortid');
+
+// shortid is important to always create a unique slug for MongoDB. 
+// Because without it, if you delete any record, you can't create a 
+// new record with the old name again
+
+const shortid = require('shortid'); 
+
 
 // Fetch all categories
 exports.getCategories = (req, res) => {
@@ -149,16 +155,19 @@ exports.updateCategories = async (req, res) => {
 }
 
 exports.deleteCategories = async (req, res) => {
-    const { ids } = req.body.payload;
-    const deletedCategories = [];
-    for(let i=0; i< ids.length; i++){
+    // req.body.payload because 'payload' was the key used to pass in the data from axios
+    const { ids } = req.body.payload;   
+    
+    const deletedCategories = [];   // Save records of deleted categories
+
+    for (let i=0; i < ids.length; i++) {
         const deleteCategory = await Category.findOneAndDelete({ _id: ids[i]._id });
         deletedCategories.push(deleteCategory);
     }
 
-    if(deletedCategories.length == ids.length){
+    if (deletedCategories.length == ids.length) {
         res.status(201).json({message: 'Categories removed'});
-    }else{
+    } else {
         res.status(400).json({message: 'Something went wrong'});
     }
     

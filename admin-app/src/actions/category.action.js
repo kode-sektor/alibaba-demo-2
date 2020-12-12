@@ -76,26 +76,26 @@ export const updateCategories = (form) => {
     }
 }
 
-// export const deleteCategories = (ids) => {
-//     return async dispatch => {
-//         dispatch({ type: categoryConstants.DELETE_CATEGORIES_REQUEST });
-//         const res = await axios.post(`/category/delete`, {
-//             payload: {
-//                 ids
-//             }
-//         });
-//         if (res.status == 201) {
-//             dispatch(getAllCategory());
-//             dispatch({ type: categoryConstants.DELETE_CATEGORIES_SUCCESS });
-//         } else {
-//             const { error } = res.data;
-//             dispatch({
-//                 type: categoryConstants.DELETE_CATEGORIES_FAILURE,
-//                 payload: { error }
-//             });
-//         }
-//     }
-// }
+export const deleteCategories = (ids) => {
+    return async dispatch => {
+        dispatch({ type: categoryConstants.DELETE_CATEGORIES_REQUEST });
+        const res = await axios.post(`/category/delete`, {
+            payload: {
+                ids
+            }
+        });
+        if (res.status == 201) {
+            dispatch(getAllCategory());
+            dispatch({ type: categoryConstants.DELETE_CATEGORIES_SUCCESS });
+        } else {
+            const { error } = res.data;
+            dispatch({
+                type: categoryConstants.DELETE_CATEGORIES_FAILURE,
+                payload: { error }
+            });
+        }
+    }
+}
 
 // export {
 //     getAllCategory
