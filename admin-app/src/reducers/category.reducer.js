@@ -31,7 +31,6 @@ const buildNewCategories = (parentId, categories, category) => {
     // recently added category shares the same id with an existing one.
     
     for (let cat of categories) {
-        console.log(cat)    // check if nested record (children) is counted
 
         // If the recent category id matches parentId, then it's a child of the 
         // parent, thus, should be inserted in the children array of the parent
@@ -99,25 +98,25 @@ export default (state = initState, action) => {
                 error: action.payload.error
             }
         break;
-        // case categoryConstants.UPDATE_CATEGORIES_REQUEST :
-        //     state = {
-        //         ...state,
-        //         loading: true
-        //     }
-        // break;
-        // case categoryConstants.UPDATE_CATEGORIES_SUCCESS :
-        //     state = {
-        //         ...state,
-        //         loading: false
-        //     }
-        // break;
-        // case categoryConstants.UPDATE_CATEGORIES_FAILURE:
-        //     state = {
-        //         ...state,
-        //         error: action.payload.error,
-        //         loading: false
-        //     }
-        // break;
+        case categoryConstants.UPDATE_CATEGORIES_REQUEST :
+            state = {
+                ...state,
+                loading: true
+            }
+        break;
+        case categoryConstants.UPDATE_CATEGORIES_SUCCESS :
+            state = {
+                ...state,
+                loading: false
+            }
+        break;
+        case categoryConstants.UPDATE_CATEGORIES_FAILURE:
+            state = {
+                ...state,
+                error: action.payload.error,
+                loading: false
+            }
+        break;
         // case categoryConstants.DELETE_CATEGORIES_REQUEST :
         //     state = {
         //         ...state,

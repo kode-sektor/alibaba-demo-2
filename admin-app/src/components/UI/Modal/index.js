@@ -13,9 +13,17 @@ const NewModal = (props) => {
                 {props.children}
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={props.handleClose}>
-                    Save
-                </Button>
+                {props.buttons ? (
+                    props.buttons.map((btn, index) => (
+                        <Button key={index} variant={btn.color} onClick={btn.onClick}>
+                        {btn.label}
+                        </Button>
+                    ))
+                    ) : (
+                    <Button onClick={props.handleClose}>
+                        Save
+                    </Button>
+                )}
             </Modal.Footer>
         </Modal>
 
