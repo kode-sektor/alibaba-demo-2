@@ -2,15 +2,19 @@ import React, { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+
+import UpdateCategoriesModal from './components/UpdateCategoriesModal';
+import AddCategoryModal from './components/AddCategoryModal';
+
+import Modal from '../../components/UI/Modal';
+import Input from "../../components/UI/Input";
+
 import {
     addCategory,
     updateCategories,
     getAllCategory,
     deleteCategories as deleteCategoriesAction
 } from '../../actions';
-
-import Modal from '../../components/UI/Modal';
-import Input from "../../components/UI/Input";
 
 import {
     IoIosCheckboxOutline,
@@ -24,9 +28,7 @@ import {
 
 import CheckboxTree from 'react-checkbox-tree';
 import 'react-checkbox-tree/lib/react-checkbox-tree.css';
-import UpdateCategoriesModal from './components/UpdateCategoriesModal';
-// import UpdateCategoriesModal from './components/UpdateCategoriesModal';
-// import AddCategoryModal from './components/AddCategoryModal';
+
 // import './style.css';
 
 
@@ -60,27 +62,6 @@ const Category = (props) => {
     //     }
 
     // }, [category.loading]);
-
-
-    // const handleClose = () => {
-
-    //     const form = new FormData();
-
-    //     if (categoryName === "") {
-    //         alert('Category name is required');
-    //         setShow(false);
-    //         return;
-    //     }
-
-    //     form.append('name', categoryName);
-    //     form.append('parentId', parentCategoryId);
-    //     form.append('categoryImage', categoryImage);
-
-    //     dispatch(addCategory(form));
-    //     setCategoryName('');
-    //     setParentCategoryId('');
-    //     setShow(false);
-    // }
 
     const handleShow = () => show ? setShow(false) : setShow(true)  // For modal
 
@@ -405,8 +386,21 @@ const Category = (props) => {
                 </Row>
             </Container>
 
-            {renderAddCategoryModal()}
-            
+            {/* Modal for adding new categories */}
+            <AddCategoryModal
+                show={show}
+                handleClose={() => setShow(false)}
+                onSubmit={handleClose}
+                modalTitle={'Add New Category'}
+                categoryName={categoryName}
+                setCategoryName={setCategoryName}
+                parentCategoryId={parentCategoryId}
+                setParentCategoryId={setParentCategoryId}
+                categoryList={categoryList}
+                handleCategoryImage={handleCategoryImage}
+            />
+
+            {/* Modal for editing / updating categories */}
             <UpdateCategoriesModal
                 show={updateCategoryModal}
                 handleClose={() => setUpdateCategoryModal(false)}
@@ -421,20 +415,8 @@ const Category = (props) => {
 
             {renderDeleteCategoryModal()}
 
-            {/* Modal for editing / updating categories */}
 
-            {/* <AddCategoryModal
-                show={show}
-                handleClose={() => setShow(false)}
-                onSubmit={handleClose}
-                modalTitle={'Add New Category'}
-                categoryName={categoryName}
-                setCategoryName={setCategoryName}
-                parentCategoryId={parentCategoryId}
-                setParentCategoryId={setParentCategoryId}
-                categoryList={categoryList}
-                handleCategoryImage={handleCategoryImage}
-            />
+            {/*
 
             {/* {renderAddCategoryModal()} */}
             {/* {renderDeleteCategoryModal()} */}
