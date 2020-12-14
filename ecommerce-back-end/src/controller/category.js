@@ -91,7 +91,7 @@ exports.addCategory = (req, res) => {
 
     const cat = new Category(categoryObj);
     cat.save((error, category) => {
-        if(error) return res.status(400).json({ error });
+        if (error) return res.status(400).json({ error });
         if (category) {
             console.log('Category inserted >>> ', category)
             return res.status(201).json({ category });
@@ -155,9 +155,11 @@ exports.updateCategories = async (req, res) => {
 }
 
 exports.deleteCategories = async (req, res) => {
-    // req.body.payload because 'payload' was the key used to pass in the data from axios
+    // req.body.payload because 'payload' was the key used to pass in the data from axios 
+    // from actions file
     const { ids } = req.body.payload;   
-    
+    // console.log("category.js >>> ", req.body.payload)
+
     const deletedCategories = [];   // Save records of deleted categories
 
     for (let i=0; i < ids.length; i++) {
@@ -165,10 +167,11 @@ exports.deleteCategories = async (req, res) => {
         deletedCategories.push(deleteCategory);
     }
 
+    // If length of deleted categories is the same as what you began with (req.body.payload.length)
+    // then deletion was successful
     if (deletedCategories.length == ids.length) {
         res.status(201).json({message: 'Categories removed'});
     } else {
         res.status(400).json({message: 'Something went wrong'});
     }
-    
 }
