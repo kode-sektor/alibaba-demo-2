@@ -16,8 +16,7 @@ const UpdateCategoriesModal = (props) => {
     return (
         <Modal
             show={show}
-            handleClose={handleClose}
-            onSubmit={onSubmit}
+            handleClose={onSubmit}
             title={title}
             size={size}
             handleShow={handleShow}     // From the close button (in modal)

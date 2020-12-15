@@ -111,7 +111,7 @@ const Category = (props) => {
         return myCategories;
     }
 
-    // Prepare the select dropdown of categories. It will not nest because 
+    // Prepare the SELECT dropdown of categories. It will not nest because 
     // <select><option> does not need nesting. It will just list the children under
 
     const createCategoryList = (categories, options = []) => {
@@ -204,6 +204,7 @@ const Category = (props) => {
 
     // Update Category Form
     const updateCategoriesForm = () => {
+        alert('okay')
 
         const form = new FormData()
 
@@ -308,44 +309,6 @@ const Category = (props) => {
         );
     }
 
-    // The Add modal UI
-    const renderAddCategoryModal = () => {
-
-        return (
-            
-            // Modal for adding categories
-            <Modal
-                show={show}
-                handleClose={handleClose}   // From the save button
-                handleShow={handleShow}     // From the close button (in modal)
-                title="Add New Category"
-                // setCategoryName={(e) => {setCategoryName(e.target.value)}}
-                // categoryList={createCategoryList(category.categories)}
-                // parentCategoryId={parentCategoryId}
-                // changeParent={(e) => setParentCategoryId(e.target.value)}
-                // handleCategoryImage={handleCategoryImage}
-            >
-                <Input
-                    value={categoryName}
-                    placeholder={`Category Name`}
-                    onChange={(e) => {setCategoryName(e.target.value)}}
-                />
-                <select name="name" onChange={(e) => setParentCategoryId(e.target.value)}
-                    className="form-control" value={parentCategoryId}>
-                    <option>Select Category</option>
-                    {
-                        createCategoryList(category.categories)?.map(option => {
-                            return (
-                                <option key={option.value} value={option.value}>{option.name}</option>
-                            )
-                        })
-                    }
-                </select>
-                <input type="file" name="categoryImage" onChange={handleCategoryImage}/>
-            </Modal>
-        )
-    }
-
     const categoryList = createCategoryList(category.categories);
 
     return (
@@ -359,6 +322,10 @@ const Category = (props) => {
                             <div className="actionBtnContainer">
                                 <span>Actions: </span>
                                 <button onClick={handleShow}><IoIosAdd /> <span>Add</span></button>
+                                <button onClick={deleteCategory}><IoIosTrash /> <span>Delete</span></button>
+
+                                {/* On Click of 'Edit', lift checked categories and fill them inside form */}
+                                <button onClick={updateCategory}><IoIosCloudUpload /> <span>Edit</span></button>
                             </div>
                         </div>
                     </Col>
@@ -385,10 +352,7 @@ const Category = (props) => {
                 </Row>
                 <Row>
                     <Col>
-                        <button onClick={deleteCategory}><IoIosTrash /> <span>Delete</span></button>
 
-                        {/* On Click of 'Edit', lift checked categories and fill them inside form */}
-                        <button onClick={updateCategory}><IoIosCloudUpload /> <span>Edit</span></button>
                     </Col>
                 </Row>
             </Container>
@@ -396,7 +360,6 @@ const Category = (props) => {
             {/* Modal for adding new categories */}
             <AddCategoryModal
                 show={show}
-                handleClose={() => setShow(false)}
                 handleShow={handleShow}     // From the close button (in modal)
                 onSubmit={handleClose}
                 title={'Add New Category'}
@@ -411,7 +374,6 @@ const Category = (props) => {
             {/* Modal for editing / updating categories */}
             <UpdateCategoriesModal
                 show={updateCategoryModal}
-                handleClose={() => setUpdateCategoryModal(false)}   // May not be necessary
                 handleShow={() => setUpdateCategoryModal(false)}     // From the close button (in modal)
                 onSubmit={updateCategoriesForm} // From submitting
                 title={'Update Categories'}
