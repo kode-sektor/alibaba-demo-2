@@ -66,6 +66,7 @@ const NewPage = (props) => {
         }
 
         const form = new FormData();
+
         form.append('title', title);
         form.append('description', desc);
         form.append('category', categoryId);
@@ -86,7 +87,7 @@ const NewPage = (props) => {
             <Modal
                 show={createModal}
                 title={'Create New Page'}
-                handleClose={() => setCreateModal(false)}
+                handleShow={() => setCreateModal(false)}
                 onSubmit={submitPageForm}
             >
                 <Container>
