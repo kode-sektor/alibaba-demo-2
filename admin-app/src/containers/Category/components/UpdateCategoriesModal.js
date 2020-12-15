@@ -42,7 +42,7 @@ const UpdateCategoriesModal = (props) => {
                                 className="form-control"
                                 value={item.parentId}
                                 onChange={(e) => handleCategoryInput('parentId', e.target.value, index, 'expanded')}>
-                                <option>select category</option>
+                                <option>Select Category</option>
                                 {
                                     categoryList.map(option =>
                                         <option key={option.value} value={option.value}>{option.name}</option>
@@ -82,7 +82,7 @@ const UpdateCategoriesModal = (props) => {
                                 className="form-control"
                                 value={item.parentId}
                                 onChange={(e) => handleCategoryInput('parentId', e.target.value, index, 'checked')}>
-                                <option>select category</option>
+                                <option>Select Category</option>
                                 {
                                     categoryList.map(option =>
                                         <option key={option.value} value={option.value}>{option.name}</option>
