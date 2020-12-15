@@ -7,7 +7,7 @@ import { Row, Col } from 'react-bootstrap';
 const AddCategoryModal = (props) => {
 
     const {
-        show, handleClose, modalTitle, categoryName, setCategoryName, parentCategoryId,
+        show, handleClose, handleShow, title, categoryName, setCategoryName, parentCategoryId,
         setParentCategoryId, categoryList, handleCategoryImage, onSubmit
     } = props;
 
@@ -16,7 +16,8 @@ const AddCategoryModal = (props) => {
             show={show}
             handleClose={handleClose}
             onSubmit={onSubmit}
-            modalTitle={modalTitle}
+            title={title}
+            handleShow={handleShow}     // From the close button (in modal)
         >
             <Row>
                 <Col>

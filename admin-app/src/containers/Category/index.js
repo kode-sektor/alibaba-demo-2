@@ -29,7 +29,7 @@ import {
 import CheckboxTree from 'react-checkbox-tree';
 import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 
-// import './style.css';
+import './style.css';
 
 
 const Category = (props) => {
@@ -72,6 +72,12 @@ const Category = (props) => {
     const handleClose = () => { // For 'Add Category' modal
 
         const form = new FormData()
+
+        if (categoryName === "") {
+            alert ("Name is required")
+            return
+        }
+
         const cat = {
             categoryName, 
             parentCategoryId,
@@ -242,6 +248,7 @@ const Category = (props) => {
         setUpdateCategoryModal(false)    // Close modal
     }
 
+    // On click of 'Delete', first show them in modal
     const deleteCategory = () => {
         // Fetch full details from DB for checked and expanded options 
         updateCheckedAndExpandedCategories();
@@ -249,6 +256,7 @@ const Category = (props) => {
         setDeleteCategoryModal(true);
     }
 
+    // On click of 'Yes' in Delete modal:
     const deleteCategories = () => {
         const checkedIdsArray = checkedArray.map((item, index) => ({ _id: item.value }));
         const expandedIdsArray = expandedArray.map((item, index) => ({ _id: item.value }));
@@ -351,7 +359,6 @@ const Category = (props) => {
                             <div className="actionBtnContainer">
                                 <span>Actions: </span>
                                 <button onClick={handleShow}><IoIosAdd /> <span>Add</span></button>
-                                <button onClick={deleteCategory}><IoIosTrash /> <span>Delete</span></button>
                             </div>
                         </div>
                     </Col>
@@ -390,8 +397,9 @@ const Category = (props) => {
             <AddCategoryModal
                 show={show}
                 handleClose={() => setShow(false)}
+                handleShow={handleShow}     // From the close button (in modal)
                 onSubmit={handleClose}
-                modalTitle={'Add New Category'}
+                title={'Add New Category'}
                 categoryName={categoryName}
                 setCategoryName={setCategoryName}
                 parentCategoryId={parentCategoryId}
@@ -403,8 +411,9 @@ const Category = (props) => {
             {/* Modal for editing / updating categories */}
             <UpdateCategoriesModal
                 show={updateCategoryModal}
-                handleClose={() => setUpdateCategoryModal(false)}
-                onSubmit={updateCategoriesForm}
+                handleClose={() => setUpdateCategoryModal(false)}   // May not be necessary
+                handleShow={() => setUpdateCategoryModal(false)}     // From the close button (in modal)
+                onSubmit={updateCategoriesForm} // From submitting
                 title={'Update Categories'}
                 size="lg"
                 expandedArray={expandedArray}
@@ -415,14 +424,8 @@ const Category = (props) => {
 
             {renderDeleteCategoryModal()}
 
-
-            {/*
-
-            {/* {renderAddCategoryModal()} */}
-            {/* {renderDeleteCategoryModal()} */}
         </Layout>
     )
-
 }
 
 export default Category

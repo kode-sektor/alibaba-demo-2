@@ -3,7 +3,6 @@ import { Modal, Button } from "react-bootstrap";
 import Input from '../Input'
 
 const NewModal = (props) => {
-
     return (
         <Modal size={props.size} show={props.show} onHide={props.handleShow}>
             <Modal.Header closeButton>
@@ -16,11 +15,12 @@ const NewModal = (props) => {
                 {props.buttons ? (
                     props.buttons.map((btn, index) => (
                         <Button key={index} variant={btn.color} onClick={btn.onClick}>
-                        {btn.label}
+                            {btn.label}
                         </Button>
                     ))
                     ) : (
-                    <Button onClick={props.handleClose}>
+                    <Button variant="primary" style={{backgroundColor : '#333'}} 
+                        {...props} className="btn-sm" onClick={props.handleClose}>
                         Save
                     </Button>
                 )}

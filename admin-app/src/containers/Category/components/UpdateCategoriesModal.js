@@ -7,19 +7,20 @@ import {Row, Col} from 'react-bootstrap';
 const UpdateCategoriesModal = (props) => {
 
     const {
-        show, handleClose, modalTitle, size, expandedArray,
+        show, handleClose, title, handleShow, size, expandedArray,
         checkedArray, handleCategoryInput, categoryList, onSubmit
     } = props;
 
-    console.log({expandedArray, checkedArray})
+    // console.log({expandedArray, checkedArray})
 
     return (
         <Modal
             show={show}
             handleClose={handleClose}
             onSubmit={onSubmit}
-            modalTitle={modalTitle}
+            title={title}
             size={size}
+            handleShow={handleShow}     // From the close button (in modal)
         >
             <Row>
                 <Col>
