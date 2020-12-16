@@ -5,7 +5,7 @@ import Input from '../../components/UI/Input';
 import { Container, Row, Col } from 'react-bootstrap';
 import linearCategories from '../../helpers/linearCategories';
 import { useSelector, useDispatch } from 'react-redux';
-// import { createPage } from '../../actions';
+import { createPage } from '../../actions';
 
 
 const NewPage = (props) => {
@@ -40,6 +40,7 @@ const NewPage = (props) => {
     //     }
     // }, [page]);
 
+    // Giving you problems
     const onCategoryChange = (e) => {
         const category = categories.find(category => category.value == e.target.value);
         setCategoryId(e.target.value);
@@ -47,12 +48,12 @@ const NewPage = (props) => {
     }
 
     const handleBannerImages = (e) => {
-        console.log(e);
+        // console.log(e);
         setBanners([...banners, e.target.files[0]]);
     }
 
     const handleProductImages = (e) => {
-        console.log(e);
+        // console.log(e);
         setProducts([...products, e.target.files[0]]);
     }
 
@@ -78,7 +79,7 @@ const NewPage = (props) => {
             form.append('products', product);
         });
 
-       //  dispatch(createPage(form));
+       dispatch(createPage(form));
     }
 
     const renderCreatePageModal = () => {
@@ -93,25 +94,25 @@ const NewPage = (props) => {
                 <Container>
                     <Row>
                         <Col>
-                            {/* <select
+                            <select
                                 className="form-control"
                                 value={categoryId}
                                 onChange={onCategoryChange}
                             >
-                                <option value="">select category</option>
+                                <option value="">Select Category</option>
                                 {
                                     categories.map(cat =>
                                         <option key={cat._id} value={cat._id}>{cat.name}</option>
                                     )
                                 }
-                            </select> */}
-                            <Input 
+                            </select>
+                            {/* <Input 
                                 type="select"
                                 value={categoryId}
                                 onChange={onCategoryChange}
                                 options={categories}
                                 placeholder={'Select Category'}
-                            />
+                            /> */}
                         </Col>
                     </Row>
 
@@ -138,12 +139,12 @@ const NewPage = (props) => {
                     </Row>
 
                     {
-                            banners.length > 0 ? 
-                            banners.map((banner, index) => 
-                                <Row key={index}>
-                                    <Col>{banner.name}</Col>
-                                </Row>
-                            ) : null
+                        banners.length > 0 ? 
+                        banners.map((banner, index) => 
+                            <Row key={index}>
+                                <Col>{banner.name}</Col>
+                            </Row>
+                        ) : null
                     }
                     <Row>
                         <Col>

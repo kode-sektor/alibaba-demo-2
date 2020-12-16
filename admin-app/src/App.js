@@ -27,13 +27,17 @@ function App() {
             dispatch(isUserLoggedIn())  // checks for user fetched from DB saved in LS
         }
         
+        if (auth.authenticate) {
+            dispatch(getInitialData())
+        }
+
         // Fetch all categories to populate the select dropdown
         // dispatch(getAllCategory())
 
         // Fetch intial data
         dispatch(getInitialData())
 
-    }, [])
+    }, [auth.authenticate])
 
     // console.log(auth)
 

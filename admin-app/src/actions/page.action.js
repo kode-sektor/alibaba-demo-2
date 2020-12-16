@@ -6,7 +6,7 @@ export const createPage = (form) => {
         dispatch({ type: pageConstants.CREATE_PAGE_REQUEST });
         try {
             const res = await axios.post('/page/create', form);
-            if(res.status === 201){
+            if (res.status === 201) {
                 dispatch({
                     type: pageConstants.CREATE_PAGE_SUCCESS,
                     payload: { page: res.data.page }
@@ -17,7 +17,7 @@ export const createPage = (form) => {
                     payload: { error: res.data.error }
                 });
             }
-        } catch(error) {
+        } catch (error) {
             console.log(error)
         }
     }
