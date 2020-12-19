@@ -27,7 +27,8 @@ function App() {
             dispatch(isUserLoggedIn())  // checks for user fetched from DB saved in LS
         }
         
-        if (auth.authenticate) {
+        // Fetch all categories to populate the select dropdown
+        if (auth.authenticate) {    // Only if authenticated should initial data be fetched
             dispatch(getInitialData())
         }
 
@@ -35,7 +36,7 @@ function App() {
         // dispatch(getAllCategory())
 
         // Fetch intial data
-        dispatch(getInitialData())
+        // dispatch(getInitialData())
 
     }, [auth.authenticate])
 
