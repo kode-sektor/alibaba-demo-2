@@ -50,6 +50,7 @@ exports.createPage = (req, res) => {
 	});
 };
 
+// Fetch page
 exports.getPage = (req, res) => {
 
     const { category, type } = req.params;
