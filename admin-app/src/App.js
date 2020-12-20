@@ -13,7 +13,7 @@ import Signin from './containers/Signin'
 import Signup from './containers/Signup'
 import PrivateRoute from './components/HOC/privateRoute'
 
-import { isUserLoggedIn, getAllCategory, getInitialData } from './actions'
+import { isUserLoggedIn, getInitialData } from './actions'
 import { useDispatch, useSelector } from 'react-redux'
 
 
@@ -31,12 +31,6 @@ function App() {
         if (auth.authenticate) {    // Only if authenticated should initial data be fetched
             dispatch(getInitialData())
         }
-
-        // Fetch all categories to populate the select dropdown
-        // dispatch(getAllCategory())
-
-        // Fetch intial data
-        // dispatch(getInitialData())
 
     }, [auth.authenticate])
 

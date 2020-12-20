@@ -16,11 +16,11 @@ exports.upload = multer({ storage });
 
 exports.requireSignin = (req, res, next) => {
 
-    if(req.headers.authorization){
+    if (req.headers.authorization) {
         const token = req.headers.authorization.split(" ")[1];
         const user = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = user;
-    }else{
+        req.user = user;    // Globally save user details
+    } else {
         return res.status(400).json({ message: 'Authorization required' });
     }
     next();
@@ -28,7 +28,7 @@ exports.requireSignin = (req, res, next) => {
 }
 
 exports.userMiddleware = (req, res, next) => {
-    if(req.user.role !== 'user'){   // req.user value is gotten from line 22, where the user object is saved from jwt authentication
+    if (req.user.role !== 'user') {   // req.user value is gotten from line 22, where the user object is saved from jwt authentication
         return res.status(400).json({ message: 'User access denied' })
         console.log('User granted')
     }
@@ -36,7 +36,7 @@ exports.userMiddleware = (req, res, next) => {
 }
 
 exports.adminMiddleware = (req, res, next) => {
-    if(req.user.role !== 'admin'){
+    if (req.user.role !== 'admin') {
         return res.status(400).json({ message: 'Admin access denied' })
     }
     next();

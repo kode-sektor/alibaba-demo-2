@@ -16,10 +16,10 @@ const MenuHeader = (props) => {
 
     const renderCategories = (categories) => {
 
-        let myCategories = [];
+        let menuCategories = [];
 
         for (let category of categories) {
-            myCategories.push(
+            menuCategories.push(
                 <li key={category.name}>
                 {
                     category.parentId ? // Has a parent? Then its clickable
@@ -33,7 +33,7 @@ const MenuHeader = (props) => {
                 </li>
             );
         }
-        return myCategories;
+        return menuCategories;
     }
 
     return (

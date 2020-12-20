@@ -27,3 +27,4 @@ export const addProduct = form => {
         }
     }
 }
+

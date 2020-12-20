@@ -96,18 +96,6 @@ const NewPage = (props) => {
                 <Container>
                     <Row>
                         <Col>
-                            {/* <select
-                                className="form-control"
-                                value={categoryId}
-                                onChange={onCategoryChange}
-                            >
-                                <option value="">Select Category</option>
-                                {
-                                    categories.map(cat =>
-                                        <option key={cat._id} value={cat._id}>{cat.name}</option>
-                                    )
-                                }
-                            </select> */}
                             <Input 
                                 type="select"
                                 value={categoryId}
@@ -142,13 +130,14 @@ const NewPage = (props) => {
 
                     {
                         banners.length > 0 ? 
-                        banners.map((banner, index) => 
-                            <Row key={index}>
-                                <Col>{banner.name}</Col>
-                            </Row>
+                            banners.map((banner, index) => 
+                                <Row key={index}>
+                                    <Col>{banner.name}</Col>
+                                </Row>
                         ) : null
                     }
                     <Row>
+                        <span>Banner image(s): </span>
                         <Col>
                             <Input
                                 className="form-control" 
@@ -159,15 +148,16 @@ const NewPage = (props) => {
                         </Col>
                     </Row>
 
-                    {
-                            products.length > 0 ? 
+                    {   
+                        products.length > 0 ? 
                             products.map((product, index) => 
                                 <Row key={index}>
                                     <Col>{product.name}</Col>
                                 </Row>
-                            ) : null
-                        }
+                        ) : null
+                    }
                     <Row>
+                        <span>Product image(s): </span>
                         <Col>
                             <Input 
                                 className="form-control"
@@ -182,7 +172,6 @@ const NewPage = (props) => {
         );
     }
 
-
     return (
         <Layout sidebar>
             {
@@ -196,7 +185,6 @@ const NewPage = (props) => {
             }
         </Layout>
     )
-
 }
 
 export default NewPage

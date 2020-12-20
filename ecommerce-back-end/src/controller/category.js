@@ -73,8 +73,8 @@ function createCategories (categories, parentId = null) {
 // Add category to DB
 exports.addCategory = (req, res) => {
 
-    console.log("REQ.BODY >>> ", req.body)
-    console.log("REQ.FILE >>> ", req.file)
+    // console.log("REQ.BODY >>> ", req.body)
+    // console.log("REQ.FILE >>> ", req.file)
 
     const categoryObj = {
         name: req.body.name,
@@ -90,6 +90,7 @@ exports.addCategory = (req, res) => {
     }
 
     const cat = new Category(categoryObj);
+
     cat.save((error, category) => {
         if (error) return res.status(400).json({ error });
         if (category) {
@@ -104,7 +105,7 @@ exports.updateCategories = async (req, res) => {
     const {_id, name, parentId, type} = req.body;
     const updatedCategories = [];
 
-    console.log("category.js : REQ >>> ", req.body)
+    // console.log("category.js : REQ >>> ", req.body)
 
 //     _id: [ 
 //             '5fc2f39e7fa915b3e45a9a57',
@@ -121,7 +122,7 @@ exports.updateCategories = async (req, res) => {
 //         ] 
 //     }
 
-    if (name instanceof Array) {    // If more than 1 entry from form
+    if (name instanceof Array) {    // If more than 1 entry from form, loop and update
 
         for (let i=0; i < name.length; i++) {
             // 'category' is an object to be passed to the DB. It contains the values
@@ -140,7 +141,7 @@ exports.updateCategories = async (req, res) => {
         }
         return res.status(201).json({ updateCategories: updatedCategories });
 
-    } else {
+    } else {    // If only 1 entry, simply update
 
         const category = {
             name,

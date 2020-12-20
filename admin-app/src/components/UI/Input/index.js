@@ -2,7 +2,8 @@
  import { Form } from 'react-bootstrap'
 
 export default function index({
-	label, type, placeholder, value, errorMessage, onChange, options
+	label, type, placeholder, value, 
+	errorMessage, onChange, options
 }) {
 
 	let input = null

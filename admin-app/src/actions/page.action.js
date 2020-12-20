@@ -12,7 +12,6 @@ export const createPage = (form) => {
                     payload: { page: res.data.page }
                 });
             } else {
-                console.log("page.action.js, PAGE CREATION : FALSE")
                 dispatch({
                     type: pageConstants.CREATE_PAGE_FAILURE,
                     payload: { error: res.data.error }
