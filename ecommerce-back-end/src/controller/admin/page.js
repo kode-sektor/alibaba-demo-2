@@ -1,4 +1,5 @@
-const Page = require("../../models/page");
+const Page = require("../../models/page")
+console.log("Page : ", Page)
 
 exports.createPage = (req, res) => {
 

@@ -59,7 +59,7 @@ const NewPage = (props) => {
     }
 
     const submitPageForm = (e) => {
-        //e.target.preventDefault();
+        // e.target.preventDefault();
 
         if (title === "") {
             alert('Title is required');
@@ -91,7 +91,7 @@ const NewPage = (props) => {
                 show={createModal}
                 title={'Create New Page'}
                 handleShow={() => setCreateModal(false)}
-                onSubmit={submitPageForm}
+                handleClose={submitPageForm}
             >
                 <Container>
                     <Row>
@@ -134,7 +134,7 @@ const NewPage = (props) => {
                             <Input
                                 value={desc}
                                 onChange={(e) => setDesc(e.target.value)}
-                                placeholder={'Page Desc'}
+                                placeholder={'Page Description'}
                                 className=""
                             />
                         </Col>
@@ -187,14 +187,13 @@ const NewPage = (props) => {
         <Layout sidebar>
             {
                 page.loading ? 
-                <p>Creating Page...please wait</p>
+                <p>Creating Page... Please wait</p>
                 :
                 <>
                     {renderCreatePageModal()}
                     <button onClick={() => setCreateModal(true)}>Create Page</button>
                 </>
             }
-            
         </Layout>
     )
 
