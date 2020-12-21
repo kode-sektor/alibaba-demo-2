@@ -8,6 +8,7 @@ router.post(`/page/create`, requireSignin, adminMiddleware, upload.fields([
     { name: 'products' }
 ]), createPage)
 
+
 router.get(`/page/:category/:type`, getPage);
 
 module.exports = router;

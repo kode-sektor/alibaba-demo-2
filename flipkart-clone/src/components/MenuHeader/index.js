@@ -23,8 +23,7 @@ const MenuHeader = (props) => {
                 <li key={category.name}>
                 {
                     category.parentId ? // Has a parent? Then its clickable
-                        <a href={`/${category.slug}`}>
-                        {/* <a href={`/${category.slug}?cid=${category._id}&type=${category.type}`}> */}
+                        <a href={`/${category.slug}?cid=${category._id}&type=${category.type}`}>
                             {category.name} 
                         </a> :
                     <span>{category.name}</span>    // No parent? Then its a parent itself - shouldnt be clickable

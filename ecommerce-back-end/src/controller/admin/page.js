@@ -53,7 +53,8 @@ exports.createPage = (req, res) => {
 // Fetch page
 exports.getPage = (req, res) => {
 
-    const { category, type } = req.params;
+	const { category, type } = req.params;
+	console.log("/ADMIN/PAGE.JS -- REQ PARAMS", req.params)
     
 	if (type === "page") {
 		Page.findOne({ category: category }).exec((error, page) => {
