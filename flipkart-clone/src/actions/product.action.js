@@ -28,7 +28,6 @@ export const getProductPage = (payload) => {
 
             if (res.status === 200) {
                 const { page } = res.data;
-                console.log(page)
                 dispatch({
                     type: productConstants.GET_PRODUCT_PAGE_SUCCESS,
                     payload: { page }

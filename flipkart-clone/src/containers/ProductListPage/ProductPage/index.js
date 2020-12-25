@@ -22,8 +22,6 @@ const ProductPage = (props) => {
         dispatch(getProductPage(payload));
     }, []);
 
-    console.log(product)
-
     return (
         <div style={{ margin: '0 10px' }}>
             <h3>{page.title}</h3>

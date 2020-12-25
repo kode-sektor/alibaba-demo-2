@@ -2,6 +2,7 @@ import React from "react";
 import "./style.css";
 
 const Card = (props) => {
+	console.log(props)
 	return (
 		<div className="card" {...props}>
 			{(props.headerLeft || props.headerRight) && (
