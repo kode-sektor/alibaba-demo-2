@@ -58,8 +58,15 @@ exports.getPage = (req, res) => {
     
 	if (type === "page") {
 		Page.findOne({ category: category }).exec((error, page) => {
-			if (error) return res.status(400).json({ error });
-			if (page) return res.status(200).json({ page });
+			if (error) { 
+				console.log('PAGE NOT WORKING')
+				return res.status(400).json({ error })
+			} ;
+			if (page) {
+				console.log('page working')
+				console.log(page)
+				return res.status(200).json({ page })
+			};
 		});
 	}
 };

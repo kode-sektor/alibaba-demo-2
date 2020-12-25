@@ -28,18 +28,20 @@ export const getProductPage = (payload) => {
 
             if (res.status === 200) {
                 const { page } = res.data;
+                console.log(page)
                 dispatch({
                     type: productConstants.GET_PRODUCT_PAGE_SUCCESS,
                     payload: { page }
                 });
             } else {
                 const { error } = res.data;
+                console.log(error)
                 dispatch({
                     type: productConstants.GET_PRODUCT_PAGE_FAILURE,
                     payload: { error }
                 });
             }
-        } catch(error) {
+        } catch (error) {
             console.log(error)
         }
     }

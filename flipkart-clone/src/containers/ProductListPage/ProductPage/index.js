@@ -14,15 +14,15 @@ const ProductPage = (props) => {
     const { page } = product;
 
     useEffect(() => {
-        const params = getParams(props.location.search);
-        console.log({params});
-        console.log(params)
+        const params = getParams(props.location.search);    // {cid: "5fcf130200b49073b48420c1", type: "page"}
+        // console.log({params});
         const payload = {
             params
         }
         dispatch(getProductPage(payload));
     }, []);
 
+    console.log(product)
 
     return (
         <div style={{ margin: '0 10px' }}>
@@ -51,7 +51,7 @@ const ProductPage = (props) => {
                 {
                     page.products && page.products.map((product, index) => 
                         <Card 
-                            key={index}
+                            key={index} 
                             style={{
                                 width: '400px',
                                 height: '200px',

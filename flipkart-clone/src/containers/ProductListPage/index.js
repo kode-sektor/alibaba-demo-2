@@ -6,7 +6,7 @@ import { generatePublicUrl } from '../../urlConfig'
 import Layout from "../../components/Layout";
 import getParams from "../../utils/getParams";
 // import ClothingAndAccessories from "./ClothingAndAccessories";
-// import ProductPage from "./ProductPage";
+import ProductPage from "./ProductPage";
 // import ProductStore from "./ProductStore";
 import "./style.css";
 
@@ -21,32 +21,39 @@ const ProductListPage = (props) => {
     // console.log(props)
 
     useEffect (() => {
-        const { match } = props 
+        const { match } = props     // match : { 
+                                    //    params : {"slug":"Samsung-iVtkEAlTr"}
+                                    // }
         dispatch(getProductsBySlug(match.params.slug))
+
+        // http://localhost:3000/Samsung-iVtkEAlTr?cid=5fcf130200b49073b48420c1&type=undefined
+        // N.B. 'slug' is specified in App.js Route path in query string between 
+        // the / and the ? (i.e. Samsung-iVtkEAlTr)
+
     }, [])
 
-    // const renderProduct = () => {
+    const renderProduct = () => {
         
-    //     console.log(props);
+        // props.location.search >>> ?cid=5fcf130200b49073b48420c1&type=undefined
+        const params = getParams(props.location.search);    // {cid: "5fcf130200b49073b48420c1", type: "page"}
+        let content = null;
 
-        // const params = getParams(props.location.search);
-    //     let content = null;
+        switch (params.type) {
 
-    //     switch (params.type) {
+            case "store":
+                // content = <ProductStore {...props} />;
+            break;
+            case "page":
+                content = <ProductPage {...props} />;
+            break;
+            default:
+                // content = <ClothingAndAccessories {...props} />;
+                content = ""
+        }
 
-    //         case "store":
-    //             content = <ProductStore {...props} />;
-    //         break;
-    //         case "page":
-    //             content = <ProductPage {...props} />;
-    //         break;
-    //         default:
-    //             content = <ClothingAndAccessories {...props} />;
-    //     }
-
-    //     return content;
-    // };
-    // return <Layout>{renderProduct()}</Layout>;
+        return content;
+    };
+    return <Layout>{renderProduct()}</Layout>;
 
     return (
         <Layout>

@@ -47,6 +47,7 @@ exports.createProduct = (req, res) => {
 exports.getProductsBySlug = (req, res) => {
     // This catches when you click a nav menu link
     const { slug } = req.params;    // Fetch the slug from the query string (Mi-xS6R0cMRY)
+    // console.log(req.params)  ==> { slug: 'Samsung-iVtkEAlTr' }
     // console.log(slug)
 
     Category.findOne({ slug: slug })    // Find category that holds the slug
