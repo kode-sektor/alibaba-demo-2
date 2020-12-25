@@ -35,7 +35,7 @@ export const getProductPage = (payload) => {
                 });
             } else {
                 const { error } = res.data;
-                console.log(error)
+                // console.log(error)
                 dispatch({
                     type: productConstants.GET_PRODUCT_PAGE_FAILURE,
                     payload: { error }

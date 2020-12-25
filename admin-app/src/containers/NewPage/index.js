@@ -41,7 +41,6 @@ const NewPage = (props) => {
         }
     }, [page]);
 
-    // Giving you problems
     const onCategoryChange = (e) => {
         const category = categories.find(category => category.value == e.target.value);
         setCategoryId(e.target.value);
@@ -49,7 +48,8 @@ const NewPage = (props) => {
     }
 
     const handleBannerImages = (e) => {
-        // console.log(e);
+        console.log(e.target.files);
+        console.log(e.target.files[0]);
         setBanners([...banners, e.target.files[0]]);
     }
 

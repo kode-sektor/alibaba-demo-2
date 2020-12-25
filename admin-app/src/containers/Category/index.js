@@ -204,7 +204,6 @@ const Category = (props) => {
 
     // Update Category Form
     const updateCategoriesForm = () => {
-        alert('okay')
 
         const form = new FormData()
 
