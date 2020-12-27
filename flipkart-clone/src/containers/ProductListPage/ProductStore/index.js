@@ -15,9 +15,19 @@ const ProductStore = (props) => {
 	const priceRange = product.priceRange;
 	const dispatch = useDispatch();
 
+	// You are not passing props from another component
+    // But you need it anyways just to fetch slug off it
+    // console.log(props)
+
 	useEffect(() => {
-		const { match } = props;
+		const { match } = props;	 // match : { 
+									//    params : {"slug":"Samsung-iVtkEAlTr"}
+									// }
 		dispatch(getProductsBySlug(match.params.slug));
+		
+		// http://localhost:3000/Samsung-iVtkEAlTr?cid=5fcf130200b49073b48420c1&type=undefined
+        // N.B. 'slug' is specified in App.js Route path in query string between 
+        // the / and the ? (i.e. Samsung-iVtkEAlTr)
 	}, []);
 
 	return (
