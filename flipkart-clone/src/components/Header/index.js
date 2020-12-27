@@ -11,12 +11,8 @@ import {
 } from "../MaterialUI";
 import { useDispatch, useSelector } from "react-redux";
 import { login, signout, getCartItems, signup as _signup } from "../../actions";
-import Cart from "../UI/Cart";
+// import Cart from "../UI/Cart";
 
-/**
- * @author
- * @function Header
- **/
 
 const Header = (props) => {
 	const [loginModal, setLoginModal] = useState(false);
@@ -25,7 +21,8 @@ const Header = (props) => {
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [error, setError] = useState("");
+    const [error, setError] = useState("");
+    
 	const auth = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 
@@ -47,7 +44,10 @@ const Header = (props) => {
 	};
 
 	const userLogin = () => {
-		if (signup) {
+
+        // Modal form represents both login and signup form
+        
+		if (signup) {   // Will become true if 'New Customer? Sign up' button is clicked
 			userSignup();
 		} else {
 			dispatch(login({ email, password }));
@@ -55,22 +55,25 @@ const Header = (props) => {
 	};
 
 	const logout = () => {
-		dispatch(signout());
+        dispatch(signout());    // Clear localstorage
 	};
 
+    // Hide login modal if user is authenticated
 	useEffect(() => {
 		if (auth.authenticate) {
 			setLoginModal(false);
 		}
-	}, [auth.authenticate]);
+	}, [auth.authenticate]);    // Watch for login / logout
 
 	// useEffect(() => {
 	//   dispatch(getCartItems());
 	// }, []);
 
+    // Menu when user is logged in 
 	const renderLoggedInMenu = () => {
 		return (
 			<DropdownMenu
+                // Display his name
 				menu={<a className="fullName">{auth.user.fullName}</a>}
 				menus={[
 					{ label: "My Profile", href: "", icon: null },
@@ -87,12 +90,13 @@ const Header = (props) => {
 					{ label: "Rewards", href: "", icon: null },
 					{ label: "Notifications", href: "", icon: null },
 					{ label: "Gift Cards", href: "", icon: null },
-					{ label: "Logout", href: "", icon: null, onClick: logout },
+					{ label: "Logout", href: "", icon: null, onClick: logout }
 				]}
 			/>
 		);
 	};
 
+    // Header when user is not logged in
 	const renderNonLoggedInMenu = () => {
 		return (
 			<DropdownMenu
@@ -100,11 +104,14 @@ const Header = (props) => {
 					<a
 						className="loginButton"
 						onClick={() => {
+                            {/* On click of 'Login', set signup flag as false because modal is cleverly 
+                            // used to act as both login and signup form. This flag could also have been
+                            // cleverly placed while checking for authentication but doesn't really matter */}
 							setSignup(false);
 							setLoginModal(true);
 						}}
 					>
-						Login
+						Login   {/* Login button should be displayed */}
 					</a>
 				}
 				menus={[
@@ -138,10 +145,13 @@ const Header = (props) => {
 				}
 			/>
 		);
-	};
+    };
 
 	return (
+        
 		<div className="header">
+            
+            {/* Login / Signup Modal */}
 			<Modal visible={loginModal} onClose={() => setLoginModal(false)}>
 				<div className="authContainer">
 					<div className="row">
@@ -151,8 +161,8 @@ const Header = (props) => {
 						</div>
 						<div className="rightspace">
 							<div className="loginInputContainer">
-								{auth.error && (
-									<div style={{ color: "red", fontSize: 12 }}>{auth.error}</div>
+								{auth.formMsg && (
+									<div style={{ color: "red", fontSize: 12 }}>{auth.formMsg}</div>
 								)}
 								{signup && (
 									<MaterialInput
@@ -207,6 +217,7 @@ const Header = (props) => {
 					</div>
 				</div>
 			</Modal>
+
 			<div className="subHeader">
 				{/* Logo  */}
 				<div className="logo">
@@ -263,7 +274,7 @@ const Header = (props) => {
 					/>
 					<div>
 						<a href={`/cart`} className="cart">
-							<Cart count={Object.keys(cart.cartItems).length} />
+							{/* <Cart count={Object.keys(cart.cartItems).length} /> */}
 							<span style={{ margin: "0 10px" }}>Cart</span>
 						</a>
 					</div>

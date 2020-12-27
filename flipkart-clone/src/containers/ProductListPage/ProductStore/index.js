@@ -4,8 +4,8 @@ import { getProductsBySlug } from "../../../actions";
 import { Link } from "react-router-dom";
 import Card from "../../../components/UI/Card";
 import { MaterialButton } from "../../../components/MaterialUI";
-import Rating from "../../../components/UI/Rating";
-import Price from "../../../components/UI/Price";
+// import Rating from "../../../components/UI/Rating";
+// import Price from "../../../components/UI/Price";
 
 
 const ProductStore = (props) => {
@@ -56,7 +56,7 @@ const ProductStore = (props) => {
 									<div className="productInfo">
 										<div style={{ margin: "10px 0" }}>{product.name}</div>
 										<div>
-											<Rating value="4.3" />
+											{/* <Rating value="4.3" /> */}
 											&nbsp;&nbsp;
 											<span
 												style={{
@@ -68,7 +68,7 @@ const ProductStore = (props) => {
 												(3353)
 											</span>
 										</div>
-										<Price value={product.price} />
+										{/* <Price value={product.price} /> */}
 									</div>
 								</Link>
 							))}

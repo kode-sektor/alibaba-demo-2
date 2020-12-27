@@ -32,14 +32,14 @@ exports.signup = (req, res) => {
 
         // User does not exist, save User to database
         const _user = new User({ 
-                            firstName, 
-                            lastName, 
-                            email, 
-                            hash_password, 
-                            // userName: Math.random().toString(), 
-                            userName: shortid.generate(),
-                            role : 'admin' 
-                        })    // Save to db
+                                firstName, 
+                                lastName, 
+                                email, 
+                                hash_password, 
+                                // userName: Math.random().toString(), 
+                                userName: shortid.generate(),
+                                role : 'admin' 
+                            })    // Save to db
         
         _user.save((error, data) => {
             console.log("error >>> ", error)

@@ -21,6 +21,7 @@ const Modal = (props) => {
 };
 
 const MaterialInput = (props) => {
+	// props.value = "investorkay@gmail.com"
 	const [focus, setFocus] = useState(props.value === "" ? false : true);
 	const [touch, setTouch] = useState(false);
 

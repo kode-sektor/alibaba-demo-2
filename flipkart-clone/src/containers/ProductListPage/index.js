@@ -7,7 +7,7 @@ import Layout from "../../components/Layout";
 import getParams from "../../utils/getParams";
 // import ClothingAndAccessories from "./ClothingAndAccessories";
 import ProductPage from "./ProductPage";
-// import ProductStore from "./ProductStore";
+import ProductStore from "./ProductStore";
 import "./style.css";
 
 
@@ -41,7 +41,7 @@ const ProductListPage = (props) => {
         switch (params.type) {
 
             case "store":
-                // content = <ProductStore {...props} />;
+                content = <ProductStore {...props} />;
             break;
             case "page":
                 content = <ProductPage {...props} />;

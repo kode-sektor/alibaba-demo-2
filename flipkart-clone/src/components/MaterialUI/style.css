@@ -101,7 +101,7 @@
 	box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
 	border-radius: 2px;
 	z-index: 1;
-	margin-top: 12px;
+	border-top: 13px solid #2874f0;
 	display: none;
 }
 .headerDropdownContainer:hover .dropdown {

@@ -12,14 +12,18 @@ const initState = {
     authenticating: false,
     loading: false,
     error: null,
-    message: ''
+    message: '',
+    formMsg : ''
 };
 
 export default (state = initState, action) => {
 
     // console.log(action);    // payload : {
-                            //     email: "kodesektor@gmail.com"
-                            //     password: "123456"
+                            //     token : "53EGERTWERWER23RF4V..."
+                            //      user : {
+                            //          email: "kodesektor@gmail.com"
+                            //          password: "123456"
+                            //      }
                             //     type: "LOGIN_REQUEST"
                             // }
 
@@ -56,6 +60,23 @@ export default (state = initState, action) => {
                 error: action.payload.error,
                 loading: false
             }
+        break;
+        case authConstants.LOGIN_FAILURE:
+            state = {
+                ...state,
+                formMsg: action.payload.error,
+            };
+        break;
+        case authConstants.SIGNUP_FAILURE:
+            state = {
+                ...state,
+                formMsg: action.payload.error,
+            };
+        break;
+        case authConstants.IS_LOGGED_IN_FAILURE:
+            state = {
+                ...state
+            };
         break;
     }
     return state;

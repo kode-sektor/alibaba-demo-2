@@ -73,7 +73,7 @@ exports.getProductsBySlug = (req, res) => {
                             under10k: products.filter(product => product.price > 5000 && product.price <= 10000),
                             under15k: products.filter(product => product.price > 10000 && product.price <= 15000),
                             under20k: products.filter(product => product.price > 15000 && product.price <= 20000),
-                            under30k: products.filter(product => product.price > 20000 && product.price <= 30000),
+                            under30k: products.filter(product => product.price > 20000 && product.price <= 30000)
                         }
                     });
                 }

@@ -1,89 +1,101 @@
-const User = require('../models/user')
-const jwt = require('jsonwebtoken')
+const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 
-const bcrypt = require('bcrypt')
-const shortid = require('shortid')
+const bcrypt = require("bcrypt");
+const shortid = require("shortid");
+
+const generateJwtToken = (_id, role) => {
+	return jwt.sign({ _id, role }, process.env.JWT_SECRET, {
+		expiresIn: "1d",
+	});
+};
 
 // Signup
 exports.signup = (req, res) => {
+	// Check if user's mail exists in database.
+	User.findOne({ email: req.body.email }).exec(async (error, user) => {
+		if (error || user) {
+			// User exists, already registered
+			console.log("error >>> ", error);
+			console.log("user >>> ", user);
+			return res.status(400).json({
+				message: "User already registered",
+			});
+		}
 
-    // Check if user's mail exists in database.
-    User.findOne({ email: req.body.email }).exec( async (error, user) => {
+		const { firstName, lastName, email, password } = req.body;
 
-        if (error || user) {    // User exists, already registered
-            console.log('error >>> ', error)
-            console.log('user >>> ', user)
-            return res.status(400).json({
-                message: 'User already registered'
-            })
-        }
-       
-        const {
-            firstName,
-            lastName,
-            email,
-            password
-        } = req.body
+		const hash_password = await bcrypt.hash(password, 10);
 
-        const hash_password = await bcrypt.hash(password, 10)
+		// console.log('body >>> ', req.body)
+		// console.log(firstName, lastName, email, password)
 
-        // console.log('body >>> ', req.body)
-        // console.log(firstName, lastName, email, password)
+		// User does not exist, save User to database
+		const _user = new User({
+			firstName,
+			lastName,
+			email,
+			hash_password,
+			// userName: Math.random().toString(),
+			userName: shortid.generate(),
+			role: "user",
+		}); // Save to db
 
-        // User does not exist, save User to database
-        const _user = new User({ 
-            firstName, 
-            lastName, 
-            email,
-            hash_password, 
-            // userName: Math.random().toString(), 
-            userName: shortid.generate(),
-            role : 'admin' 
-        })    // Save to db
-        
-        _user.save((error, data) => {
-            console.log("error >>> ", error)
-            if (error) {
-                console.log('sth went wrong')
-                return res.status(400).json({
-                    message: 'Something went wrong'
-                })
-            }
-            if (data) { // If data saved to MongoDB, return the object for view in Postman
-                return res.status(201).json({
-                    //user : data
-                    message : 'User created successfully!'
-                })
-            }
-        })
-    })
-}
+		_user.save((error, user) => {
+			console.log("error >>> ", error);
+			if (error) {
+				console.log("sth went wrong");
+				return res.status(400).json({
+					message: "Something went wrong",
+				});
+			}
+			if (user) {
+				// If data saved to MongoDB, return the object for view in Postman
+				const token = generateJwtToken(user._id, user.role);
+				const { _id, firstName, lastName, email, role, fullName } = user;
+
+				return res.status(201).json({
+                    token,
+					user : { _id, firstName, lastName, email, role, fullName },
+					message: "User created successfully!"
+				});
+			}
+		});
+	});
+};
 
 // Sign in
 exports.signin = (req, res) => {
-    User.findOne({ email: req.body.email }).exec((error, user) => { // Does email exist?
-        if (error) return res.status(400).json({ error })
-        
-        if (user) {
-            // authenticate() method is from the model
-            if (user.authenticate(req.body.password) && user.role === 'admin') { // Does password exist and is user admin?
-                const token = jwt.sign({ _id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' })
-                const { _id, firstName, lastName, email, role, fullName } = user
-                
-                res.status(200).json({
-                    token, 
-                    user: {
-                        _id, firstName, lastName, email, role, fullName
-                    }
-                }) 
-            } else {
-                return res.status(400).json({
-                    message : 'Invalid password'
-                })
-            }
-        } else {
-            return res.status(400).json({message : 'Something went wrong'})
-        }
-    })
-} 
+	User.findOne({ email: req.body.email }).exec((error, user) => {
+		// Does email exist?
+		if (error) return res.status(400).json({ error });
 
+		if (user) {
+            // authenticate() method is from the model
+            const isPassword = user.authenticate(req.body.password);
+
+			if (isPassword && user.role === "user") {
+				// Does password exist and is user admin?
+				// const token = jwt.sign(
+				// 	{ _id: user.id, role: user.role },
+				// 	process.env.JWT_SECRET,
+				// 	{ expiresIn: "1h" }
+                // );
+                const token = generateJwtToken(user._id, user.role);
+
+				const { _id, firstName, lastName, email, role, fullName } = user;
+
+				res.status(200).json({
+					token,
+					user: { _id, firstName, lastName, email, role, fullName }
+				});
+			} else {
+				return res.status(400).json({
+					message: "Invalid password"
+				});
+			}
+		} else {
+			return res.status(400).json({ message: "Invalid password / username" });
+		}
+	});
+};

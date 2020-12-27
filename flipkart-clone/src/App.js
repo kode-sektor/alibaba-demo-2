@@ -2,22 +2,25 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import HomePage from "./containers/HomePage";
 import ProductListPage from "./containers/ProductListPage";
-// import { useDispatch, useSelector } from "react-redux";
-// import { isUserLoggedIn, updateCart } from "./actions";
+import { useDispatch, useSelector } from "react-redux";
+import { isUserLoggedIn, updateCart } from "./actions";
 // import ProductDetailsPage from "./containers/ProductDetailsPage";
 // import CartPage from "./containers/CartPage";
 // import CheckoutPage from "./containers/CheckoutPage";
 // import OrderPage from "./containers/OrderPage";
 
 function App() {
-    // const dispatch = useDispatch();
-    // const auth = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+    const auth = useSelector((state) => state.auth);
 
-    // useEffect(() => {
-    //     if (!auth.authenticate) {
-    //     dispatch(isUserLoggedIn());
-    //     }
-    // }, [auth.authenticate]);
+    // axios.interceptors is responsible for automatically bouncing out user after expiry
+    // session. It resets the state to initial in reducer.js which means 'authenticate'
+    // becomes false.
+    useEffect(() => {
+        if (!auth.authenticate) {
+            dispatch(isUserLoggedIn()); 
+        }
+    }, [auth.authenticate]);    // Login / Logout event
 
     // useEffect(() => {
     //     console.log("App.js - updateCart");
