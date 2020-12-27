@@ -7,6 +7,8 @@ import { MaterialButton } from "../../../components/MaterialUI";
 // import Rating from "../../../components/UI/Rating";
 // import Price from "../../../components/UI/Price";
 
+import { generatePublicUrl } from "../../../urlConfig"
+
 
 const ProductStore = (props) => {
 	const product = useSelector((state) => state.product);
@@ -23,7 +25,7 @@ const ProductStore = (props) => {
 			{Object.keys(product.productsByPrice).map((key, index) => {
 				return (
 					<Card
-						headerLeft={`${props.match.params.slug} mobile under ${priceRange[key]}`}
+						headerLeft={`${(props.match.params.slug).substring(0, (props.match.params.slug).lastIndexOf("-"))} mobile under ${priceRange[key]}`}
 						headerRight={
 							<MaterialButton
 								title={"VIEW ALL"}
@@ -40,7 +42,10 @@ const ProductStore = (props) => {
 						}}
 					>
 						<div style={{ display: "flex" }}>
-							{product.productsByPrice[key].map((product) => (
+						
+						{(product.productsByPrice[key].length > 0) ? 
+
+							product.productsByPrice[key].map((product) => (
 								<Link
 									to={`/${product.slug}/${product._id}/p`}
 									style={{
@@ -51,7 +56,7 @@ const ProductStore = (props) => {
 									className="productContainer"
 								>
 									<div className="productImgContainer">
-										<img src={product.productPictures[0].img} alt="" />
+										<img src={generatePublicUrl(product.productPictures[0].img)} alt="" />
 									</div>
 									<div className="productInfo">
 										<div style={{ margin: "10px 0" }}>{product.name}</div>
@@ -71,7 +76,14 @@ const ProductStore = (props) => {
 										{/* <Price value={product.price} /> */}
 									</div>
 								</Link>
-							))}
+							))
+
+							:
+
+                            <div>No Products</div>
+
+							}
+
 						</div>
 					</Card>
 				);
