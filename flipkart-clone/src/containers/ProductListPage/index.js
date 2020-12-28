@@ -16,11 +16,6 @@ const ProductListPage = (props) => {
     const dispatch = useDispatch()
     const product = useSelector(state => state.product)
 
-    // You are not passing props from another component
-    // But you need it anyways just to fetch slug off it
-    // console.log(props)
-
-
     const renderProduct = () => {
         
         // props.location.search >>> ?cid=5fcf130200b49073b48420c1&type=undefined

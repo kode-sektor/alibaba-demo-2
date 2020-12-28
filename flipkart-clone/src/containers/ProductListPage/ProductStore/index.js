@@ -4,7 +4,7 @@ import { getProductsBySlug } from "../../../actions";
 import { Link } from "react-router-dom";
 import Card from "../../../components/UI/Card";
 import { MaterialButton } from "../../../components/MaterialUI";
-// import Rating from "../../../components/UI/Rating";
+import Rating from "../../../components/UI/Rating";
 // import Price from "../../../components/UI/Price";
 
 import { generatePublicUrl } from "../../../urlConfig"
@@ -24,7 +24,7 @@ const ProductStore = (props) => {
 									//    params : {"slug":"Samsung-iVtkEAlTr"}
 									// }
 		dispatch(getProductsBySlug(match.params.slug));
-		
+
 		// http://localhost:3000/Samsung-iVtkEAlTr?cid=5fcf130200b49073b48420c1&type=undefined
         // N.B. 'slug' is specified in App.js Route path in query string between 
         // the / and the ? (i.e. Samsung-iVtkEAlTr)
@@ -35,21 +35,15 @@ const ProductStore = (props) => {
 			{Object.keys(product.productsByPrice).map((key, index) => {
 				return (
 					<Card
-						headerLeft={`${(props.match.params.slug).substring(0, (props.match.params.slug).lastIndexOf("-"))} mobile under ${priceRange[key]}`}
+						headerLeft={`${(props.match.params.slug).substring(0, 
+							(props.match.params.slug).lastIndexOf("-"))} mobile under ${priceRange[key]}`}
 						headerRight={
 							<MaterialButton
-								title={"VIEW ALL"}
-								style={{
-									width: "96px",
-								}}
-								bgColor="#2874f0"
-								fontSize="12px"
+								style={{ width: "96px" }}
+								title={"VIEW ALL"} bgColor="#2874f0" fontSize="12px"
 							/>
 						}
-						style={{
-							width: "calc(100% - 40px)",
-							margin: "20px",
-						}}
+						style={{ width: "calc(100% - 40px)", margin: "20px" }}
 					>
 						<div style={{ display: "flex" }}>
 						
@@ -58,11 +52,7 @@ const ProductStore = (props) => {
 							product.productsByPrice[key].map((product) => (
 								<Link
 									to={`/${product.slug}/${product._id}/p`}
-									style={{
-										display: "block",
-										textDecoration: "none",
-										color: "#000",
-									}}
+									style={{ display: "block", textDecoration: "none", color: "#000" }}
 									className="productContainer"
 								>
 									<div className="productImgContainer">
@@ -71,15 +61,9 @@ const ProductStore = (props) => {
 									<div className="productInfo">
 										<div style={{ margin: "10px 0" }}>{product.name}</div>
 										<div>
-											{/* <Rating value="4.3" /> */}
+											<Rating value="4.3" />
 											&nbsp;&nbsp;
-											<span
-												style={{
-													color: "#777",
-													fontWeight: "500",
-													fontSize: "12px",
-												}}
-											>
+											<span style={{ color: "#777", fontWeight: "500", fontSize: "12px" }}>
 												(3353)
 											</span>
 										</div>
