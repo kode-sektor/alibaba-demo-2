@@ -72,7 +72,7 @@ exports.getProductsBySlug = (req, res) => {
                             under10k: 10000,
                             under15k: 15000,
                             under20k: 20000,
-                            under30k: 30000,
+                            under30k: 30000
                         },
                         products,
                         productsByPrice: {

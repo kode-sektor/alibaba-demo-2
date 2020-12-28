@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Card from "../../../components/UI/Card";
 import { MaterialButton } from "../../../components/MaterialUI";
 import Rating from "../../../components/UI/Rating";
-// import Price from "../../../components/UI/Price";
+import Price from "../../../components/UI/Price";
 
 import { generatePublicUrl } from "../../../urlConfig"
 
@@ -67,15 +67,12 @@ const ProductStore = (props) => {
 												(3353)
 											</span>
 										</div>
-										{/* <Price value={product.price} /> */}
+										<Price value={product.price} />
 									</div>
 								</Link>
 							))
-
 							:
-
                             <div>No Products</div>
-
 							}
 
 						</div>

@@ -44,7 +44,7 @@ const productSchema = new mongoose.Schema({
         ref: 'User', 
         required: true 
     },
-    updatedAt: Date,
+    updatedAt: Date
 
 }, { timestamps: true });
 

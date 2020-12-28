@@ -4,7 +4,7 @@ import HomePage from "./containers/HomePage";
 import ProductListPage from "./containers/ProductListPage";
 import { useDispatch, useSelector } from "react-redux";
 import { isUserLoggedIn, updateCart } from "./actions";
-// import ProductDetailsPage from "./containers/ProductDetailsPage";
+import ProductDetailsPage from "./containers/ProductDetailsPage";
 // import CartPage from "./containers/CartPage";
 // import CheckoutPage from "./containers/CheckoutPage";
 // import OrderPage from "./containers/OrderPage";
@@ -35,10 +35,10 @@ function App() {
                     {/* <Route path="/cart" component={CartPage} />
                     <Route path="/checkout" component={CheckoutPage} />
                     <Route path="/account/orders" component={OrderPage} />*/}
-                    {/* <Route
+                    <Route
                         path="/:productSlug/:productId/p"
                         component={ProductDetailsPage}
-                    /> */}
+                    />
 
                     {/* :slug will act as key in search query in ProductListPage component */}
                     <Route path="/:slug" component={ProductListPage} /> 
