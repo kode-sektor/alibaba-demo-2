@@ -10,9 +10,7 @@ const Modal = (props) => {
 		<>
 			<div className="modalFixedBg">
 				<div style={{ position: "relative" }}>
-					<div className="modalClose" onClick={props.onClose}>
-						X
-					</div>
+					<div className="modalClose" onClick={props.onClose}>X</div>
 					<div className="modalContainer">{props.children}</div>
 				</div>
 			</div>
@@ -29,22 +27,15 @@ const MaterialInput = (props) => {
 		<div className="materialInput">
 			<label
 				className={`label ${focus ? "focus" : ""}`}
-				style={{
-					top: 0,
-					lineHeight: "none",
-				}}
+				style={{ top: 0, lineHeight: "none" }}
 			>
 				{props.label && `Enter ${props.label}`}
 			</label>
 			<div
-				style={{
-					display: "flex",
-				}}
+				style={{ display: "flex" }}
 			>
 				<input
-					className="input"
-					type={props.type}
-					value={props.value}
+					className="input" type={props.type} value={props.value}
 					onChange={props.onChange}
 					onFocus={(e) => {
 						setFocus(true);
@@ -61,13 +52,7 @@ const MaterialInput = (props) => {
 				{props.rightElement ? props.rightElement : null}
 			</div>
 			{touch && (
-				<div
-					style={{
-						fontSize: "10px",
-						color: "red",
-						fontWeight: 500,
-					}}
-				>{`${props.label} is Required`}</div>
+				<div style={{ fontSize: "10px", color: "red", fontWeight: 500 }}>{`${props.label} is Required`}</div>
 			)}
 		</div>
 	);
@@ -79,18 +64,11 @@ const MaterialButton = (props) => {
 	};
 	return (
 		<div
-			style={{
-				width: "100%",
-				...props.style,
-			}}
+			style={{ width: "100%", ...props.style }}
 		>
 			<button
 				className="materialButton"
-				style={{
-					backgroundColor: props.bgColor,
-					color: props.textColor,
-					fontSize: props.fontSize,
-				}}
+				style={{ backgroundColor: props.bgColor, color: props.textColor, fontSize: props.fontSize }}
 				onClick={onClick}
 			>
 				{props.icon && props.icon}
@@ -148,7 +126,8 @@ const Breed = (props) => {
 							<a href={item.href}>{item.name}</a>
 							{props.breedIcon}
 						</li>
-					))}
+					))
+				}
 			</ul>
 		</div>
 	);
