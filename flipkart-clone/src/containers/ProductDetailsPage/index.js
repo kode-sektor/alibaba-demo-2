@@ -7,6 +7,7 @@ import { BiRupee } from "react-icons/bi";
 import { AiFillThunderbolt } from "react-icons/ai";
 import { MaterialButton } from "../../components/MaterialUI";
 import "./style.css";
+import { generatePublicUrl } from "../../urlConfig"
 // import { addToCart } from "../../actions";
 
 
@@ -15,7 +16,7 @@ const ProductDetailsPage = (props) => {
 	const product = useSelector((state) => state.product);
 
 	useEffect(() => {
-        // http://localhost:3000/Samsung-Galaxy-M01-(Black-32-GB)-(3-GB-RAM)/5fcf3210b08c972311b7fa09/p
+        // URL: http://localhost:3000/Samsung-Galaxy-M01-(Black-32-GB)-(3-GB-RAM)/5fcf3210b08c972311b7fa09/p
 		const { productId } = props.match.params;
         
         const payload = {
@@ -38,14 +39,14 @@ const ProductDetailsPage = (props) => {
 					<div className="verticalImageStack">
 						{product.productDetails.productPictures.map((thumb, index) => (
 							<div className="thumbnail">
-								<img src={thumb.img} alt={thumb.img} />
+								<img src={generatePublicUrl(thumb.img)} alt={thumb.img} />
 							</div>
 						))}
 					</div>
 					<div className="productDescContainer">
 						<div className="productDescImgContainer">
 							<img
-								src={product.productDetails.productPictures[0].img}
+								src={generatePublicUrl(product.productDetails.productPictures[0].img)}
 								alt={`${product.productDetails.productPictures[0].img}`}
 							/>
 						</div>
@@ -56,9 +57,7 @@ const ProductDetailsPage = (props) => {
 								title="ADD TO CART"
 								bgColor="#ff9f00"
 								textColor="#ffffff"
-								style={{
-									marginRight: "5px",
-								}}
+								style={{ marginRight: "5px" }}
 								icon={<IoMdCart />}
 								onClick={() => {
 									const { _id, name, price } = product.productDetails
@@ -82,16 +81,13 @@ const ProductDetailsPage = (props) => {
 					<div className="breed">
 						<ul>
 							<li>
-								<a href="#">Home</a>
-								<IoIosArrowForward />
+								<a href="#">Home</a> <IoIosArrowForward />
 							</li>
 							<li>
-								<a href="#">Mobiles</a>
-								<IoIosArrowForward />
+								<a href="#">Mobiles</a> <IoIosArrowForward />
 							</li>
 							<li>
-								<a href="#">Samsung</a>
-								<IoIosArrowForward />
+								<a href="#">Samsung</a> <IoIosArrowForward />
 							</li>
 							<li>
 								<a href="#">{product.productDetails.name}</a>
