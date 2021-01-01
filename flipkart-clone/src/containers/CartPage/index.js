@@ -4,18 +4,18 @@ import Layout from "../../components/Layout";
 import Card from "../../components/UI/Card";
 import CartItem from "./CartItem";
 import { addToCart, getCartItems, removeCartItem } from "../../actions";
-import PriceDetails from "../../components/PriceDetails";
+// import PriceDetails from "../../components/PriceDetails";
 
 import "./style.css";
 import { MaterialButton } from "../../components/MaterialUI";
 
 
 /*
-Before Login
-Add product to cart
-save in localStorage
-when try to checkout ask for credentials and 
-if logged in then add products to users cart database from localStorage
+    Before Login
+    Add product to cart
+    save in localStorage
+    when try to checkout ask for credentials and 
+    if logged in then add products to users cart database from localStorage
 */
 
 const CartPage = (props) => {
@@ -83,17 +83,8 @@ const CartPage = (props) => {
 						/>
 					))}
 
-					<div
-						style={{
-							width: "100%",
-							display: "flex",
-							background: "#ffffff",
-							justifyContent: "flex-end",
-							boxShadow: "0 0 10px 10px #eee",
-							padding: "10px 0",
-							boxSizing: "border-box",
-						}}
-					>
+					<div style={{ width: "100%", display: "flex", background: "#ffffff", justifyContent: "flex-end",
+							boxShadow: "0 0 10px 10px #eee", padding: "10px 0", boxSizing: "border-box"	}}>
 						<div style={{ width: "250px" }}>
 							<MaterialButton
 								title="PLACE ORDER"
@@ -102,7 +93,7 @@ const CartPage = (props) => {
 						</div>
 					</div>
 				</Card>
-				<PriceDetails
+				{/* <PriceDetails
 					totalItem={Object.keys(cart.cartItems).reduce(function (qty, key) {
 						return qty + cart.cartItems[key].qty;
 					}, 0)}
@@ -110,7 +101,7 @@ const CartPage = (props) => {
 						const { price, qty } = cart.cartItems[key];
 						return totalPrice + price * qty;
 					}, 0)}
-				/>
+				/> */}
 			</div>
 		</Layout>
 	);

@@ -23,24 +23,29 @@ const getCartItems = () => {
 	};
 };
 
+// On click of '+'
 export const addToCart = (product, newQty = 1) => {
 	return async (dispatch) => {
-		const {
-			cart: { cartItems },
-			auth,
-		} = store.getState();
+
+		// Fetch whole cartItems and login state from store
+		const {	cart: { cartItems }, auth } = store.getState();
+
 		//console.log('action::products', products);
 		//const product = action.payload.product;
 		//const products = state.products;
+
+		console.log(cartItems)
+
+		// If the cart already exists in the cart items, then add 1 to the existing quantity
+		// otherwise, make the new quantity 1
 		const qty = cartItems[product._id]
 			? parseInt(cartItems[product._id].qty + newQty)
 			: 1;
-		cartItems[product._id] = {
-			...product,
-			qty,
-		};
+		
+		// Now overwrite the cart with the qty and infuse in cartItems
+		cartItems[product._id] = { ...product, qty };
 
-		if (auth.authenticate) {
+		if (auth.authenticate) {	// Logged in?
 			dispatch({ type: cartConstants.ADD_TO_CART_REQUEST });
 			const payload = {
 				// cartItems: Object.keys(cartItems).map((key, index) => {
@@ -52,17 +57,19 @@ export const addToCart = (product, newQty = 1) => {
 				cartItems: [
 					{
 						product: product._id,
-						quantity: qty,
-					},
-				],
+						quantity: qty
+					}
+				]
 			};
 			console.log(payload);
+
 			const res = await axios.post(`/user/cart/addtocart`, payload);
 			console.log(res);
 			if (res.status === 201) {
 				dispatch(getCartItems());
 			}
 		} else {
+			// Temporary storage of cart products to prevent data loss loading new page
 			localStorage.setItem("cart", JSON.stringify(cartItems));
 		}
 

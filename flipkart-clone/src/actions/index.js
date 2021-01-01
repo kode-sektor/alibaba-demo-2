@@ -3,4 +3,5 @@ export * from './auth.actions';
 export * from './category.action';
 // export * from './initialData.action';
 export * from './product.action';
+export * from './cart.action';
 // export * from './page.action';
