@@ -19,7 +19,7 @@ exports.signup = (req, res) => {
 			console.log("error >>> ", error);
 			console.log("user >>> ", user);
 			return res.status(400).json({
-				message: "User already registered",
+				message: "User already registered"
 			});
 		}
 

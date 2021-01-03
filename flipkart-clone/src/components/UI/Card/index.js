@@ -2,9 +2,8 @@ import React from "react";
 import "./style.css";
 
 const Card = (props) => {
-	console.log(props)
 	return (
-		<div className="card" {...props}>
+		<div className="card" style={props.style}>
 			{(props.headerLeft || props.headerRight) && (
 				<div className="cardHeader">
 					{props.headerLeft && (

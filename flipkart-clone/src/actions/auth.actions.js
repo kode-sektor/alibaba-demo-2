@@ -1,7 +1,7 @@
 import { authConstants, cartConstants } from "./constants";
 import axios from "../helpers/axios";
 
-// new update signup action
+// New update signup action
 export const signup = (user) => {
 
 	return async (dispatch) => {
@@ -87,7 +87,6 @@ export const login = (user) => {
 				payload: { error : message }
 			});
         }
-		
 	};
 };
 

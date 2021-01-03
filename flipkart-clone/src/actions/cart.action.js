@@ -9,7 +9,7 @@ const getCartItems = () => {
 			const res = await axios.post(`/user/getCartItems`);
 			if (res.status === 200) {
 				const { cartItems } = res.data;
-				console.log({ getCartItems: cartItems });
+				// console.log({ getCartItems: cartItems });
 				if (cartItems) {
 					dispatch({
 						type: cartConstants.ADD_TO_CART_SUCCESS,
@@ -27,23 +27,34 @@ const getCartItems = () => {
 export const addToCart = (product, newQty = 1) => {
 	return async (dispatch) => {
 
-		// Fetch whole cartItems and login state from store
+		// Fetch whole cartItems and login state from store, if its there
+		// Take note that a function that fetches the cart from DB already,
+		// and saves the cartItems into the store is called automatically when 
+		// this page initially loads (i.e. dispatch(getCartItems))
+		console.log(store.getState())
 		const {	cart: { cartItems }, auth } = store.getState();
 
-		//console.log('action::products', products);
-		//const product = action.payload.product;
-		//const products = state.products;
-
-		console.log(cartItems)
-
+		// From store >>> 
+		/*cart : {
+			cartItems : {
+				5fcf3195b08c972311b7fa07: {
+					_id: "5fcf3195b08c972311b7fa07"
+					img: "JMAntNoTs-samsung-galaxy-j2-core.jpeg"
+					name: "Samsung Galaxy J2 Core (Blue, 16 GB)  (1 GB RAM)"
+					price: 6690
+					qty: 6
+				}
+			}
+		}*/
+		
 		// If the cart already exists in the cart items, then add 1 to the existing quantity
 		// otherwise, make the new quantity 1
-		const qty = cartItems[product._id]
-			? parseInt(cartItems[product._id].qty + newQty)
-			: 1;
-		
-		// Now overwrite the cart with the qty and infuse in cartItems
+		const qty = cartItems[product._id] ? parseInt(cartItems[product._id].qty + newQty) : 1;
+
+		// Now overwrite the particular cart item with the qty and infuse in total cartItems
 		cartItems[product._id] = { ...product, qty };
+
+		console.log(cartItems)
 
 		if (auth.authenticate) {	// Logged in?
 			dispatch({ type: cartConstants.ADD_TO_CART_REQUEST });
@@ -63,6 +74,15 @@ export const addToCart = (product, newQty = 1) => {
 			};
 			console.log(payload);
 
+			/*{ 
+				cartItems: [
+					{
+						product: "5fcf3195b08c972311b7fa07",
+						quantity: 5
+					}
+				] 
+			}*/
+
 			const res = await axios.post(`/user/cart/addtocart`, payload);
 			console.log(res);
 			if (res.status === 201) {
@@ -73,7 +93,7 @@ export const addToCart = (product, newQty = 1) => {
 			localStorage.setItem("cart", JSON.stringify(cartItems));
 		}
 
-		console.log("addToCart::", cartItems);
+		console.log("addToCart >>> ", cartItems);
 
 		dispatch({
 			type: cartConstants.ADD_TO_CART_SUCCESS,
@@ -109,8 +129,6 @@ export const updateCart = () => {
 		let cartItems = localStorage.getItem("cart")
 			? JSON.parse(localStorage.getItem("cart"))
 			: null;
-
-		console.log("upppppppppp");
 
 		if (auth.authenticate) {
 			localStorage.removeItem("cart");

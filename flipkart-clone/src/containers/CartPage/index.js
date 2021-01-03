@@ -9,7 +9,6 @@ import { addToCart, getCartItems, removeCartItem } from "../../actions";
 import "./style.css";
 import { MaterialButton } from "../../components/MaterialUI";
 
-
 /*
     Before Login
     Add product to cart
@@ -20,7 +19,8 @@ import { MaterialButton } from "../../components/MaterialUI";
 
 const CartPage = (props) => {
 	const cart = useSelector((state) => state.cart);
-	const auth = useSelector((state) => state.auth);
+    const auth = useSelector((state) => state.auth);
+    
 	// const cartItems = cart.cartItems;
 	const [cartItems, setCartItems] = useState(cart.cartItems);
 	const dispatch = useDispatch();

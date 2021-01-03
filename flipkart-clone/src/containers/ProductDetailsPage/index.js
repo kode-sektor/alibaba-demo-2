@@ -8,7 +8,7 @@ import { AiFillThunderbolt } from "react-icons/ai";
 import { MaterialButton } from "../../components/MaterialUI";
 import "./style.css";
 import { generatePublicUrl } from "../../urlConfig"
-// import { addToCart } from "../../actions";
+import { addToCart } from "../../actions";
 
 
 const ProductDetailsPage = (props) => {
@@ -23,7 +23,8 @@ const ProductDetailsPage = (props) => {
 			params: {
 				productId   // 5fcf3210b08c972311b7fa09
 			}
-		};
+        };
+        // Fetch details of single product
 		dispatch(getProductDetailsById(payload));
 	}, []);
 
@@ -58,11 +59,14 @@ const ProductDetailsPage = (props) => {
 								bgColor="#ff9f00"
 								textColor="#ffffff"
 								style={{ marginRight: "5px" }}
-								icon={<IoMdCart />}
+                                icon={<IoMdCart />}
+                                
+                                // On click of 'Add to Cart', store product details in localstorage
+                                // and move to Cart page containing list of all cart items
 								onClick={() => {
 									const { _id, name, price } = product.productDetails
 									const img = product.productDetails.productPictures[0].img
-									// dispatch(addToCart({ _id, name, price, img }))
+									dispatch(addToCart({ _id, name, price, img }))
 									props.history.push(`/cart`)
 								}}
 							/>

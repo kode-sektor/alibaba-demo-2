@@ -25,7 +25,7 @@ function App() {
     // This is used to fetch dtat of cart products from local storage 
     // on page reload
     useEffect(() => {
-        console.log("App.js - updateCart");
+        // console.log("App.js - updateCart");
         dispatch(updateCart());
     }, [auth.authenticate]);
 
