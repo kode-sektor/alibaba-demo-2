@@ -30,7 +30,7 @@ const productSchema = new mongoose.Schema({
     ],
     reviews: [
         {   // Foreign key linking
-            userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+            userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
             review: String
         }
     ],
