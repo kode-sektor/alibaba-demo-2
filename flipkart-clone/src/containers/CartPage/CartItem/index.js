@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./style.css";
 
+import {generatePublicUrl} from "../../../urlConfig"
+
 
 const CartItem = (props) => {
 	const [qty, setQty] = useState(props.cartItem.qty);
@@ -16,13 +18,13 @@ const CartItem = (props) => {
 		if (qty <= 1) return;
 		setQty(qty - 1);
 		props.onQuantityDec(_id, qty - 1);
-	};
-
+    };
+    
 	return (
 		<div className="cartItemContainer">
 			<div className="flexRow">
 				<div className="cartProImgContainer">
-					<img src={img} alt={""} />
+					<img src={generatePublicUrl(props.cartItem.img)} alt={""} />
 				</div>
 				<div className="cartItemDetails">
 					<div>

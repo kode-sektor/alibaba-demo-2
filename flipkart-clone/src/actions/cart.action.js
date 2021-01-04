@@ -7,6 +7,7 @@ const getCartItems = () => {
 		try {
 			dispatch({ type: cartConstants.ADD_TO_CART_REQUEST });
 			const res = await axios.post(`/user/getCartItems`);
+
 			if (res.status === 200) {
 				const { cartItems } = res.data;
 				// console.log({ getCartItems: cartItems });
@@ -43,7 +44,7 @@ export const addToCart = (product, newQty = 1) => {
 					name: "Samsung Galaxy J2 Core (Blue, 16 GB)  (1 GB RAM)"
 					price: 6690
 					qty: 6
-				}
+				}...
 			}
 		}*/
 		
@@ -72,8 +73,7 @@ export const addToCart = (product, newQty = 1) => {
 					}
 				]
 			};
-			console.log(payload);
-
+			// console.log(payload);
 			/*{ 
 				cartItems: [
 					{
@@ -93,11 +93,11 @@ export const addToCart = (product, newQty = 1) => {
 			localStorage.setItem("cart", JSON.stringify(cartItems));
 		}
 
-		console.log("addToCart >>> ", cartItems);
+		// console.log("addToCart >>> ", cartItems);
 
 		dispatch({
 			type: cartConstants.ADD_TO_CART_SUCCESS,
-			payload: { cartItems },
+			payload: { cartItems }
 		});
 	};
 };

@@ -3,7 +3,6 @@ const Cart = require('../models/cart');
 
 function runUpdate(condition, updateData) {
     return new Promise((resolve, reject) => {
-      //you update code here
  
      Cart.findOneAndUpdate(condition, updateData, { upsert: true })
        .then(result => resolve())
@@ -28,15 +27,25 @@ exports.addItemToCart = (req, res) => {
                 let promiseArray = [];
 
                 console.log("Cart Items >>> ", req.body.cartItems)
+                // [ { product: '5fcf1c9500b49073b48420cf', quantity: 2 } ]
+
 
                 // Loop through the cart Items not from DB but from window.store (in actions file)
                 req.body.cartItems.forEach((cartItem) => {
-                    const product = cartItem.product;   // Fetch product on each loop
+                    const product = cartItem.product;   // Fetch product on each loop (5fcf1c9...)
 
                     console.log("cart.cartItems : ", cart.cartItems)
+                    /*cart.cartItems :  [ 
+                        { 
+                            quantity: 1,
+                            _id: 5ff1846e74744f701d2026d8,
+                            product: 5fcf3195b08c972311b7fa07 
+                        }... 
+                    ]*/
+                    
                     
                     // On every cycle of the cartItems from website, check to see if it exists 
-                    // in the total cart Item list in DB    
+                    // in the total cart Item list (cart.cartItems) in DB    
                     const item = cart.cartItems.find(c => c.product == product);    
 
                     let condition, update;
@@ -68,21 +77,20 @@ exports.addItemToCart = (req, res) => {
                     .catch(error => res.status(400).json({error})
                 )
             } else {
-                //if cart does not exist then create w new cart
+                // If cart does not exist then create w new cart
                 const cart = new Cart({
                     user: req.user._id,
                     cartItems: req.body.cartItems
                 });
                 cart.save((error, cart) => {
-                    if(error) return res.status(400).json({ error });
-                    if(cart){
+                    if (error) return res.status(400).json({ error });
+                    if (cart) {
                         return res.status(201).json({ cart });
                     }
                 });
             } 
         }
     );
-
 };
 
 // exports.addToCart = (req, res) => {
@@ -108,12 +116,28 @@ exports.addItemToCart = (req, res) => {
 
 exports.getCartItems = (req, res) => {
     //const { user } = req.body.payload;
-    //if(user){
+    //if (user) {
         Cart.findOne({ user: req.user._id })
         .populate('cartItems.product', '_id name price productPictures')
         .exec((error, cart) => {
-            if(error) return res.status(400).json({ error });
-            if(cart){
+            // console.log("cart.js/ cart.items >>> ", cart.cartItems)
+            /* [ 
+                { 
+                    quantity: 1,
+                    _id: 5ff1846e74744f701d2026d8,
+                    product: {
+                        _id: 5fcf3195b08c972311b7fa07,
+                        name: 'Samsung Galaxy J2 Core (Blue, 16 GB)  (1 GB RAM)',
+                        price: 6690,
+                        productPictures: [Array]
+                    }...
+                }
+            ]*/
+
+            if (error) return res.status(400).json({ error });
+
+            // Reshape data retrieval to hold all products' id, name, img, price and qty (in stock)
+            if (cart) {
                 let cartItems = {};
                 cart.cartItems.forEach((item, index) => {
                     cartItems[item.product._id.toString()] = {
@@ -121,9 +145,17 @@ exports.getCartItems = (req, res) => {
                         name: item.product.name,
                         img: item.product.productPictures[0].img,
                         price: item.product.price,
-                        qty: item.quantity, 
+                        qty: item.quantity
                     }
                 })
+               /* { '5fcf3195b08c972311b7fa07':
+                    { _id: '5fcf3195b08c972311b7fa07',
+                        name: 'Samsung Galaxy J2 Core (Blue, 16 GB)  (1 GB RAM)',
+                        img: 'JMAntNoTs-samsung-galaxy-j2-core.jpeg',
+                        price: 6690,
+                        qty: 1 
+                    }... 
+                }*/                
                 res.status(200).json({ cartItems })
             }
         })
