@@ -26,15 +26,14 @@ exports.addItemToCart = (req, res) => {
                 // If cart with 
                 let promiseArray = [];
 
-                console.log("Cart Items >>> ", req.body.cartItems)
+                // console.log("Cart Items >>> ", req.body.cartItems)
                 // [ { product: '5fcf1c9500b49073b48420cf', quantity: 2 } ]
-
 
                 // Loop through the cart Items not from DB but from window.store (in actions file)
                 req.body.cartItems.forEach((cartItem) => {
                     const product = cartItem.product;   // Fetch product on each loop (5fcf1c9...)
 
-                    console.log("cart.cartItems : ", cart.cartItems)
+                    // console.log("cart.cartItems : ", cart.cartItems)
                     /*cart.cartItems :  [ 
                         { 
                             quantity: 1,
@@ -42,7 +41,6 @@ exports.addItemToCart = (req, res) => {
                             product: 5fcf3195b08c972311b7fa07 
                         }... 
                     ]*/
-                    
                     
                     // On every cycle of the cartItems from website, check to see if it exists 
                     // in the total cart Item list (cart.cartItems) in DB    
@@ -93,26 +91,6 @@ exports.addItemToCart = (req, res) => {
     );
 };
 
-// exports.addToCart = (req, res) => {
-//     const { cartItems } = req.body;
-//     if(cartItems){
-//        if(Object.keys(cartItems).length > 0){
-//            Cart.findOneAndUpdate({
-//                "user": req.user._id
-//            }, {
-//                "cartItems": cartItems
-//            }, {
-//                 upsert: true, new: true, setDefaultsOnInsert: true
-//            }, (error, cartItems) => {
-//                if(error) return res.status(400).json({ error });
-//                if(cartItems) res.status(201).json({ message: 'Added Successfully' });   
-//            })
-//        } 
-//        //res.status(201).json({ cartItems });
-//     }else{
-//         //res.status(201).json({ req });
-//     }
-// }
 
 exports.getCartItems = (req, res) => {
     //const { user } = req.body.payload;

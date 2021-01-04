@@ -4,7 +4,7 @@ import Layout from "../../components/Layout";
 import Card from "../../components/UI/Card";
 import CartItem from "./CartItem";
 import { addToCart, getCartItems, removeCartItem } from "../../actions";
-import PriceDetails from "../../components/PriceDetails";
+import PriceDetails from "../../components/PriceDetails/";
 
 import "./style.css";
 import { MaterialButton } from "../../components/MaterialUI";
@@ -66,7 +66,7 @@ const CartPage = (props) => {
 
 	return (
 		<Layout>
-			<div className="cartContainer" style={{ alignItems: "flex-start" }}>
+			<div className="cartContainer" style={{ display: "flex", alignItems: "flex-start" }}>
 				<Card
 					headerLeft={`My Cart`}
 					headerRight={<div>Deliver to</div>}
