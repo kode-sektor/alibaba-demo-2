@@ -33,7 +33,7 @@ export const addAddress = (payload) => {
 		try {
 			const res = await axios.post(`/user/address/create`, { payload });
             dispatch({ type: userConstants.ADD_USER_ADDRESS_REQUEST });
-            f
+            
 			if (res.status === 201) {
 				console.log(res);
 				const {

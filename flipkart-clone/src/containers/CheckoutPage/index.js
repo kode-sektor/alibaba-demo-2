@@ -77,8 +77,13 @@ const Address = ({ adr, selectAddress, enableAddressEditForm, confirmDeliveryAdd
 };
 
 const CheckoutPage = (props) => {
+    
+    const dispatch = useDispatch();
+
+    const auth = useSelector((state) => state.auth);
 	const user = useSelector((state) => state.user);
-	const auth = useSelector((state) => state.auth);
+    const cart = useSelector((state) => state.cart);
+    
 	const [newAddress, setNewAddress] = useState(false);
 	const [address, setAddress] = useState([]);
 	const [confirmAddress, setConfirmAddress] = useState(false);
@@ -87,8 +92,6 @@ const CheckoutPage = (props) => {
 	const [orderConfirmation, setOrderConfirmation] = useState(false);
 	const [paymentOption, setPaymentOption] = useState(false);
 	const [confirmOrder, setConfirmOrder] = useState(false);
-	const cart = useSelector((state) => state.cart);
-	const dispatch = useDispatch();
 
 	const onAddressSubmit = (addr) => {
 		setSelectedAddress(addr);
@@ -149,6 +152,7 @@ const CheckoutPage = (props) => {
 		setConfirmOrder(true);
 	};
 
+    // On login / logout, get cart Items and get Address
 	useEffect(() => {
 		auth.authenticate && dispatch(getAddress());
 		auth.authenticate && dispatch(getCartItems());
