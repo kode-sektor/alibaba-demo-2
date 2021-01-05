@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { isUserLoggedIn, updateCart } from "./actions";
 import ProductDetailsPage from "./containers/ProductDetailsPage";
 import CartPage from "./containers/CartPage";
-// import CheckoutPage from "./containers/CheckoutPage";
+import CheckoutPage from "./containers/CheckoutPage";
 // import OrderPage from "./containers/OrderPage";
 
 function App() {
