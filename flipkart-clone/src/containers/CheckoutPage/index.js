@@ -32,10 +32,19 @@ const Address = ({ adr, selectAddress, enableAddressEditForm, confirmDeliveryAdd
 
 	return (
 		<div className="flexRow addressContainer">
+			{/* On check of 'Address' radio button, add 'selected : true' pair to the address record*/}
 			<div>
 				<input name="address" onClick={() => selectAddress(adr)} type="radio" />
 			</div>
 			<div className="flexRow sb addressinfo">
+                {/* adr.edit starts out at false because it was inserted on each loop
+                    of address fetched from DB on page load i.e. useEffect {} [user.address] 
+                    Bear in mind though that if user has not previously saved address details to 
+					DB before, this code block will not still run (adr.edit)
+					
+					Nothing seen yet that triggers adr.edit false
+				*/}
+
 				{!adr.edit ? (
 					<div style={{ width: "100%" }}>
 						<div className="addressDetail">
@@ -47,7 +56,8 @@ const Address = ({ adr, selectAddress, enableAddressEditForm, confirmDeliveryAdd
 							{adr.selected && (
 								<Anchor
 									name="EDIT"
-									onClick={() => enableAddressEditForm(adr)}
+                                    onClick={() => 
+                                        (adr)}
 									style={{ fontWeight: "500", color: "#2874f0" }}
 								/>
 							)}
@@ -55,6 +65,11 @@ const Address = ({ adr, selectAddress, enableAddressEditForm, confirmDeliveryAdd
 						<div className="fullAddress">
 							{adr.address} <br /> {`${adr.state} - ${adr.pinCode}`}
 						</div>
+						{/* If the 'Address' radio button is checked,  display
+						this 'DELIVERY HERE' button
+						
+						On the click of this 'DELIVERY HERE' button, update the address 
+						and display (the new) address details like name, address, pincode...*/}
 						{adr.selected && (
 							<MaterialButton
 								title="DELIVERY HERE"
@@ -76,10 +91,12 @@ const Address = ({ adr, selectAddress, enableAddressEditForm, confirmDeliveryAdd
 	);
 };
 
+// Understanding the code begins here
 const CheckoutPage = (props) => {
-    
+
     const dispatch = useDispatch();
 
+    // Fetch details of auth, user and cart
     const auth = useSelector((state) => state.auth);
 	const user = useSelector((state) => state.user);
     const cart = useSelector((state) => state.cart);
@@ -93,12 +110,18 @@ const CheckoutPage = (props) => {
 	const [paymentOption, setPaymentOption] = useState(false);
 	const [confirmOrder, setConfirmOrder] = useState(false);
 
+	// On click of 'SAVE AND DELIVER HERE' button in Address Form
+	// (for adding new address), display a few details of the address (confirmAddress)
+	// and also hides the Address Form (same confirmAddress) because user is editing,
+	// and does not need the form for adding
 	const onAddressSubmit = (addr) => {
+		alert('yiipii')
 		setSelectedAddress(addr);
 		setConfirmAddress(true);
 		setOrderSummary(true);
 	};
 
+	/* On check of 'Address' radio button, add 'selected : true' pair to the address record*/
 	const selectAddress = (addr) => {
 		//console.log(addr);
 		const updatedAddress = address.map((adr) =>
@@ -107,12 +130,14 @@ const CheckoutPage = (props) => {
 		setAddress(updatedAddress);
 	};
 
+	// On click of 'Delivery Here' button, add new address to state
 	const confirmDeliveryAddress = (addr) => {
 		setSelectedAddress(addr);
 		setConfirmAddress(true);
 		setOrderSummary(true);
 	};
 
+	// Nothing triggers this code
 	const enableAddressEditForm = (addr) => {
 		const updatedAddress = address.map((adr) =>
 			adr._id === addr._id ? { ...adr, edit: true } : { ...adr, edit: false }
@@ -152,12 +177,17 @@ const CheckoutPage = (props) => {
 		setConfirmOrder(true);
 	};
 
-    // On login / logout, get cart Items and get Address
+    // On login / logout, get cart Items and get Address and Cart items
 	useEffect(() => {
 		auth.authenticate && dispatch(getAddress());
 		auth.authenticate && dispatch(getCartItems());
 	}, [auth.authenticate]);
 
+    // On load (because user.address will be populated from DB on load when dispatch(getAddress()))
+    // Any other manipulation of the user.address in reducer will trigger this block of code
+
+	// Add 'selected: false' and 'edit: false' for each address field
+	// Multiple because you have the option of having more than 1 address
 	useEffect(() => {
 		const address = user.address.map((adr) => ({
 			...adr,
@@ -168,22 +198,28 @@ const CheckoutPage = (props) => {
 		//user.address.length === 0 && setNewAddress(true);
 	}, [user.address]);
 
+    // If order placed is successful, advance to Order Details page
 	useEffect(() => {
 		if (confirmOrder && user.placedOrderId) {
 			props.history.push(`/order_details/${user.placedOrderId}`);
 		}
-	}, [user.placedOrderId]);
+    }, [user.placedOrderId]);
+    
+    console.log(user.address)
 
 	return (
 		<Layout>
-			<div className="cartContainer" style={{ alignItems: "flex-start" }}>
+			<div className="cartContainer" style={{ alignItems: "flex-start", display: "flex" }}>
 				<div className="checkoutContainer">
 					{/* check if user logged in or not */}
+
+                    {/*No 1 tab : Display name and email*/}
 					<CheckoutStep
 						stepNumber={"1"}
 						title={"LOGIN"}
 						active={!auth.authenticate}
 						body={
+                            // If authenticated display name and email otherwise display Email input
 							auth.authenticate ? (
 								<div className="loggedInId">
 									<span style={{ fontWeight: 500 }}>{auth.user.fullName}</span>
@@ -196,30 +232,49 @@ const CheckoutPage = (props) => {
 							)
 						}
 					/>
+
+                    {/*No 2 tab : Delivery Address*/}
 					<CheckoutStep
 						stepNumber={"2"}
 						title={"DELIVERY ADDRESS"}
 						active={!confirmAddress && auth.authenticate}
 						body={
 							<>
-								{confirmAddress ? (
-									<div className="stepCompleted">{`${selectedAddress.name} ${selectedAddress.address} - ${selectedAddress.pinCode}`}</div>
+								{	// If user clicks 'Delivery Here' button which indicates the confirmation of 
+									// his address, then display a few details of the address 
+									// Recall the address is what is fetched from DB
+									
+								confirmAddress ? (
+									<div className="stepCompleted">
+                                        {`${selectedAddress.name} ${selectedAddress.address} - ${selectedAddress.pinCode}`}
+                                        WE HERE
+                                    </div>
 								) : (
-									address.map((adr) => (
-										<Address
-											selectAddress={selectAddress}
-											enableAddressEditForm={enableAddressEditForm}
-											confirmDeliveryAddress={confirmDeliveryAddress}
-											onAddressSubmit={onAddressSubmit}
-											adr={adr}
-										/>
-									))
+                                    // If user has saved address details to DB before, display it
+                                    (address.length > 0) && (
+                                        address.map((adr) => (
+                                            <Address
+                                                selectAddress={selectAddress}
+                                                enableAddressEditForm={enableAddressEditForm}
+                                                confirmDeliveryAddress={confirmDeliveryAddress}
+                                                onAddressSubmit={onAddressSubmit}
+                                                adr={adr}   // address details from DB
+                                            />
+                                        ))
+                                    )
 								)}
 							</>
 						}
 					/>
 
-					{/* AddressForm */}
+					{/* ADDRESS FORM
+						If user clicks 'Delivery Here' button which indicates the confirmation of 
+						his address, then show nothing. 
+						Otherwise ('Delivery Here' button not clicked), show an "ADD NEW ADDRESS"
+						button which when clicked hides itself, (then makes newAddress true)
+						responsible for showing the complete Address Form
+						and then shows a new exactly identical button (don't get confused)
+					*/}
 					{confirmAddress ? null : newAddress ? (
 						<AddressForm onSubmitForm={onAddressSubmit} onCancel={() => {}} />
 					) : auth.authenticate ? (
@@ -236,6 +291,13 @@ const CheckoutPage = (props) => {
 						title={"ORDER SUMMARY"}
 						active={orderSummary}
 						body={
+							// On click of 'Delivery Here' button (for edit purposes), 'SAVE AND DELIVER HERE'
+							// button for  (adding new address purposes) display the cart in a concise format 
+							// (onlyCartItems={true})
+
+							// On the click of "CONTINUE" button (down below), display the no of cart items
+
+							// Otherwise display nothing
 							orderSummary ? (
 								<CartPage onlyCartItems={true} />
 							) : orderConfirmation ? (
@@ -246,6 +308,8 @@ const CheckoutPage = (props) => {
 						}
 					/>
 
+					{/* // On click of 'Delivery Here' button (for edit purposes), 'SAVE AND DELIVER HERE'
+					// button for  (adding new address purposes) display "CONTINUE" button */}
 					{orderSummary && (
 						<Card style={{ margin: "10px 0" }}>
 							<div

@@ -20,8 +20,10 @@ const Modal = (props) => {
 
 const MaterialInput = (props) => {
 	// props.value = "investorkay@gmail.com"
+
+	// 'focus' will be added as class to make border red 'onBlur'
 	const [focus, setFocus] = useState(props.value === "" ? false : true);
-	const [touch, setTouch] = useState(false);
+	const [touch, setTouch] = useState(false);	// Add 'required' on input focus
 
 	return (
 		<div className="materialInput">
@@ -31,9 +33,7 @@ const MaterialInput = (props) => {
 			>
 				{props.label && `Enter ${props.label}`}
 			</label>
-			<div
-				style={{ display: "flex" }}
-			>
+			<div style={{ display: "flex" }}>
 				<input
 					className="input" type={props.type} value={props.value}
 					onChange={props.onChange}
@@ -52,7 +52,9 @@ const MaterialInput = (props) => {
 				{props.rightElement ? props.rightElement : null}
 			</div>
 			{touch && (
-				<div style={{ fontSize: "10px", color: "red", fontWeight: 500 }}>{`${props.label} is Required`}</div>
+				<div style={{ fontSize: "10px", color: "red", fontWeight: 500 }}>
+					{`${props.label} is Required`}
+				</div>
 			)}
 		</div>
 	);

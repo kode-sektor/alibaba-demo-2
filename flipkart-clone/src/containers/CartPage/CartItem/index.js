@@ -46,7 +46,7 @@ const CartItem = (props) => {
 					<input value={qty} readOnly />
 					<button onClick={onQuantityIncrement}>+</button>
 				</div>
-				<button className="cartActionBtn">save for later</button>
+				<button className="cartActionBtn">Save for Later</button>
 				<button
 					className="cartActionBtn"
 					onClick={() => props.onRemoveCartItem(_id)}

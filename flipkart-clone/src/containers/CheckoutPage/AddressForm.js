@@ -3,8 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { addAddress } from "../../actions";
 import { MaterialButton, MaterialInput } from "../../components/MaterialUI";
 
-
+// THE MAIN FORM FOR ADDRESS. Shows if user has not filled address details before
 const AddressForm = (props) => {
+
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user);
+    
     const { initialData } = props;
     
 	const [name, setName] = useState(initialData ? initialData.name : "");
@@ -18,13 +22,12 @@ const AddressForm = (props) => {
 	const [alternatePhone, setAlternatePhone] = useState(initialData ? initialData.alternatePhone : "");
     const [addressType, setAddressType] = useState(initialData ? initialData.addressType : "");
     
-	const dispatch = useDispatch();
-	const user = useSelector((state) => state.user);
 	const [submitFlag, setSubmitFlag] = useState(false);
 	const [id, setId] = useState(initialData ? initialData._id : "");
 
 	const inputContainer = { width: "100%",	marginRight: 10	};
 
+    // On click of 'Save and Deliver Here' button, take form details and save to DB
 	const onAddressSubmit = (e) => {
 		const payload = {
 			address: {
@@ -32,11 +35,10 @@ const AddressForm = (props) => {
 				cityDistrictTown, state, landmark, alternatePhone, addressType
 			}
 		};
-        console.log(payload);
         
         if (id) { payload.address._id = id }
         
-		dispatch(addAddress(payload));
+        dispatch(addAddress(payload));
 		setSubmitFlag(true);
 	};
 

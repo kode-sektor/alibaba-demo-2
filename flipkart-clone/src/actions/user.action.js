@@ -29,6 +29,7 @@ export const getAddress = () => {
 };
 
 export const addAddress = (payload) => {
+    console.log(payload)
 	return async (dispatch) => {
 		try {
 			const res = await axios.post(`/user/address/create`, { payload });
@@ -60,7 +61,8 @@ export const addOrder = (payload) => {
 	return async (dispatch) => {
 		try {
 			const res = await axios.post(`/addOrder`, payload);
-			dispatch({ type: userConstants.ADD_USER_ORDER_REQUEST });
+            dispatch({ type: userConstants.ADD_USER_ORDER_REQUEST });
+            
 			if (res.status === 201) {
 				console.log(res);
 				const { order } = res.data;
