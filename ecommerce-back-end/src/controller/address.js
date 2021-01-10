@@ -7,9 +7,10 @@ exports.addAddress = (req, res) => {
     const { payload } = req.body;
 
 	if (payload.address) {
-        
+		
+		// If address payload comes with an id
 		if (payload.address._id) {
-			UserAddress.findOneAndUpdate(
+			UserAddress.findOneAndUpdate(	// user id and address id as conditions
 				{ user: req.user._id, "address._id": payload.address._id },
 				{
 					$set: {
