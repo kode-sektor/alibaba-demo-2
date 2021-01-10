@@ -29,7 +29,7 @@ export const getAddress = () => {
 };
 
 export const addAddress = (payload) => {
-    console.log(payload)
+
 	return async (dispatch) => {
 		try {
 			const res = await axios.post(`/user/address/create`, { payload });

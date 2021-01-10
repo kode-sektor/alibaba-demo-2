@@ -8,8 +8,10 @@ const AddressForm = (props) => {
 
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
-    
-    const { initialData } = props;
+	
+	// initialData holds all address values if it came from 'editing', but absent
+	// if it came from trying to add a new address "ADD NEW ADDRESS" button
+    const { initialData } = props;	
     
 	const [name, setName] = useState(initialData ? initialData.name : "");
 	const [mobileNumber, setMobileNumber] = useState(initialData ? initialData.mobileNumber : "");
@@ -147,6 +149,7 @@ const AddressForm = (props) => {
 								type="radio"
 								onClick={() => setAddressType("home")}
 								name="addressType"
+								checked={addressType === "home" ? true  : false }
 								value="home"
 							/>
 							<span>Home</span>
@@ -156,6 +159,7 @@ const AddressForm = (props) => {
 								type="radio"
 								onClick={() => setAddressType("work")}
 								name="addressType"
+								checked={addressType === "work" ? true  : false }
 								value="work"
 							/>
 							<span>Work</span>

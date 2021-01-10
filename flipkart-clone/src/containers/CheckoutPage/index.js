@@ -32,7 +32,8 @@ const Address = ({ adr, selectAddress, enableAddressEditForm, confirmDeliveryAdd
 
 	return (
 		<div className="flexRow addressContainer">
-			{/* On check of 'Address' radio button, add 'selected : true' pair to the address record*/}
+			{/* On check of 'Address' radio button, add 'selected : true' pair to the address record
+			which enables the 'EDIT' button*/}
 			<div>
 				<input name="address" onClick={() => selectAddress(adr)} type="radio" />
 			</div>
@@ -41,8 +42,6 @@ const Address = ({ adr, selectAddress, enableAddressEditForm, confirmDeliveryAdd
                     of address fetched from DB on page load i.e. useEffect {} [user.address] 
                     Bear in mind though that if user has not previously saved address details to 
 					DB before, this code block will not still run (adr.edit)
-					
-					Nothing seen yet that triggers adr.edit false
 				*/}
 
 				{!adr.edit ? (
@@ -54,10 +53,15 @@ const Address = ({ adr, selectAddress, enableAddressEditForm, confirmDeliveryAdd
 								<span className="addressMobileNumber">{adr.mobileNumber}</span>
 							</div>
 							{adr.selected && (
+								// Note : On check of 'Address' radio button sets 'selected : true' on address 
+								// record to show this button (EDIT) which when clicked, sets 'edit : true' pair
+								// which essentially hides this current scope (which reveals current address 
+								// name, type, number) and even this button, for it to be able to show the Form, 
+								// along with the correct prepopulated address details
 								<Anchor
 									name="EDIT"
                                     onClick={() => 
-                                        (adr)}
+                                        enableAddressEditForm(adr)}
 									style={{ fontWeight: "500", color: "#2874f0" }}
 								/>
 							)}
@@ -78,7 +82,8 @@ const Address = ({ adr, selectAddress, enableAddressEditForm, confirmDeliveryAdd
 							/>
 						)}
 					</div>
-				) : (
+				) : (	// If user has saved address details to DB before, display it inside form component
+						// But this never shows because 
 					<AddressForm
 						withoutLayout={true}
 						onSubmitForm={onAddressSubmit}
@@ -115,7 +120,6 @@ const CheckoutPage = (props) => {
 	// and also hides the Address Form (same confirmAddress) because user is editing,
 	// and does not need the form for adding
 	const onAddressSubmit = (addr) => {
-		alert('yiipii')
 		setSelectedAddress(addr);
 		setConfirmAddress(true);
 		setOrderSummary(true);
@@ -137,7 +141,7 @@ const CheckoutPage = (props) => {
 		setOrderSummary(true);
 	};
 
-	// Nothing triggers this code
+	// On click of 'Edit', make edit flag true 
 	const enableAddressEditForm = (addr) => {
 		const updatedAddress = address.map((adr) =>
 			adr._id === addr._id ? { ...adr, edit: true } : { ...adr, edit: false }
@@ -205,7 +209,7 @@ const CheckoutPage = (props) => {
 		}
     }, [user.placedOrderId]);
     
-    console.log(user.address)
+    console.log(address)
 
 	return (
 		<Layout>
@@ -241,16 +245,16 @@ const CheckoutPage = (props) => {
 						body={
 							<>
 								{	// If user clicks 'Delivery Here' button which indicates the confirmation of 
-									// his address, then display a few details of the address 
-									// Recall the address is what is fetched from DB
+									// his address / As well as click of 'SAVE AND DELIVER HERE' (Main form button), 
+									// display a few  details of the address. Recall the address is what is fetched from DB
 									
 								confirmAddress ? (
 									<div className="stepCompleted">
-                                        {`${selectedAddress.name} ${selectedAddress.address} - ${selectedAddress.pinCode}`}
+                                        {`${selectedAddress.name} ${selectedAddress.address} - ${selectedAddress.pinCode} `}
                                         WE HERE
                                     </div>
 								) : (
-                                    // If user has saved address details to DB before, display it
+                                    // If user has saved address details to DB before, display it inside form
                                     (address.length > 0) && (
                                         address.map((adr) => (
                                             <Address
@@ -269,7 +273,8 @@ const CheckoutPage = (props) => {
 
 					{/* ADDRESS FORM
 						If user clicks 'Delivery Here' button which indicates the confirmation of 
-						his address, then show nothing. 
+						his address, / As well as click of 'SAVE AND DELIVER HERE', then show nothing. 
+
 						Otherwise ('Delivery Here' button not clicked), show an "ADD NEW ADDRESS"
 						button which when clicked hides itself, (then makes newAddress true)
 						responsible for showing the complete Address Form
@@ -291,8 +296,8 @@ const CheckoutPage = (props) => {
 						title={"ORDER SUMMARY"}
 						active={orderSummary}
 						body={
-							// On click of 'Delivery Here' button (for edit purposes), 'SAVE AND DELIVER HERE'
-							// button for  (adding new address purposes) display the cart in a concise format 
+							// On click of 'DELIVERY HERE' button (for edit purposes), 'SAVE AND DELIVER HERE'
+							// button for (adding new address purposes) display the cart in a concise format 
 							// (onlyCartItems={true})
 
 							// On the click of "CONTINUE" button (down below), display the no of cart items
