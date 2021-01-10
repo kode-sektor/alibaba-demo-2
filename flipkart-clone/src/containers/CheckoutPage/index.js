@@ -155,6 +155,7 @@ const CheckoutPage = (props) => {
 		setPaymentOption(true);
 	};
 
+	// On click of 'CONFIRM ORDER' button
 	const onConfirmOrder = () => {
 		const totalAmount = Object.keys(cart.cartItems).reduce(
 			(totalPrice, key) => {
