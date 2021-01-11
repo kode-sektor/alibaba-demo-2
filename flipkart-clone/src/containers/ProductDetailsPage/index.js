@@ -33,6 +33,7 @@ const ProductDetailsPage = (props) => {
 		return null;
 	}
 
+
 	return (
 		<Layout>
 			{/* <div>{product.productDetails.name}</div> */}
@@ -92,10 +93,10 @@ const ProductDetailsPage = (props) => {
 								<a href="#">Home</a> <IoIosArrowForward />
 							</li>
 							<li>
-								<a href="#">Mobiles</a> <IoIosArrowForward />
+								<a href="#">{product.parentCategory}</a> <IoIosArrowForward />
 							</li>
 							<li>
-								<a href="#">Samsung</a> <IoIosArrowForward />
+								<a href="#">{product.productDetails.category.name}</a> <IoIosArrowForward />
 							</li>
 							<li>
 								<a href="#">{product.productDetails.name}</a>

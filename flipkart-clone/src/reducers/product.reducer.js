@@ -55,6 +55,7 @@ export default (state = initState, action) => {
 				...state,
 				loading: false,
 				productDetails: action.payload.productDetails,
+				parentCategory : action.payload.parentCategory
 			};
 		break;
 		case productConstants.GET_PRODUCT_DETAILS_BY_ID_FAILURE:

@@ -24,7 +24,7 @@ exports.addOrder = (req, res) => {
 				{
 					type: "delivered",
 					isCompleted: false,
-				},
+				}
 			];
 			const order = new Order(req.body);
 			order.save((error, order) => {

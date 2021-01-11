@@ -57,7 +57,10 @@ export const getProductDetailsById = (payload) => {
 
             dispatch({
                 type: productConstants.GET_PRODUCT_DETAILS_BY_ID_SUCCESS,
-                payload: { productDetails: res.data.product }
+                payload: { 
+                    productDetails: res.data.product, 
+                    parentCategory : res.data.parentCategory 
+                }
             });
 
         } catch(error) {

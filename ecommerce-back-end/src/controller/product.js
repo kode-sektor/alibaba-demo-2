@@ -93,10 +93,20 @@ exports.getProductDetailsById = (req, res) => {
     const { productId } = req.params;
     if (productId) {
         Product.findOne({ _id: productId })
+        .populate("category", "name parentId")
         .exec((error, product) => {
             if (error) return res.status(400).json({ error });
+
             if (product) {
-                res.status(200).json({ product });
+                // Fetch related parent category
+                Category.findOne({ parentId: product.category.parentId })
+                //.select("name")
+                .exec((error, parentCategory) => {
+                    if (error) {
+                        return res.status(400).json({error});
+                    }
+                    res.status(200).json({ product, parentCategory : parentCategory.name });
+                })
             }
         });
     } else {

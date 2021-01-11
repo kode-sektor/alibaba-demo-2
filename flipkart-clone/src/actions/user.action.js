@@ -71,7 +71,7 @@ export const addOrder = (payload) => {
 				});
 				dispatch({
 					type: userConstants.ADD_USER_ORDER_SUCCESS,
-					payload: { order },
+					payload: { order }
 				});
 				// const {
 				//   address: { address },

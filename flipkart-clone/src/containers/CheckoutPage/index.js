@@ -179,7 +179,7 @@ const CheckoutPage = (props) => {
 
 		console.log(payload);
 		dispatch(addOrder(payload));
-		setConfirmOrder(true);
+		setConfirmOrder(true);	// Prepare to send to order_details page
 	};
 
     // On login / logout, get cart Items and get Address and Cart items

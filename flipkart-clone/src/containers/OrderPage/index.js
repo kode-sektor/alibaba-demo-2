@@ -7,13 +7,11 @@ import Card from "../../components/UI/Card";
 import { BiRupee } from "react-icons/bi";
 import { IoIosArrowForward } from "react-icons/io";
 
+import { generatePublicUrl } from "../../urlConfig"
+
 import "./style.css";
 import { Breed } from "../../components/MaterialUI";
 
-/**
- * @author
- * @function OrderPage
- **/
 
 const OrderPage = (props) => {
 	const dispatch = useDispatch();
@@ -46,7 +44,7 @@ const OrderPage = (props) => {
 								<div className="orderImgContainer">
 									<img
 										className="orderImg"
-										src={item.productId.productPictures[0].img}
+										src={generatePublicUrl(item.productId.productPictures[0].img)}
 									/>
 								</div>
 								<div className="orderRow">
