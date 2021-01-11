@@ -5,7 +5,7 @@ import { generatePublicUrl } from '../../urlConfig'
 
 import Layout from "../../components/Layout";
 import getParams from "../../utils/getParams";
-// import ClothingAndAccessories from "./ClothingAndAccessories";
+import ClothingAndAccessories from "./ClothingAndAccessories";
 import ProductPage from "./ProductPage";
 import ProductStore from "./ProductStore";
 import "./style.css";
@@ -31,8 +31,7 @@ const ProductListPage = (props) => {
                 content = <ProductPage {...props} />;
             break;
             default:
-                // content = <ClothingAndAccessories {...props} />;
-                content = ""
+                content = <ClothingAndAccessories {...props} />;
         }
 
         return content;
