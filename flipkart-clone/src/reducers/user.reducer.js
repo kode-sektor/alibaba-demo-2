@@ -90,6 +90,12 @@ export default (state = initState, action) => {
 				placedOrderId: action.payload.order._id,
 			};
 		break;
+		case userConstants.ADD_USER_ORDER_FAILURE:
+			state = {
+				...state,
+				error: action.payload.error
+			};
+		break;
 	}
 
 	return state;

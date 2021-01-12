@@ -100,7 +100,6 @@ exports.getProductDetailsById = (req, res) => {
             if (product) {
                 // Fetch related parent category
                 Category.findOne({ parentId: product.category.parentId })
-                //.select("name")
                 .exec((error, parentCategory) => {
                     if (error) {
                         return res.status(400).json({error});

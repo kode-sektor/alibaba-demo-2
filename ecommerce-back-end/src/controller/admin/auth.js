@@ -8,9 +8,9 @@ const shortid = require('shortid')
 exports.signup = (req, res) => {
 
     // Check if user's mail exists in database.
-    User.findOne({ email: req.body.email }).exec( async (error, user) => {
+    User.findOne({ email: req.body.email }).exec(async (error, user) => {
 
-        if (error || user) {    // User exists, already registered
+        if (user) {    // User exists, already registered
             console.log('error >>> ', error)
             console.log('user >>> ', user)
             return res.status(400).json({
@@ -18,24 +18,14 @@ exports.signup = (req, res) => {
             })
         }
        
-        const {
-            firstName,
-            lastName,
-            email,
-            password
-        } = req.body
-
+        const { firstName, lastName, email, password } = req.body
         const hash_password = await bcrypt.hash(password, 10)
 
         // console.log('body >>> ', req.body)
         // console.log(firstName, lastName, email, password)
 
         // User does not exist, save User to database
-        const _user = new User({ 
-                                firstName, 
-                                lastName, 
-                                email, 
-                                hash_password, 
+        const _user = new User({ firstName, lastName, email,  hash_password, 
                                 // userName: Math.random().toString(), 
                                 userName: shortid.generate(),
                                 role : 'admin' 
@@ -62,7 +52,7 @@ exports.signup = (req, res) => {
 // Sign in
 exports.signin = (req, res) => {
     // Does email exist in DB?
-    User.findOne({ email: req.body.email }).exec((error, user) => { 
+    User.findOne({ email: req.body.email }).exec(async (error, user) => { 
         if (error) return res.status(400).json({ error })
         
         // console.log("user >>> ", user)
@@ -80,16 +70,17 @@ exports.signin = (req, res) => {
         // }
 
         if (user) {
+            const isPassword = await user.authenticate(req.body.password);
             console.log("password >>> : ", req.body.password)
             // authenticate() method is from the model
             // Does password exist and is user admin?
-            if (user.authenticate(req.body.password) && user.role === 'admin') {
+            if (isPassword && (user.role === 'super-admin' || user.role === 'admin')) {
                 const token = jwt.sign(
                     { _id: user.id, role: user.role }, 
-                    process.env.JWT_SECRET, { expiresIn: '1h' }
+                    process.env.JWT_SECRET, { expiresIn: '1d' }
                 )
                 const { _id, firstName, lastName, email, role, fullName } = user
-                res.cookie('token', token, {expiresIn : '1h'})
+                res.cookie('token', token, {expiresIn : '1d'})
                 
                 res.status(200).json({
                     token, 

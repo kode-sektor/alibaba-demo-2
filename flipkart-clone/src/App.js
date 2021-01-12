@@ -9,6 +9,7 @@ import CartPage from "./containers/CartPage";
 import CheckoutPage from "./containers/CheckoutPage";
 import OrderPage from "./containers/OrderPage/index.js";
 
+
 function App() {
     const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth);

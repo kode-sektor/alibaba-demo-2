@@ -5,7 +5,7 @@ import Card from "../../../components/UI/Card";
 import { BiRupee } from "react-icons/bi";
 import { Link } from "react-router-dom";
 
-import generatePublicUrl from '../../../urlConfig'
+import { generatePublicUrl } from '../../../urlConfig.js'
 
 import "./style.css";
 
