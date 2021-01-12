@@ -14,7 +14,7 @@ const generateJwtToken = (_id, role) => {
 exports.signup = (req, res) => {
 	// Check if user's mail exists in database.
 	User.findOne({ email: req.body.email }).exec(async (error, user) => {
-		if (error || user) {
+		if (user) {
 			// User exists, already registered
 			console.log("error >>> ", error);
 			console.log("user >>> ", user);
@@ -32,13 +32,9 @@ exports.signup = (req, res) => {
 
 		// User does not exist, save User to database
 		const _user = new User({
-			firstName,
-			lastName,
-			email,
-			hash_password,
+			firstName, lastName, email, hash_password,
 			// userName: Math.random().toString(),
-			userName: shortid.generate(),
-			role: "user",
+			userName: shortid.generate(), role: "user",
 		}); // Save to db
 
 		_user.save((error, user) => {
@@ -66,13 +62,13 @@ exports.signup = (req, res) => {
 
 // Sign in
 exports.signin = (req, res) => {
-	User.findOne({ email: req.body.email }).exec((error, user) => {
+	User.findOne({ email: req.body.email }).exec(async (error, user) => {
 		// Does email exist?
 		if (error) return res.status(400).json({ error });
 
 		if (user) {
             // authenticate() method is from the model
-            const isPassword = user.authenticate(req.body.password);
+            const isPassword = await user.authenticate(req.body.password);
 
 			if (isPassword && user.role === "user") {
 				// Does password exist and is user admin?
