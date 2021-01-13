@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateOrder } from "../../actions";
 import Layout from "../../components/Layout";
-import Card from "../../components/UI/Card";
+import Card from "../../components/UI/";
 
 import "./style.css";
 
@@ -84,7 +84,7 @@ const Orders = (props) => {
 						{/* select input to apply order action */}
 						<div style={{ padding: "0 50px", boxSizing: "border-box" }}>
 							<select onChange={(e) => setType(e.target.value)}>
-								<option value={""}>select status</option>
+								<option value={""}>Select Status</option>
 								{orderItem.orderStatus.map((status) => {
 									return (
 										<>
