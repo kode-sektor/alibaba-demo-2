@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { updateOrder } from "../../actions";
+import { updateOrder, getCustomerOrders } from "../../actions";
 import Layout from "../../components/Layout";
 import Card from "../../components/UI/Card";
 
@@ -8,9 +9,14 @@ import "./style.css";
 
 
 const Orders = (props) => {
-	const order = useSelector((state) => state.order);
+    const order = useSelector((state) => state.order);
+    const dispatch = useDispatch();
+
 	const [type, setType] = useState("");
-	const dispatch = useDispatch();
+    
+    useEffect (() => {
+		dispatch(getCustomerOrders());
+    }, [])
 
 	const onOrderUpdate = (orderId) => {
 		const payload = { orderId, type	};
@@ -23,7 +29,7 @@ const Orders = (props) => {
 			return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 		}
 		return "";
-	};
+    };
 
 	return (
 		<Layout sidebar>
@@ -47,8 +53,7 @@ const Orders = (props) => {
 							))}
 						</div>
 						<div>
-							<span className="title">Total Price</span>
-							<br />
+							<span className="title">Total Price</span><br />
 							<span className="value">{orderItem.totalAmount}</span>
 						</div>
 						<div>
@@ -60,18 +65,14 @@ const Orders = (props) => {
 							<span className="value">{orderItem.paymentStatus}</span>
 						</div>
 					</div>
-					<div
-						style={{ boxSizing: "border-box", padding: "100px",
+					<div style={{ boxSizing: "border-box", padding: "100px",
 							display: "flex", alignItems: "center"
-						}}
-					>
+						}}>
 						<div className="orderTrack">
 							{orderItem.orderStatus.map((status) => (
-								<div
-									className={`orderStatus ${
+								<div className={`orderStatus ${
 										status.isCompleted ? "active" : ""
-									}`}
-								>
+									}`}>
 									<div className={`point ${status.isCompleted ? "active" : ""}`}></div>
 									<div className="orderInfo">
 										<div className="status">{status.type}</div>
@@ -81,9 +82,9 @@ const Orders = (props) => {
 							))}
 						</div>
 
-						{/* select input to apply order action */}
+						{/* Select input to apply order action */}
 						<div style={{ padding: "0 50px", boxSizing: "border-box" }}>
-							<select onChange={(e) => setType(e.target.value)}>
+							<select onChange={(e) => setType(e.target.value)} className="orderStatusDropdown">
 								<option value={""}>Select Status</option>
 								{orderItem.orderStatus.map((status) => {
 									return (

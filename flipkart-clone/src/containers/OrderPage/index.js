@@ -21,7 +21,6 @@ const OrderPage = (props) => {
 		dispatch(getOrders());
 	}, []);
 
-	console.log(user);
 
 	return (
 		<Layout>

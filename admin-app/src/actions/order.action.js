@@ -16,7 +16,7 @@ export const getCustomerOrders = () => {
 				const { error } = res.data;
 				dispatch({
 					type: orderConstants.GET_CUSTOMER_ORDER_FAILURE,
-					payload: { error },
+					payload: { error }
 				});
 			}
 		} catch (error) {
